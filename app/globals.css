@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #f3f4f1;
+  --surface-deep: #1a1f1c;
+  --ink: #1a1c18;
+  --ink-soft: #5e6358;
+  --ink-inv: #f3f4f1;
+  --accent: #3f5d4a;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+html,
+body {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+html {
+  scroll-padding-top: 0;
+}
+
+body {
+  font-family: var(--font-plex), sans-serif;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--ink-inv);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}
