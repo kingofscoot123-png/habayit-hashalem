@@ -2,116 +2,147 @@
 
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
-gsap.registerPlugin(ScrollTrigger);
-
-/*
-1. איפה הקורא בראש: שבור, סקפטי, בודק אם זה עוד אתר טיפול.
-2. כן אבל: עוד הבטחה יפה.
-3. הסקשן נותן תוצאה ב-6 מילים ובית שמתכווץ למסגרת.
-4. ביציאה: אולי זה עליי.
-5. זיכרון: החדר שנהיה תמונה.
-*/
+function glowify(line: string) {
+  return line.split(" ").map((word) => {
+    const clean = word.replace(/[.,—–־]/g, "");
+    const glow = (content.hero.glowWords as readonly string[]).includes(clean);
+    return { word, glow };
+  });
+}
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const mediaRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const { reduced, canPin } = useMotionPrefs();
+  const introRef = useRef<HTMLDivElement>(null);
+  const { reduced } = useMotionPrefs();
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    const media = mediaRef.current;
-    const img = imgRef.current;
-    if (!section || !media) return;
+    const intro = introRef.current;
+    if (!section || !intro) return;
 
     const ctx = gsap.context(() => {
-      const lines = section.querySelectorAll("[data-hero-line]");
-      if (!reduced) {
-        gsap.fromTo(
-          lines,
-          { y: "110%" },
-          { y: "0%", duration: 0.9, stagger: 0.08, ease: "expo.out" },
-        );
+      const introWords = intro.querySelectorAll("[data-intro-word]");
+      const slide = section.querySelectorAll("[data-hero-slide]");
+      const frame = section.querySelector(".gold-frame");
+      const line = section.querySelector(".gold-line");
+
+      if (reduced) {
+        gsap.set(intro, { autoAlpha: 0 });
+        gsap.set(slide, { y: 0, opacity: 1 });
+        gsap.set([frame, line], { opacity: 1, scaleX: 1 });
+        return;
       }
 
-      if (canPin) {
-        gsap.fromTo(
-          media,
-          { clipPath: "inset(0% 0% 0% 0% round 0px)" },
-          {
-            clipPath: "inset(6% 10% 6% 10% round 28px)",
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              end: "+=80%",
-              scrub: 1,
-              pin: true,
-            },
-          },
-        );
-      }
+      gsap.set(introWords, { opacity: 0, filter: "blur(10px)", y: 10 });
+      gsap.set(slide, { y: 28, opacity: 0 });
+      gsap.set(frame, { opacity: 0 });
+      gsap.set(line, { scaleX: 0, opacity: 1 });
 
-      if (img && !reduced) {
-        gsap.fromTo(
-          img,
-          { y: -20 },
-          {
-            y: 20,
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          },
-        );
-      }
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      tl.to(introWords, {
+        opacity: 1,
+        filter: "blur(0px)",
+        y: 0,
+        duration: 0.9,
+        stagger: 0.48,
+      });
+      tl.to(intro, { autoAlpha: 0, duration: 1.15 }, "+=2.4");
+      tl.to(slide, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, "-=0.35");
+      tl.to(frame, { opacity: 1, duration: 1.1 }, "-=0.6");
+      tl.to(line, { scaleX: 1, duration: 1 }, "-=0.9");
     }, section);
 
     return () => ctx.revert();
-  }, [reduced, canPin]);
+  }, [reduced]);
+
+  const introWords = glowify(content.hero.titleLines.join(" "));
 
   return (
-    <header ref={sectionRef} className="relative">
-      <div className="relative min-h-[100svh]">
-        <div ref={mediaRef} className="absolute inset-0 overflow-hidden">
+    <header id="top" ref={sectionRef} className="relative min-h-[100svh] overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden">
+        <picture>
+          <source media="(min-width: 768px)" srcSet={content.hero.mediaDesktop} />
           <img
-            ref={imgRef}
-            src="/images/hero.svg"
+            src={content.hero.mediaMobile}
             alt={content.hero.mediaAlt}
-            className="h-[120%] w-full object-cover"
-            style={{ aspectRatio: "4 / 5" }}
+            className="hero-pulse h-full w-full object-cover object-[center_20%]"
           />
-        </div>
-        <div className="relative z-10 flex min-h-[100svh] flex-col justify-end">
-          <div className="bg-surface px-6 pb-16 pt-12 lg:px-[12%] lg:pb-20">
-            <h1 className="max-w-measure text-display text-ink">
-              {content.hero.titleLines.map((line) => (
-                <span key={line} className="block overflow-hidden">
-                  <span data-hero-line className="block">
-                    {line}
-                  </span>
-                </span>
-              ))}
-            </h1>
-            <p className="mt-6 max-w-measure text-lead text-ink-soft">
-              {content.hero.subtitle}
-            </p>
-            <a
-              href={content.whatsappHref}
-              className="mt-10 inline-flex w-fit rounded-button bg-accent px-6 py-3 text-body text-ink-inv"
+        </picture>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f19]/35 via-[#0b0f19]/62 to-[#0b0f19]" />
+        <div className="hero-spot" />
+        <span className="orb orb-a" data-parallax="-40" />
+        <span className="orb orb-b" data-parallax="50" />
+        <span className="orb orb-c" data-parallax="-24" />
+        <div className="gold-frame hidden md:block" />
+      </div>
+
+      <div
+        ref={introRef}
+        className="fixed inset-0 z-[70] flex items-center justify-center bg-black px-6"
+        aria-hidden="true"
+      >
+        <p className="max-w-4xl text-center text-display text-ink">
+          {introWords.map(({ word, glow }, i) => (
+            <span
+              key={`${word}-${i}`}
+              data-intro-word
+              className={`inline-block px-1 ${glow ? "glow-word" : ""}`}
             >
-              {content.cta}
-            </a>
-            <p className="mt-4 text-caption text-ink-soft">{content.hero.trust}</p>
-          </div>
+              {word}
+            </span>
+          ))}
+        </p>
+      </div>
+
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-6 pb-16 pt-28 text-center">
+        <span
+          data-hero-slide
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 text-xs font-bold tracking-wide text-accent"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+          </span>
+          {content.hero.badge}
+        </span>
+
+        <h1 data-hero-slide className="text-display text-ink">
+          {content.hero.titleLines.map((line) => {
+            const parts = glowify(line);
+            return (
+              <span key={line} className="block">
+                {parts.map(({ word, glow }, i) => (
+                  <span key={`${word}-${i}`} className={glow ? "glow-word" : undefined}>
+                    {word}
+                    {i < parts.length - 1 ? " " : ""}
+                  </span>
+                ))}
+              </span>
+            );
+          })}
+        </h1>
+
+        <div data-hero-slide className="gold-line mx-auto mt-6 w-40" />
+
+        <p data-hero-slide className="mt-6 max-w-measure text-lead text-ink-soft">
+          {content.hero.subtitle}
+        </p>
+
+        <div data-hero-slide className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
+          <a href={content.phoneHref} className="btn-gold shimmer w-full rounded-2xl px-8 py-4 text-base font-bold sm:w-auto">
+            {content.cta}
+          </a>
+          <a href="#services" className="btn-ghost w-full rounded-2xl px-8 py-4 text-base font-medium sm:w-auto">
+            {content.ctaSecondary}
+          </a>
         </div>
+
+        <p data-hero-slide className="mt-5 text-caption text-ink-soft">
+          {content.hero.trust}
+        </p>
       </div>
     </header>
   );

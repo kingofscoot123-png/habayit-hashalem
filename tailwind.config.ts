@@ -13,16 +13,16 @@ const config: Config = {
         accent: "var(--accent)",
       },
       fontFamily: {
-        sans: ["var(--font-plex)", "sans-serif"],
+        sans: ["var(--font-heebo)", "sans-serif"],
       },
       fontSize: {
         display: [
           "clamp(2.5rem, 8vw, 4.75rem)",
-          { lineHeight: "1.02", letterSpacing: "-0.035em", fontWeight: "500" },
+          { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "900" },
         ],
         h2: [
           "clamp(1.75rem, 4.5vw, 2.75rem)",
-          { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "500" },
+          { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "700" },
         ],
         lead: ["1.3125rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.0625rem", { lineHeight: "1.65", fontWeight: "400" }],

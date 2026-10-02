@@ -8,14 +8,6 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/*
-1. איפה הקורא: מוכן או לא.
-2. כן אבל: עוד לחיצה שקרית.
-3. אותה כותרת, אותו CTA, כפתור מגנטי עדין.
-4. ביציאה: יודע מה קורה אחרי.
-5. זיכרון: הכפתור.
-*/
-
 export function Close() {
   const sectionRef = useRef<HTMLElement>(null);
   const wrapRef = useRef<HTMLAnchorElement>(null);
@@ -72,19 +64,15 @@ export function Close() {
   return (
     <section ref={sectionRef} className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
       <h2 className="max-w-measure text-display">
-        {content.close.titleLines.map((line) => (
-          <span key={line} className="block overflow-hidden">
+        {content.close.titleLines.map((line, i) => (
+          <span key={line} className={`block overflow-hidden ${i === 1 ? "text-accent" : ""}`}>
             <span data-close-line className="block">
               {line}
             </span>
           </span>
         ))}
       </h2>
-      <a
-        ref={wrapRef}
-        href={content.whatsappHref}
-        className="mt-10 inline-flex rounded-button bg-accent px-6 py-3 text-body text-ink-inv motion-safe:hover:[box-shadow:0_12px_24px_-16px_rgba(26,31,28,0.45)]"
-      >
+      <a ref={wrapRef} href={content.whatsappHref} className="btn-gold mt-10 inline-flex rounded-button px-6 py-3 text-body font-bold">
         {content.cta}
       </a>
       <p className="mt-4 text-caption text-ink-soft">{content.ctaAfter}</p>

@@ -1,18 +1,11 @@
-| קובץ | סקשן | יחס | גודל |
+| קובץ | סקשן | יחס | הערה |
 |---|---|---|---|
-| `hero.svg` | Hero | 4:5 | 800×1000 |
-| `mechanism-01.svg` | Mechanism 1 | 3:2 | 900×600 |
-| `mechanism-02.svg` | Mechanism 2 | 3:2 | 900×600 |
-| `mechanism-03.svg` | Mechanism 3 | 3:2 | 900×600 |
-| `mechanism-04.svg` | Mechanism 4 | 3:2 | 900×600 |
-| `proof-01.svg` | Proof | 1:1 | 800×800 |
-| `proof-02.svg` | Proof | 1:1 | 800×800 |
-| `proof-03.svg` | Proof | 1:1 | 800×800 |
-| `proof-04.svg` | Proof | 1:1 | 800×800 |
-| `proof-05.svg` | Proof | 1:1 | 800×800 |
-| `proof-06.svg` | Proof | 1:1 | 800×800 |
-| `proof-07.svg` | Proof | 1:1 | 800×800 |
-| `proof-08.svg` | Proof | 1:1 | 800×800 |
-| `og.svg` | Open Graph | 1.91:1 | 1200×630 |
+| `hero-desktop.jpg` | Hero מחשב | 16:9 | אדם יושב ורושם בחדר טיפול |
+| `hero-mobile.jpg` | Hero נייד | 9:16 | אותו מוטיב, חיתוך אנכי |
+| `treatment-couple.jpg` | טיפול זוגי | 4:3 | מעל כרטיסיית זוגיות |
+| `treatment-calm.jpg` | שקט נפשי | 4:3 | מעל כרטיסיית טיפול אישי |
+| `treatment-root.jpg` | עבודה על השורש | 4:3 | מעל כרטיסיית יציבות |
+| `mechanism-01.svg`–`04.svg` | תהליך | 3:2 | placeholders |
+| `proof-01.svg`–`08.svg` | Proof | 1:1 | מקומות להמלצות אמיתיות |
 
-Placeholders אדריכליים שקטים (חלון / חדר) בלי טקסט. בלי Unsplash. `aspect-ratio` קבוע ב-CSS.
+תמונות האווירה בלי טקסט. Desktop/Mobile נבחרים ב-`<picture>`.

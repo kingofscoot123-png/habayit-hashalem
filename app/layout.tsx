@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans_Hebrew } from "next/font/google";
+import { Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
-const plex = IBM_Plex_Sans_Hebrew({
+const heebo = Heebo({
   subsets: ["hebrew", "latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex",
+  weight: ["400", "700", "900"],
+  variable: "--font-heebo",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kingofscoot123-png.github.io/habayit-hashalem"),
-  title: "הבית השלם — מיכאל מרום",
+  title: "הבית השלם · מיכאל מרום",
   description:
     "טיפול זוגי ורגשי בראש העין. חוזרים לקרבה שהייתה לפני שהשיחות נשברו.",
   openGraph: {
-    title: "הבית השלם — מיכאל מרום",
+    title: "הבית השלם · מיכאל מרום",
     description: "טיפול זוגי ורגשי בראש העין.",
-    images: [{ url: "/images/og.svg", width: 1200, height: 630 }],
+    images: [{ url: "/images/hero-desktop.jpg", width: 1600, height: 900 }],
   },
 };
 
@@ -26,8 +26,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={plex.variable}>
-      <body className="font-sans antialiased">
+    <html lang="he" dir="rtl" className={`${heebo.variable} ${heebo.className}`}>
+      <body className={`${heebo.className} font-sans antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

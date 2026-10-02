@@ -1,74 +1,28 @@
-"use client";
-
-import { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { content } from "@/content";
-import { useMotionPrefs } from "@/lib/useMotionPrefs";
-
-gsap.registerPlugin(ScrollTrigger);
-
-/*
-1. איפה הקורא: מתגונן — ניסינו.
-2. כן אבל: אז מה, אנחנו אשמים?
-3. מוחק את מה שניסו, משאיר משפט אחד חד.
-4. ביציאה: אז מה כן.
-5. זיכרון: השורה שנשארת.
-*/
 
 export function Failed() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { reduced } = useMotionPrefs();
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const rows = section.querySelectorAll<HTMLElement>("[data-row]");
-    const ctx = gsap.context(() => {
-      if (reduced) {
-        rows.forEach((row) => {
-          const strike = row.querySelector("[data-strike]");
-          gsap.set(strike, { scaleX: 1 });
-          gsap.set(row, { opacity: 0.35 });
-        });
-        return;
-      }
-      rows.forEach((row) => {
-        const strike = row.querySelector("[data-strike]");
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: row,
-            start: "top 75%",
-            once: true,
-          },
-        });
-        tl.to(strike, {
-          scaleX: 1,
-          transformOrigin: "right",
-          duration: 0.5,
-          ease: "power2.inOut",
-        });
-        tl.to(row, { opacity: 0.35, duration: 0.5 }, "<0.1");
-      });
-    }, section);
-    return () => ctx.revert();
-  }, [reduced]);
-
   return (
-    <section ref={sectionRef} className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
-      <p className="mb-16 max-w-measure text-lead">{content.failed.lead}</p>
-      <ul className="max-w-measure space-y-6">
-        {content.failed.rows.map((row) => (
-          <li key={row} data-row className="relative text-h2">
-            <span
-              data-strike
-              className="pointer-events-none absolute right-0 top-1/2 h-px w-full origin-right scale-x-0 bg-ink"
-            />
-            {row}
-          </li>
+    <section className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
+      <div className="mx-auto mb-14 max-w-3xl" data-reveal>
+        <h2 className="text-h2">{content.failed.title}</h2>
+        <p className="mt-5 max-w-measure text-lead text-ink-soft">{content.failed.lead}</p>
+      </div>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2">
+        {content.failed.cards.map((card, i) => (
+          <article
+            key={card.title}
+            className="glass-card glass-deep tilt-card border-flow rounded-shell p-8"
+            data-reveal={i % 2 ? "diag" : "scale"}
+            data-delay={i * 0.08}
+          >
+            <h3 className="relative z-10 text-2xl font-bold">{card.title}</h3>
+            <p className="relative z-10 mt-4 text-body leading-relaxed text-ink-soft">{card.body}</p>
+          </article>
         ))}
-      </ul>
-      <p className="mt-16 max-w-measure text-h2">{content.failed.remain}</p>
+      </div>
+      <p className="mx-auto mt-14 max-w-3xl text-h2" data-reveal="blur">
+        {content.failed.remain}
+      </p>
     </section>
   );
 }

@@ -7,35 +7,45 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const stops = [
+  { id: "about", color: "#0d121c" },
+  { id: "services", color: "#0a0f1a" },
+  { id: "process", color: "#05080d" },
+  { id: "credentials", color: "#0c1018" },
+  { id: "start", color: "#080b12" },
+];
+
 export function BackgroundShift() {
   const { reduced } = useMotionPrefs();
 
   useLayoutEffect(() => {
-    const trigger = document.getElementById("mechanism");
-    if (!trigger) return;
-
-    const tweenTo = (active: boolean) => {
-      gsap.to(document.body, {
-        backgroundColor: active ? "var(--surface-deep)" : "var(--surface)",
-        color: active ? "var(--ink-inv)" : "var(--ink)",
-        duration: reduced ? 0.2 : 0.6,
-        ease: "power2.inOut",
-      });
-    };
-
-    const st = ScrollTrigger.create({
-      trigger,
-      start: "top 60%",
-      end: "bottom 40%",
-      onToggle: ({ isActive }) => tweenTo(isActive),
-    });
+    const triggers = stops
+      .map(({ id, color }) => {
+        const el = document.getElementById(id);
+        if (!el) return null;
+        return ScrollTrigger.create({
+          trigger: el,
+          start: "top 70%",
+          end: "bottom 40%",
+          onEnter: () =>
+            gsap.to(document.body, {
+              backgroundColor: color,
+              duration: reduced ? 0.2 : 0.85,
+              ease: "power2.inOut",
+            }),
+          onEnterBack: () =>
+            gsap.to(document.body, {
+              backgroundColor: color,
+              duration: reduced ? 0.2 : 0.85,
+              ease: "power2.inOut",
+            }),
+        });
+      })
+      .filter(Boolean);
 
     return () => {
-      st.kill();
-      gsap.set(document.body, {
-        backgroundColor: "var(--surface)",
-        color: "var(--ink)",
-      });
+      triggers.forEach((t) => t?.kill());
+      gsap.set(document.body, { backgroundColor: "var(--surface)", color: "var(--ink)" });
     };
   }, [reduced]);
 
