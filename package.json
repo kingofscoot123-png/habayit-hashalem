@@ -1,6 +1,7 @@
 {
   "name": "habayit-hashalem",
   "private": true,
+  "homepage": "https://kingofscoot123-png.github.io/habayit-hashalem/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
