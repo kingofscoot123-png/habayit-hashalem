@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { MeshAtmosphere } from "@/components/MeshAtmosphere";
+import { Vignette } from "@/components/Vignette";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -30,6 +31,7 @@ export default function RootLayout({
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heebo.className}`}>
       <body className={`${heebo.className} font-sans antialiased`}>
         <MeshAtmosphere />
+        <Vignette />
         <div className="relative z-10">
           <Providers>{children}</Providers>
         </div>

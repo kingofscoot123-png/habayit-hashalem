@@ -82,7 +82,8 @@ export function Hero() {
           <img
             src={content.hero.mediaMobile}
             alt={content.hero.mediaAlt}
-            className="hero-pulse h-full w-full object-cover object-[center_48%] md:object-[center_20%]"
+            className="h-full w-full object-cover object-[center_48%] md:object-[center_20%]"
+            data-hero-media
           />
         </picture>
         <div className="hero-veil" />
@@ -135,7 +136,7 @@ export function Hero() {
           >
             {content.cta}
           </Magnetic>
-          <Magnetic href="#services" className="btn-ghost w-full rounded-2xl px-8 py-4 text-base font-normal sm:w-auto">
+          <Magnetic href="#path" className="btn-ghost w-full rounded-2xl px-8 py-4 text-base font-normal sm:w-auto">
             {content.ctaSecondary}
           </Magnetic>
         </div>

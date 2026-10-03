@@ -10,16 +10,13 @@ export function Nav() {
         </a>
         <div className="hidden items-center gap-8 text-sm text-ink-soft md:flex">
           <a href="#about" className="transition hover:text-accent">
-            הגישה שלי
+            {content.pain.title}
           </a>
-          <a href="#services" className="transition hover:text-accent">
-            תחומי טיפול
+          <a href="#tried" className="transition hover:text-accent">
+            {content.failed.title}
           </a>
-          <a href="#process" className="transition hover:text-accent">
-            תהליך העבודה
-          </a>
-          <a href="#credentials" className="transition hover:text-accent">
-            הסמכות
+          <a href="#path" className="transition hover:text-accent">
+            {content.path.title}
           </a>
         </div>
         <a

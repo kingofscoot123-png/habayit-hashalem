@@ -18,37 +18,40 @@ export function RootScene({ src, alt }: { src: string; alt: string }) {
       antialias: !mobile,
       powerPreference: mobile ? "low-power" : "high-performance",
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.6));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.15 : 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.14;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 20);
-    camera.position.z = 2.05;
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 20);
+    camera.position.z = 2.15;
 
-    const geo = new THREE.PlaneGeometry(2.15, 1.62, mobile ? 12 : 40, mobile ? 10 : 30);
+    const geo = new THREE.PlaneGeometry(2.2, 1.65, mobile ? 14 : 64, mobile ? 12 : 48);
     const tex = new THREE.TextureLoader().load(src);
     tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = 4;
+    tex.anisotropy = mobile ? 2 : 8;
 
     const mat = new THREE.MeshStandardMaterial({
       map: tex,
-      roughness: 0.48,
-      metalness: 0.28,
-      envMapIntensity: 0.9,
+      roughness: 0.38,
+      metalness: 0.36,
+      envMapIntensity: 1.1,
     });
     const mesh = new THREE.Mesh(geo, mat);
     scene.add(mesh);
 
-    const key = new THREE.PointLight(0xd6e4f5, 22, 9);
-    key.position.set(0.7, 0.45, 1.55);
+    const key = new THREE.PointLight(0xe8f1ff, mobile ? 18 : 28, 10);
+    key.position.set(0.7, 0.45, 1.6);
     scene.add(key);
-    const rim = new THREE.PointLight(0x86efac, 7, 8);
-    rim.position.set(-1.15, -0.15, 1.15);
+    const rim = new THREE.PointLight(0x86efac, mobile ? 6 : 10, 9);
+    rim.position.set(-1.2, -0.1, 1.2);
     scene.add(rim);
-    scene.add(new THREE.AmbientLight(0x152033, 0.6));
+    const fill = new THREE.PointLight(0x7dd3fc, 4, 8);
+    fill.position.set(0, -0.8, 1.4);
+    scene.add(fill);
+    scene.add(new THREE.AmbientLight(0x152033, 0.55));
 
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
     const onMove = (e: PointerEvent) => {
@@ -56,7 +59,7 @@ export function RootScene({ src, alt }: { src: string; alt: string }) {
       pointer.tx = ((e.clientX - r.left) / r.width) * 2 - 1;
       pointer.ty = -(((e.clientY - r.top) / r.height) * 2 - 1);
     };
-    if (!mobile && !reduced) wrap.addEventListener("pointermove", onMove);
+    if (!reduced) wrap.addEventListener("pointermove", onMove);
 
     const fit = () => {
       const w = wrap.clientWidth || 320;
@@ -82,17 +85,22 @@ export function RootScene({ src, alt }: { src: string; alt: string }) {
     const tick = (t: number) => {
       raf = requestAnimationFrame(tick);
       if (!live) return;
+      const ride = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--ride") || "0") || 0;
       if (!reduced) {
-        if (mobile) {
-          pointer.tx = Math.sin(t * 0.00045) * 0.45;
-          pointer.ty = Math.cos(t * 0.00032) * 0.28;
+        if (mobile && Math.abs(pointer.tx) < 0.02) {
+          pointer.tx = Math.sin(t * 0.00045) * 0.4;
+          pointer.ty = Math.cos(t * 0.00032) * 0.24;
         }
         pointer.x += (pointer.tx - pointer.x) * 0.08;
         pointer.y += (pointer.ty - pointer.y) * 0.08;
-        mesh.rotation.y = pointer.x * 0.28;
-        mesh.rotation.x = pointer.y * 0.16;
-        key.position.x = 0.55 + pointer.x * 0.9;
-        key.position.y = 0.4 + pointer.y * 0.55;
+        mesh.rotation.y = pointer.x * 0.32 + ride * 0.85;
+        mesh.rotation.x = pointer.y * 0.18 + Math.sin(ride * 6.2) * 0.06;
+        mesh.position.z = Math.sin(ride * 8) * 0.08;
+        camera.position.z = 2.15 - ride * 0.18;
+        const dof = Math.abs(pointer.x) * (mobile ? 0.2 : 0.55);
+        wrap.style.filter = `blur(${dof}px)`;
+        key.position.x = 0.55 + pointer.x * 1.05;
+        key.position.y = 0.4 + pointer.y * 0.6;
       }
       renderer.render(scene, camera);
     };
@@ -103,6 +111,7 @@ export function RootScene({ src, alt }: { src: string; alt: string }) {
       io.disconnect();
       ro.disconnect();
       wrap.removeEventListener("pointermove", onMove);
+      wrap.style.filter = "";
       geo.dispose();
       mat.dispose();
       tex.dispose();

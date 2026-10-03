@@ -11,11 +11,12 @@ const FRAG = `
 precision mediump float;
 uniform vec2 u_res;
 uniform float u_t;
+uniform float u_s;
 void main() {
   vec2 uv = gl_FragCoord.xy / u_res.xy;
   float aspect = u_res.x / max(u_res.y, 1.0);
   vec2 p = vec2(uv.x * aspect, uv.y);
-  float t = u_t * 0.07;
+  float t = u_t * 0.07 + u_s * 1.8;
 
   vec2 a = vec2((0.26 + 0.20 * sin(t * 0.63)) * aspect, 0.40 + 0.18 * cos(t * 0.41));
   vec2 b = vec2((0.80 + 0.16 * cos(t * 0.37)) * aspect, 0.72 + 0.14 * sin(t * 0.52));
@@ -38,6 +39,10 @@ void main() {
   col = mix(col, coal,  clamp(d2 * 0.34, 0.0, 1.0));
   col = mix(col, metal, clamp(d3 * 0.26, 0.0, 1.0));
   col = mix(col, teal,  clamp(d4 * 0.22, 0.0, 1.0));
+
+  float specks = fract(sin(dot(uv * 90.0 + u_t * 0.15, vec2(12.9898, 78.233))) * 43758.5453);
+  col += smoothstep(0.987, 1.0, specks) * vec3(0.45, 0.72, 0.88) * 0.55;
+
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -67,7 +72,7 @@ export function MeshAtmosphere() {
       antialias: false,
       depth: false,
       stencil: false,
-      powerPreference: "low-power",
+      powerPreference: mobile ? "low-power" : "high-performance",
     });
     if (!gl) {
       canvas.style.display = "none";
@@ -93,9 +98,10 @@ export function MeshAtmosphere() {
 
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uT = gl.getUniformLocation(prog, "u_t");
+    const uS = gl.getUniformLocation(prog, "u_s");
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.4);
+      const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5);
       const w = Math.floor(window.innerWidth * dpr);
       const h = Math.floor(window.innerHeight * dpr);
       if (canvas.width === w && canvas.height === h) return;
@@ -112,8 +118,10 @@ export function MeshAtmosphere() {
 
     const draw = (now: number) => {
       if (!visible) return;
+      const ride = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--ride") || "0") || 0;
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uT, reduced ? 0 : (now - start) / 1000);
+      gl.uniform1f(uS, ride);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!reduced) raf = requestAnimationFrame(draw);
     };
