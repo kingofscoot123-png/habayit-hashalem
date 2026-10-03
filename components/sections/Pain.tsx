@@ -1,23 +1,9 @@
-"use client";
-
-import { useRef } from "react";
 import { content } from "@/content";
-import { useMotionPrefs } from "@/lib/useMotionPrefs";
-import { useScrollOrbit } from "@/lib/useScrollOrbit";
 
 export function Pain() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { reduced } = useMotionPrefs();
-  useScrollOrbit(sectionRef, reduced);
-
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="orbit-stage px-5 py-16 sm:px-6 lg:px-16 lg:py-[120px]"
-      data-section
-    >
-      <div className="mx-auto mb-10 max-w-3xl" data-reveal data-fx="focus">
+    <section id="about" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[120px]" data-section>
+      <div className="mx-auto mb-10 max-w-3xl" data-reveal>
         <h2 className="text-h2">
           {content.pain.title.split(" ").map((word, i) => (
             <span key={`${word}-${i}`} data-reveal-word className="inline-block pe-2">
@@ -30,9 +16,8 @@ export function Pain() {
         {content.pain.cards.map((card, i) => (
           <article
             key={card.title}
-            data-orbit
-            className="glass-card glass-deep tilt-card rounded-shell"
-            data-fx="rise"
+            className="clinic-card overflow-hidden rounded-shell"
+            data-reveal
             data-delay={i * 0.08}
           >
             <div className="media-zoom relative z-10">

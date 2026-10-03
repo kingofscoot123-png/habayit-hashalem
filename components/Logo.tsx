@@ -9,11 +9,11 @@ export function Logo({ className = "" }: { className?: string }) {
       >
         <defs>
           <linearGradient id="logoGold" x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#bbf7d0" />
-            <stop offset="1" stopColor="#86efac" />
+            <stop stopColor="#e8dcc8" />
+            <stop offset="1" stopColor="#d4c4a8" />
           </linearGradient>
         </defs>
-        <rect width="48" height="48" rx="14" fill="#0a1628" />
+        <rect width="48" height="48" rx="14" fill="#12110e" />
         <rect x="1" y="1" width="46" height="46" rx="13" fill="none" stroke="url(#logoGold)" strokeWidth="1.4" />
         <path
           d="M10 22.2 24 10.6 38 22.2V36.2a2.2 2.2 0 0 1-2.2 2.2H28.4v-7.4h-8.8v7.4H12.2A2.2 2.2 0 0 1 10 36.2Z"

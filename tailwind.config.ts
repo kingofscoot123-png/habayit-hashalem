@@ -13,16 +13,17 @@ const config: Config = {
         accent: "var(--accent)",
       },
       fontFamily: {
-        sans: ["var(--font-heebo)", "sans-serif"],
+        sans: ["var(--font-assistant)", "sans-serif"],
+        display: ["var(--font-frank)", "serif"],
       },
       fontSize: {
         display: [
           "clamp(2.4rem, 7.5vw, 4.6rem)",
-          { lineHeight: "1.08", letterSpacing: "0.012em", fontWeight: "300" },
+          { lineHeight: "1.12", letterSpacing: "0.01em", fontWeight: "300" },
         ],
         h2: [
           "clamp(1.7rem, 4vw, 2.6rem)",
-          { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "300" },
+          { lineHeight: "1.25", letterSpacing: "0.01em", fontWeight: "300" },
         ],
         lead: ["1.3125rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.0625rem", { lineHeight: "1.65", fontWeight: "400" }],
@@ -35,7 +36,7 @@ const config: Config = {
         button: "10px",
         media: "24px",
         frame: "28px",
-        shell: "32px",
+        shell: "28px",
       },
       spacing: {
         section: "140px",

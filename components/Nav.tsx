@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 
 export function Nav() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0a1628]/78 px-5 py-3 backdrop-blur-xl sm:px-6">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#12110e]/78 px-5 py-3 backdrop-blur-xl sm:px-6">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         <a href="#top" className="min-w-0" aria-label={content.brand}>
           <Logo />
@@ -23,7 +23,7 @@ export function Nav() {
           href={content.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-gold magnetic whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-normal sm:px-6"
+          className="btn-gold whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-normal sm:px-6"
         >
           {content.cta}
         </a>

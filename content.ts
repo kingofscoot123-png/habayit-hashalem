@@ -14,7 +14,7 @@ export const content = {
     titleLines: ["חוזרים לקרבה שהייתה", "לפני שהשיחות נשברו"],
     glowWords: ["לקרבה", "נשברו"],
     trust: "13 שנים · ראש העין",
-    mediaAlt: "חדר טיפול שקט: אדם יושב ורושם במחברת באור רך",
+    mediaAlt: "חדר טיפול שקט: שיחה בין מטופל למטפל, שתי כורסאות זו מול זו",
     mediaDesktop: asset("/images/hero-desktop.jpg"),
     mediaMobile: asset("/images/hero-mobile.jpg"),
   },

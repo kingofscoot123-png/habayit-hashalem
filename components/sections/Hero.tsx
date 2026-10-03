@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
-import { Magnetic } from "@/components/Magnetic";
 
 function glowify(line: string) {
   return line.split(" ").map((word) => {
@@ -43,8 +42,8 @@ export function Hero() {
         return;
       }
 
-      gsap.set(introWords, { opacity: 0, filter: "blur(10px)", y: 10 });
-      gsap.set(slide, { y: 28, opacity: 0 });
+      gsap.set(introWords, { opacity: 0, filter: "blur(8px)", y: 8 });
+      gsap.set(slide, { y: 20, opacity: 0 });
       gsap.set(frame, { opacity: 0 });
       gsap.set(line, { scaleX: 0, opacity: 1 });
 
@@ -57,11 +56,11 @@ export function Hero() {
         opacity: 1,
         filter: "blur(0px)",
         y: 0,
-        duration: 0.9,
-        stagger: 0.48,
+        duration: 0.85,
+        stagger: 0.42,
       });
       tl.to(intro, { autoAlpha: 0, duration: 0.7, ease: "power2.inOut" }, "+=1.4");
-      tl.to(slide, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, "-=0.35");
+      tl.to(slide, { y: 0, opacity: 1, duration: 0.85, stagger: 0.1 }, "-=0.35");
       tl.to(frame, { opacity: 1, duration: 1.1 }, "-=0.6");
       tl.to(line, { scaleX: 1, duration: 1 }, "-=0.9");
     }, section);
@@ -82,7 +81,7 @@ export function Hero() {
           <img
             src={content.hero.mediaMobile}
             alt={content.hero.mediaAlt}
-            className="h-full w-full object-cover object-[center_48%] md:object-[center_20%]"
+            className="h-full w-full object-cover object-[center_36%] md:object-[center_42%]"
             data-hero-media
           />
         </picture>
@@ -95,7 +94,7 @@ export function Hero() {
         className="site-intro fixed inset-0 z-[70] flex items-center justify-center px-5 sm:px-8"
         aria-hidden="true"
       >
-        <p className="max-w-4xl text-center text-[clamp(1.7rem,7vw,4.4rem)] font-light leading-[1.15] tracking-[0.01em] text-ink">
+        <p className="max-w-4xl text-center font-display text-[clamp(1.7rem,7vw,4.4rem)] font-light leading-[1.15] tracking-[0.01em] text-ink">
           {introWords.map(({ word, glow }, i) => (
             <span
               key={`${word}-${i}`}
@@ -108,7 +107,7 @@ export function Hero() {
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-4 pb-16 pt-28 text-center sm:px-6">
+      <div className="hero-copy relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-4 pb-16 pt-28 text-center sm:px-6">
         <h1 data-hero-slide className="hero-title text-ink">
           {content.hero.titleLines.map((line) => {
             const parts = glowify(line);
@@ -128,17 +127,17 @@ export function Hero() {
         <div data-hero-slide className="gold-line mx-auto mt-6 w-28 sm:mt-8 sm:w-40" />
 
         <div data-hero-slide className="mt-8 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:gap-4">
-          <Magnetic
+          <a
             href={content.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-gold shimmer w-full rounded-2xl px-8 py-4 text-base font-normal sm:w-auto"
           >
             {content.cta}
-          </Magnetic>
-          <Magnetic href="#path" className="btn-ghost w-full rounded-2xl px-8 py-4 text-base font-normal sm:w-auto">
+          </a>
+          <a href="#path" className="btn-ghost w-full rounded-2xl px-8 py-4 text-base font-normal sm:w-auto">
             {content.ctaSecondary}
-          </Magnetic>
+          </a>
         </div>
 
         <p data-hero-slide className="mt-5 text-caption tracking-[0.16em] text-ink-soft sm:mt-6">

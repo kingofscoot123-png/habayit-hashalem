@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import { Heebo } from "next/font/google";
+import { Assistant, Frank_Ruhl_Libre } from "next/font/google";
 import { Providers } from "@/components/Providers";
-import { MeshAtmosphere } from "@/components/MeshAtmosphere";
-import { Vignette } from "@/components/Vignette";
 import "./globals.css";
 
-const heebo = Heebo({
+const assistant = Assistant({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "700"],
-  variable: "--font-heebo",
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-assistant",
+  display: "swap",
+});
+
+const frank = Frank_Ruhl_Libre({
+  subsets: ["hebrew", "latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-frank",
   display: "swap",
 });
 
@@ -28,10 +33,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${heebo.variable} ${heebo.className}`}>
-      <body className={`${heebo.className} font-sans antialiased`}>
-        <MeshAtmosphere />
-        <Vignette />
+    <html lang="he" dir="rtl" className={`${assistant.variable} ${frank.variable} ${assistant.className}`}>
+      <body className={`${assistant.className} font-sans antialiased`}>
         <div className="relative z-10">
           <Providers>{children}</Providers>
         </div>

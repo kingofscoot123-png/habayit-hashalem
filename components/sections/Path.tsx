@@ -1,22 +1,57 @@
 "use client";
 
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { content } from "@/content";
-import { RootScene } from "@/components/RootScene";
-import { Magnetic } from "@/components/Magnetic";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
-import { useScrollOrbit } from "@/lib/useScrollOrbit";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export function Path() {
   const sectionRef = useRef<HTMLElement>(null);
   const { reduced } = useMotionPrefs();
-  useScrollOrbit(sectionRef, reduced);
   const certs = content.credentials.items.slice(0, 6);
 
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const ctx = gsap.context(() => {
+      const steps = section.querySelectorAll<HTMLElement>("[data-path-step]");
+      if (reduced) {
+        steps.forEach((el) => el.classList.add("is-ready"));
+        return;
+      }
+
+      steps.forEach((el) => {
+        gsap.fromTo(
+          el,
+          { y: 32, opacity: 0, filter: "blur(8px)" },
+          {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.95,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el,
+              start: "top 82%",
+              once: true,
+            },
+            onStart: () => el.classList.add("is-ready"),
+          },
+        );
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [reduced]);
+
   return (
-    <section id="path" ref={sectionRef} className="orbit-stage px-5 py-16 sm:px-6 lg:px-16 lg:py-[120px]">
+    <section id="path" ref={sectionRef} className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[120px]">
       <div className="mx-auto mb-10 max-w-3xl text-center" data-reveal>
-        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">{content.path.kicker}</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">{content.path.kicker}</p>
         <h2 className="text-h2">
           {content.path.title.split(" ").map((word, i) => (
             <span key={`${word}-${i}`} data-reveal-word className="inline-block pe-2">
@@ -30,14 +65,14 @@ export function Path() {
         {content.path.steps.map((step) => (
           <article
             key={step.n}
-            data-orbit
-            className="glass-card glass-deep tilt-card overflow-hidden rounded-shell lg:grid lg:grid-cols-[1.05fr_0.95fr]"
+            data-path-step
+            className="path-step clinic-card overflow-hidden rounded-shell lg:grid lg:grid-cols-[1.05fr_0.95fr]"
           >
             <div className="media-zoom">
               <img src={step.image} alt={step.alt} className="h-52 w-full object-cover lg:h-full" />
             </div>
             <div className="relative z-10 p-6 sm:p-8">
-              <p className="holo-card__n">{step.n}</p>
+              <p className="clinic-n">{step.n}</p>
               <h3 className="text-2xl font-light tracking-wide">{step.title}</h3>
               <p className="mt-3 text-body text-ink-soft">{step.body}</p>
               <p className="mt-5 text-caption tracking-wide text-accent">{step.time}</p>
@@ -46,18 +81,27 @@ export function Path() {
         ))}
       </div>
 
-      <div id="services" className="mx-auto mt-16 max-w-5xl" data-orbit>
-        <div className="glass-card glass-deep overflow-hidden rounded-shell p-4 sm:p-6">
-          <p className="mb-4 text-center text-caption tracking-widest text-ink-soft">{content.path.workTitle}</p>
-          <RootScene src={content.deliverables.cards[2].image} alt={content.deliverables.cards[2].alt} />
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {content.deliverables.cards.map((card) => (
-              <div key={card.title}>
+      <div id="services" className="mx-auto mt-16 max-w-5xl">
+        <p className="mb-6 text-center text-caption tracking-widest text-ink-soft" data-reveal>
+          {content.path.workTitle}
+        </p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {content.deliverables.cards.map((card, i) => (
+            <article
+              key={card.title}
+              className="clinic-card overflow-hidden rounded-shell"
+              data-reveal
+              data-delay={i * 0.08}
+            >
+              <div className="media-zoom">
+                <img src={card.image} alt={card.alt} className="h-40 w-full object-cover" />
+              </div>
+              <div className="p-5">
                 <p className="text-lg font-light">{card.title}</p>
                 <p className="mt-1 text-caption text-ink-soft">{card.result}</p>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </div>
       </div>
 
@@ -67,14 +111,14 @@ export function Path() {
         </h3>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
           {certs.map((item, i) => (
-            <figure key={item.src} data-orbit className="cert-photo rounded-shell p-2" data-delay={i * 0.04}>
+            <figure key={item.src} className="cert-photo rounded-shell p-2" data-reveal data-delay={i * 0.04}>
               <img src={item.src} alt={item.alt} />
             </figure>
           ))}
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-2xl text-center" data-orbit>
+      <div className="mx-auto mt-16 max-w-2xl text-center" data-reveal>
         <h3 className="text-display">
           {content.close.titleLines.map((line) => (
             <span key={line} className="block">
@@ -82,20 +126,20 @@ export function Path() {
             </span>
           ))}
         </h3>
-        <Magnetic
+        <a
           href={content.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-gold shimmer mt-8 inline-flex rounded-2xl px-8 py-4 text-base"
+          className="btn-gold shimmer mt-8 rounded-2xl px-8 py-4 text-base"
         >
           {content.cta}
-        </Magnetic>
+        </a>
         <p className="mt-4 text-caption text-ink-soft">{content.ctaAfter}</p>
       </div>
 
       <ul className="mx-auto mt-16 max-w-2xl space-y-3">
         {content.objections.items.map((item) => (
-          <li key={item.q} className="glass-card glass-deep rounded-2xl px-5 py-4" data-orbit>
+          <li key={item.q} className="clinic-card rounded-2xl px-5 py-4" data-reveal>
             <p className="text-lead">{item.q}</p>
             <p className="mt-2 text-body text-ink-soft">{item.a}</p>
           </li>
