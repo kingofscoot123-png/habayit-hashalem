@@ -63,6 +63,30 @@ export function Providers({ children }: { children: React.ReactNode }) {
           },
         );
       });
+
+      gsap.utils.toArray<HTMLElement>("[data-depth]").forEach((el) => {
+        gsap.fromTo(
+          el,
+          {
+            y: desktop ? 42 : 28,
+            rotateX: desktop ? 14 : 8,
+            z: desktop ? -70 : -30,
+            opacity: 0,
+            filter: desktop ? "blur(8px)" : "blur(4px)",
+          },
+          {
+            y: 0,
+            rotateX: 0,
+            z: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: desktop ? 0.95 : 0.7,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 82%", once: true },
+            onStart: () => el.classList.add("is-in"),
+          },
+        );
+      });
     }
 
     const lenis =
