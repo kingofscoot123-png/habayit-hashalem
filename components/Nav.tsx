@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 
 export function Nav() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0b0f19]/72 px-6 py-3 backdrop-blur-xl">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0a1628]/78 px-5 py-3 backdrop-blur-xl sm:px-6">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         <a href="#top" className="min-w-0" aria-label={content.brand}>
           <Logo />
@@ -22,9 +22,13 @@ export function Nav() {
             הסמכות
           </a>
         </div>
-        <a href={content.phoneHref} className="btn-gold whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-bold sm:px-6">
-          <span className="sm:hidden">ייעוץ</span>
-          <span className="hidden sm:inline">שיחת ייעוץ מהירה</span>
+        <a
+          href={content.whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-gold magnetic whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-normal sm:px-6"
+        >
+          {content.cta}
         </a>
       </div>
     </nav>

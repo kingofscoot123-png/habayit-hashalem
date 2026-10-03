@@ -7,7 +7,7 @@ export function WhatsAppFab() {
       href={content.whatsappHref}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="וואטסאפ לקליניקה"
+      aria-label="וואטסאפ לקליניקה, 054-353-4973"
     >
       <span className="wa-ripple" aria-hidden="true" />
       <span className="wa-ripple wa-ripple-b" aria-hidden="true" />

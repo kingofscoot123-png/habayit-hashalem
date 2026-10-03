@@ -17,12 +17,12 @@ const config: Config = {
       },
       fontSize: {
         display: [
-          "clamp(2.5rem, 8vw, 4.75rem)",
-          { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "900" },
+          "clamp(2.4rem, 7.5vw, 4.6rem)",
+          { lineHeight: "1.08", letterSpacing: "0.012em", fontWeight: "300" },
         ],
         h2: [
-          "clamp(1.75rem, 4.5vw, 2.75rem)",
-          { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "700" },
+          "clamp(1.7rem, 4vw, 2.6rem)",
+          { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "300" },
         ],
         lead: ["1.3125rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.0625rem", { lineHeight: "1.65", fontWeight: "400" }],

@@ -2,29 +2,29 @@ import { content } from "@/content";
 
 export function Pain() {
   return (
-    <section id="about" className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
-      <div className="mx-auto mb-14 max-w-3xl" data-reveal>
+    <section id="about" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[140px]" data-section>
+      <div className="mx-auto mb-12 max-w-3xl" data-reveal>
         <h2 className="text-h2">{content.pain.title}</h2>
       </div>
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3">
         {content.pain.cards.map((card, i) => (
           <article
             key={card.title}
-            className="glass-card glass-deep tilt-card border-flow rounded-shell"
+            className="glass-card glass-deep tilt-card rounded-shell"
             data-reveal={i % 2 === 0 ? "diag" : "scale"}
             data-delay={i * 0.1}
+            data-fx="rise"
           >
-            <div className="media-zoom depth-pulse relative z-10">
+            <div className="media-zoom relative z-10">
               <img
                 src={card.image}
                 alt={card.alt}
-                className="h-48 w-full object-cover"
+                className="h-52 w-full object-cover"
                 style={{ aspectRatio: "16 / 10" }}
               />
             </div>
-            <div className="relative z-10 p-8">
-              <h3 className="text-2xl font-bold leading-snug">{card.title}</h3>
-              <p className="mt-4 text-body leading-relaxed text-ink-soft">{card.body}</p>
+            <div className="relative z-10 px-7 py-6">
+              <h3 className="text-xl font-light tracking-wide">{card.title}</h3>
             </div>
           </article>
         ))}

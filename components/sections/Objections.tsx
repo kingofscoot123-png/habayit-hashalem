@@ -7,7 +7,7 @@ export function Objections() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
+    <section className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[140px]">
       <div className="mx-auto max-w-2xl">
         <h2 className="mb-12 text-center text-h2" data-reveal>
           {content.objections.title}

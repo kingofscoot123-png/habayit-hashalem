@@ -62,7 +62,7 @@ export function Close() {
   }, [reduced]);
 
   return (
-    <section ref={sectionRef} className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
+    <section ref={sectionRef} className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[140px]">
       <h2 className="max-w-measure text-display">
         {content.close.titleLines.map((line, i) => (
           <span key={line} className={`block overflow-hidden ${i === 1 ? "text-accent" : ""}`}>
@@ -72,7 +72,13 @@ export function Close() {
           </span>
         ))}
       </h2>
-      <a ref={wrapRef} href={content.whatsappHref} className="btn-gold mt-10 inline-flex rounded-button px-6 py-3 text-body font-bold">
+      <a
+        ref={wrapRef}
+        href={content.whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn-gold mt-10 inline-flex rounded-button px-6 py-3 text-body font-normal"
+      >
         {content.cta}
       </a>
       <p className="mt-4 text-caption text-ink-soft">{content.ctaAfter}</p>

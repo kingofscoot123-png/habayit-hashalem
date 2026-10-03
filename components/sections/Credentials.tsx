@@ -2,7 +2,7 @@ import { content } from "@/content";
 
 export function Credentials() {
   return (
-    <section id="credentials" className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
+    <section id="credentials" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[140px]">
       <h2 className="mx-auto mb-14 max-w-3xl text-center text-h2" data-reveal>
         {content.credentials.title}
       </h2>

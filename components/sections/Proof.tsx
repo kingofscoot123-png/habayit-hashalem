@@ -42,7 +42,7 @@ export function Proof() {
   }, [reduced]);
 
   return (
-    <section ref={sectionRef} className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
+    <section ref={sectionRef} className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[140px]">
       <div className="mx-auto max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">{content.proof.title}</h2>
         <p className="mt-10">

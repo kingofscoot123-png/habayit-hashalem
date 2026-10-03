@@ -9,16 +9,14 @@ import { Quotes } from "@/components/sections/Quotes";
 import { Start } from "@/components/sections/Start";
 import { Objections } from "@/components/sections/Objections";
 import { Close } from "@/components/sections/Close";
-import { BackgroundShift } from "@/components/BackgroundShift";
 import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
-import { content } from "@/content";
 
 export default function Page() {
   return (
     <>
       <Nav />
-      <BackgroundShift />
       <Hero />
       <Pain />
       <Failed />
@@ -30,9 +28,7 @@ export default function Page() {
       <Start />
       <Objections />
       <Close />
-      <footer className="border-t border-white/5 px-6 py-16 text-center text-caption text-ink-soft">
-        {content.footer}
-      </footer>
+      <Footer />
       <WhatsAppFab />
     </>
   );

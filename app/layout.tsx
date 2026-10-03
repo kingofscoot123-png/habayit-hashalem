@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { MeshAtmosphere } from "@/components/MeshAtmosphere";
 import "./globals.css";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
-  weight: ["400", "700", "900"],
+  weight: ["300", "400", "700"],
   variable: "--font-heebo",
   display: "swap",
 });
@@ -28,7 +29,10 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${heebo.variable} ${heebo.className}`}>
       <body className={`${heebo.className} font-sans antialiased`}>
-        <Providers>{children}</Providers>
+        <MeshAtmosphere />
+        <div className="relative z-10">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
