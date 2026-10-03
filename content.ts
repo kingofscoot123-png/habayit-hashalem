@@ -146,6 +146,83 @@ export const content = {
     },
   },
 
+  journey: {
+    kicker: "העבודה",
+    title: "עשרה מהלכים",
+    steps: [
+      {
+        n: "01",
+        title: "כותבים או מתקשרים",
+        body: "מיפוי ראשוני של מה שכואב עכשיו. היכרות היום או מחר.",
+        image: asset("/images/start-write.jpg"),
+        alt: "שולחן קליניקה: פנקס, עט וטלפון ליצירת קשר",
+      },
+      {
+        n: "02",
+        title: "שוברים את הלופ",
+        body: "הרגע שבו השיחות הפכו לשידור חוזר בלי פתרון.",
+        image: asset("/images/mechanism-loop.jpg"),
+        alt: "זוג על ספה בערב",
+      },
+      {
+        n: "03",
+        title: "זמן בלי תזוזה",
+        body: "נתתם לזה זמן. דבר לא זז.",
+        image: asset("/images/pain-home.jpg"),
+        alt: "מטבח ריק בלילה",
+      },
+      {
+        n: "04",
+        title: "מאמץ שהפך ללחץ",
+        body: "התאמצתם יותר. הבית רק הכביד.",
+        image: asset("/images/pain-break.jpg"),
+        alt: "זוג יושב רחוק על ספה בערב",
+      },
+      {
+        n: "05",
+        title: "נשאר השורש",
+        body: "מה שמפעיל את הגוף לפני שהמילים יוצאות.",
+        image: asset("/images/mechanism-depth.jpg"),
+        alt: "רגע שקט בחדר טיפול",
+      },
+      {
+        n: "06",
+        title: "התרגול החדש",
+        body: "תגובה אחרת שעומדת גם כשזה בוער.",
+        image: asset("/images/mechanism-practice.jpg"),
+        alt: "שתי כורסאות בחדר טיפול",
+      },
+      {
+        n: "07",
+        title: "מפגש ראשון",
+        body: "קליניקה או אונליין. מסלול זוגי, אישי, או שניהם.",
+        image: asset("/images/start-clinic.jpg"),
+        alt: "שתי כורסאות זו מול זו בחדר טיפול שקט",
+      },
+      {
+        n: "08",
+        title: "פירוק המוקשים",
+        body: "עבודה על נקודות החיכוך בלי ליפול לעוד ויכוח.",
+        image: asset("/images/treatment-couple.jpg"),
+        alt: "זוג יושב קרוב על ספה",
+      },
+      {
+        n: "09",
+        title: "בניית שפה משותפת",
+        body: "מרחב שבו אפשר לדבר ולהישמע בקצב שמתאים לשניהם.",
+        image: asset("/images/pain-love.jpg"),
+        alt: "שתי ידיים כמעט נוגעות",
+      },
+      {
+        n: "10",
+        title: "הבית השלם מחדש",
+        body: "חזרה לקרבה שהייתה לפני שהשיחות נשברו.",
+        image: asset("/images/start-home.jpg"),
+        alt: "שולחן מטבח בערב, מחברת ושני ספלים, תרגול בבית",
+      },
+    ],
+  },
+
   start: {
     title: "איך זה מתחיל",
     steps: [

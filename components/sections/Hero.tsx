@@ -82,10 +82,10 @@ export function Hero() {
           <img
             src={content.hero.mediaMobile}
             alt={content.hero.mediaAlt}
-            className="hero-pulse h-full w-full object-cover object-[center_20%]"
+            className="hero-pulse h-full w-full object-cover object-[center_48%] md:object-[center_20%]"
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/40 via-[#0a1628]/68 to-[#0a1628]" />
+        <div className="hero-veil" />
         <div className="gold-frame hidden lg:block" />
       </div>
 
@@ -107,12 +107,12 @@ export function Hero() {
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-6 pb-16 pt-28 text-center">
-        <h1 data-hero-slide className="text-display text-ink">
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center px-4 pb-16 pt-28 text-center sm:px-6">
+        <h1 data-hero-slide className="hero-title text-ink">
           {content.hero.titleLines.map((line) => {
             const parts = glowify(line);
             return (
-              <span key={line} className="block">
+              <span key={line} className="hero-title__line">
                 {parts.map(({ word, glow }, i) => (
                   <span key={`${word}-${i}`} className={glow ? "glow-word" : undefined}>
                     {word}
@@ -124,9 +124,9 @@ export function Hero() {
           })}
         </h1>
 
-        <div data-hero-slide className="gold-line mx-auto mt-8 w-40" />
+        <div data-hero-slide className="gold-line mx-auto mt-6 w-28 sm:mt-8 sm:w-40" />
 
-        <div data-hero-slide className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
+        <div data-hero-slide className="mt-8 flex w-full max-w-sm flex-col items-center justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:gap-4">
           <Magnetic
             href={content.whatsappHref}
             target="_blank"
@@ -140,7 +140,7 @@ export function Hero() {
           </Magnetic>
         </div>
 
-        <p data-hero-slide className="mt-6 text-caption tracking-[0.16em] text-ink-soft">
+        <p data-hero-slide className="mt-5 text-caption tracking-[0.16em] text-ink-soft sm:mt-6">
           {content.hero.trust}
         </p>
       </div>

@@ -33,10 +33,10 @@ body {
   overflow-x: hidden;
   background-color: var(--surface);
   background-image:
-    radial-gradient(ellipse 80% 50% at 88% -8%, rgba(37, 99, 160, 0.26), transparent 58%),
-    radial-gradient(ellipse 55% 40% at 0% 22%, rgba(14, 42, 78, 0.55), transparent 54%),
-    radial-gradient(ellipse 50% 36% at 92% 88%, rgba(20, 58, 96, 0.3), transparent 52%),
-    linear-gradient(180deg, #07121f 0%, #0a1628 42%, #0c1c34 100%);
+    radial-gradient(ellipse 80% 50% at 88% -8%, rgba(20, 64, 120, 0.22), transparent 58%),
+    radial-gradient(ellipse 55% 40% at 0% 22%, rgba(8, 24, 48, 0.7), transparent 54%),
+    radial-gradient(ellipse 50% 36% at 92% 88%, rgba(12, 36, 64, 0.32), transparent 52%),
+    linear-gradient(180deg, #040910 0%, #07111d 42%, #0a1628 100%);
 }
 
 .mesh-atmosphere {
@@ -276,8 +276,122 @@ body {
   text-shadow: 0 0 28px rgba(187, 247, 208, 0.22);
 }
 
+.hero-title {
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  line-height: 1.16;
+  font-size: clamp(1.42rem, 6.6vw, 4.6rem);
+  max-width: 22ch;
+}
+
+.hero-title__line {
+  display: block;
+}
+
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 22%, rgba(6, 14, 26, 0.22), transparent 60%),
+    linear-gradient(180deg, rgba(4, 8, 14, 0.58) 0%, rgba(5, 11, 20, 0.76) 46%, #050b14 100%);
+}
+
 .hero-pulse {
   animation: heroPulse 18s ease-in-out infinite;
+}
+
+.swipe-deck {
+  position: relative;
+}
+
+.swipe-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 20px;
+  padding-inline: 20px;
+  padding-block: 6px 2px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+}
+
+.swipe-track::-webkit-scrollbar {
+  display: none;
+}
+
+.swipe-slide {
+  flex: 0 0 84%;
+  min-width: 0;
+  scroll-snap-align: center;
+}
+
+.swipe-slide--certs {
+  flex-basis: 70%;
+}
+
+.swipe-slide--journey {
+  flex-basis: 86%;
+}
+
+.swipe-slide > * {
+  height: 100%;
+}
+
+.swipe-slide.is-active .glass-card,
+.swipe-slide.is-active .holo-card,
+.swipe-slide.is-active .journey-card {
+  box-shadow:
+    0 28px 56px -24px rgba(134, 239, 172, 0.28),
+    0 10px 24px -16px rgba(0, 0, 0, 0.55);
+}
+
+.swipe-slide.is-active .holo-card::after,
+.swipe-slide.is-active .journey-card {
+  animation-play-state: running;
+}
+
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.swipe-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  transition: width 0.3s var(--ease-out), background 0.3s ease;
+}
+
+.swipe-dot.is-on {
+  width: 22px;
+  background: #86efac;
+}
+
+.journey-card {
+  overflow: hidden;
+  border-radius: 32px;
+  min-height: 100%;
+}
+
+.journey-card__media img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.journey-card__body {
+  position: relative;
+  z-index: 1;
+  padding: 22px 22px 26px;
 }
 
 .orb {
@@ -612,6 +726,61 @@ body {
   }
 }
 
+@media (min-width: 640px) {
+  .swipe-slide {
+    flex-basis: 56%;
+  }
+
+  .swipe-slide--certs {
+    flex-basis: 40%;
+  }
+
+  .swipe-slide--journey {
+    flex-basis: 48%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .swipe-slide--journey {
+    flex-basis: 36%;
+  }
+
+  .journey-card__media img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-title {
+    font-size: clamp(1.36rem, 7.1vw, 1.78rem);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    max-width: none;
+  }
+
+  .hero-title__line {
+    white-space: nowrap;
+  }
+
+  .hero-pulse {
+    animation: none;
+    transform: scale(1.05);
+    filter: brightness(1.12) contrast(1.08) saturate(0.92);
+  }
+
+  .hero-veil {
+    background:
+      radial-gradient(ellipse 75% 42% at 50% 52%, rgba(4, 8, 14, 0.5), transparent 72%),
+      linear-gradient(180deg, rgba(4, 8, 14, 0.28) 0%, rgba(5, 10, 18, 0.18) 36%, #040910 100%);
+  }
+}
+
+@media (max-width: 340px) {
+  .hero-title__line {
+    white-space: normal;
+  }
+}
+
 @media (max-width: 1023px) {
   body {
     font-size: 16px;
@@ -623,8 +792,10 @@ body {
     display: none;
   }
 
-  .tilt-card {
-    transform: none !important;
+  .glass-card,
+  .glass-deep {
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
   }
 
   .media-zoom:hover img {
@@ -655,13 +826,20 @@ body {
   }
 
   .holo-card {
-    min-height: 0;
-    transform: none !important;
+    min-height: 240px;
   }
 
   .holo-card::after,
   .holo-card__foil {
     animation: none;
+  }
+
+  .swipe-slide.is-active .holo-card::after {
+    animation: spinAngle 8s linear infinite;
+  }
+
+  .swipe-slide.is-active .holo-card__foil {
+    animation: foilSweep 6s ease-in-out infinite;
   }
 }
 

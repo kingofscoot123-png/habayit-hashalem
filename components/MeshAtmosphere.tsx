@@ -27,11 +27,11 @@ void main() {
   float d3 = 0.58 / (0.18 + length(p - c) * 1.45);
   float d4 = 0.50 / (0.20 + length(p - d) * 1.55);
 
-  vec3 navy  = vec3(0.045, 0.095, 0.175);
-  vec3 steel = vec3(0.160, 0.280, 0.460);
-  vec3 coal  = vec3(0.080, 0.075, 0.095);
-  vec3 metal = vec3(0.280, 0.320, 0.380);
-  vec3 teal  = vec3(0.090, 0.220, 0.250);
+  vec3 navy  = vec3(0.022, 0.048, 0.095);
+  vec3 steel = vec3(0.090, 0.175, 0.320);
+  vec3 coal  = vec3(0.040, 0.038, 0.055);
+  vec3 metal = vec3(0.160, 0.200, 0.255);
+  vec3 teal  = vec3(0.055, 0.145, 0.175);
 
   vec3 col = navy;
   col = mix(col, steel, clamp(d1 * 0.48, 0.0, 1.0));

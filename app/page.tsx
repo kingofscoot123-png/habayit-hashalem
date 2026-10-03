@@ -1,12 +1,11 @@
 import { Hero } from "@/components/sections/Hero";
 import { Pain } from "@/components/sections/Pain";
 import { Failed } from "@/components/sections/Failed";
-import { Mechanism } from "@/components/sections/Mechanism";
 import { Proof } from "@/components/sections/Proof";
 import { Deliverables } from "@/components/sections/Deliverables";
 import { Credentials } from "@/components/sections/Credentials";
 import { Quotes } from "@/components/sections/Quotes";
-import { Start } from "@/components/sections/Start";
+import { Journey } from "@/components/sections/Journey";
 import { Objections } from "@/components/sections/Objections";
 import { Close } from "@/components/sections/Close";
 import { Nav } from "@/components/Nav";
@@ -21,11 +20,10 @@ export default function Page() {
       <Pain />
       <Failed />
       <Deliverables />
-      <Mechanism />
+      <Journey />
       <Proof />
       <Credentials />
       <Quotes />
-      <Start />
       <Objections />
       <Close />
       <Footer />

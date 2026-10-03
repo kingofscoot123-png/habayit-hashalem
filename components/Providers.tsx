@@ -26,10 +26,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
         const y = e.clientY - r.top;
         card.style.setProperty("--x", `${x}px`);
         card.style.setProperty("--y", `${y}px`);
-        if (!reduced && desktop && card.classList.contains("tilt-card")) {
+        if (!reduced && card.classList.contains("tilt-card")) {
           const px = x / r.width - 0.5;
           const py = y / r.height - 0.5;
-          card.style.transform = `perspective(1100px) rotateY(${px * 8}deg) rotateX(${-py * 6}deg)`;
+          const amount = desktop ? 8 : 5;
+          card.style.transform = `perspective(1100px) rotateY(${px * amount}deg) rotateX(${-py * (amount * 0.75)}deg)`;
         }
       }
 
@@ -51,7 +52,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       if (mag && (!next || !mag.contains(next as Node))) mag.style.transform = "";
     };
 
-    document.addEventListener("mousemove", onSpot);
+    document.addEventListener("pointermove", onSpot, { passive: true });
     document.addEventListener("mouseout", onLeaveCard);
 
     if (!reduced) {
@@ -130,7 +131,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     if (reduced || !desktop) {
       refresh();
       return () => {
-        document.removeEventListener("mousemove", onSpot);
+        document.removeEventListener("pointermove", onSpot);
         document.removeEventListener("mouseout", onLeaveCard);
       };
     }
@@ -147,7 +148,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     refresh();
 
     return () => {
-      document.removeEventListener("mousemove", onSpot);
+      document.removeEventListener("pointermove", onSpot);
       document.removeEventListener("mouseout", onLeaveCard);
       gsap.ticker.remove(ticker);
       lenis.destroy();
