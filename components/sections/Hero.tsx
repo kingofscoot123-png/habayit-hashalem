@@ -81,7 +81,7 @@ export function Hero() {
 
       <div
         ref={introRef}
-        className="fixed inset-0 z-[70] flex items-center justify-center bg-black px-6"
+        className="site-intro fixed inset-0 z-[70] flex items-center justify-center bg-black px-6"
         aria-hidden="true"
       >
         <p className="max-w-4xl text-center text-display text-ink">

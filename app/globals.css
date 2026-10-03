@@ -424,7 +424,26 @@ body {
   100% { transform: scale(1.85); opacity: 0; }
 }
 
+.site-intro {
+  animation: introFailsafe 0.5s ease 8s forwards;
+}
+
+@keyframes introFailsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .site-intro {
+    animation: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   .floating-wa,
   .glass-card,
   .hero-pulse,

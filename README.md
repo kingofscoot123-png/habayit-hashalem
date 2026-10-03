@@ -2,6 +2,5 @@
 
 האתר החי:
 
-**https://kingofscoot123-png.github.io/habayit-hashalem/**
-
-לא לפתוח את `habayit-hashalem.vercel.app` — הכתובת הזו לא פעילה ומחזירה 404.
+- Vercel: https://habayit-hashalem.vercel.app
+- GitHub Pages: https://kingofscoot123-png.github.io/habayit-hashalem/
