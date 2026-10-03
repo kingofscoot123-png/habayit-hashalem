@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
-import { Assistant, Frank_Ruhl_Libre } from "next/font/google";
+import { Rubik } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
-const assistant = Assistant({
+const rubik = Rubik({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "600", "700"],
-  variable: "--font-assistant",
-  display: "swap",
-});
-
-const frank = Frank_Ruhl_Libre({
-  subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "700"],
-  variable: "--font-frank",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-rubik",
   display: "swap",
 });
 
@@ -33,8 +26,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${frank.variable} ${assistant.className}`}>
-      <body className={`${assistant.className} font-sans antialiased`}>
+    <html lang="he" dir="rtl" className={`${rubik.variable} ${rubik.className}`}>
+      <body className={`${rubik.className} font-sans antialiased`}>
         <div className="relative z-10">
           <Providers>{children}</Providers>
         </div>

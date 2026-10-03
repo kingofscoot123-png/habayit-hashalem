@@ -94,7 +94,7 @@ export function Hero() {
         className="site-intro fixed inset-0 z-[70] flex items-center justify-center px-5 sm:px-8"
         aria-hidden="true"
       >
-        <p className="max-w-4xl text-center font-display text-[clamp(1.7rem,7vw,4.4rem)] font-light leading-[1.15] tracking-[0.01em] text-ink">
+        <p className="max-w-4xl text-center text-[clamp(1.7rem,7vw,4rem)] font-medium leading-[1.15] tracking-[-0.02em] text-ink">
           {introWords.map(({ word, glow }, i) => (
             <span
               key={`${word}-${i}`}

@@ -13,19 +13,19 @@ const config: Config = {
         accent: "var(--accent)",
       },
       fontFamily: {
-        sans: ["var(--font-assistant)", "sans-serif"],
-        display: ["var(--font-frank)", "serif"],
+        sans: ["var(--font-rubik)", "sans-serif"],
+        display: ["var(--font-rubik)", "sans-serif"],
       },
       fontSize: {
         display: [
-          "clamp(2.4rem, 7.5vw, 4.6rem)",
-          { lineHeight: "1.12", letterSpacing: "0.01em", fontWeight: "300" },
+          "clamp(2.2rem, 6.5vw, 4rem)",
+          { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "500" },
         ],
         h2: [
-          "clamp(1.7rem, 4vw, 2.6rem)",
-          { lineHeight: "1.25", letterSpacing: "0.01em", fontWeight: "300" },
+          "clamp(1.6rem, 3.6vw, 2.3rem)",
+          { lineHeight: "1.25", letterSpacing: "-0.015em", fontWeight: "500" },
         ],
-        lead: ["1.3125rem", { lineHeight: "1.5", fontWeight: "400" }],
+        lead: ["1.25rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.0625rem", { lineHeight: "1.65", fontWeight: "400" }],
         caption: ["0.875rem", { lineHeight: "1.4", fontWeight: "400" }],
       },
@@ -36,7 +36,7 @@ const config: Config = {
         button: "10px",
         media: "24px",
         frame: "28px",
-        shell: "28px",
+        shell: "22px",
       },
       spacing: {
         section: "140px",

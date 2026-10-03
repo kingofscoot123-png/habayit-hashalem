@@ -12,18 +12,15 @@ export function Nav() {
           <a href="#about" className="transition hover:text-accent">
             {content.pain.title}
           </a>
-          <a href="#tried" className="transition hover:text-accent">
-            {content.failed.title}
-          </a>
           <a href="#path" className="transition hover:text-accent">
-            {content.path.title}
+            {content.path.workTitle}
           </a>
         </div>
         <a
           href={content.whatsappHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-gold whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-normal sm:px-6"
+          className="btn-gold whitespace-nowrap rounded-button px-4 py-2.5 text-sm font-medium sm:px-6"
         >
           {content.cta}
         </a>

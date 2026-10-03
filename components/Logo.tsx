@@ -22,7 +22,7 @@ export function Logo({ className = "" }: { className?: string }) {
         <circle cx="24" cy="24.4" r="2.3" fill="#0b0f19" />
       </svg>
       <span className="min-w-0">
-        <span className="block text-lg font-light leading-none tracking-[0.04em]">הבית השלם</span>
+        <span className="block text-lg font-medium leading-none tracking-[0.02em]">הבית השלם</span>
         <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-accent">מיכאל מרום</span>
       </span>
     </span>
