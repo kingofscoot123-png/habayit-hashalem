@@ -12,7 +12,7 @@ type Props = {
 export function LegalPage({ title, updated, children }: Props) {
   return (
     <>
-      <header className="border-b border-white/10 px-6 py-5">
+      <header className="border-b border-[var(--line)] px-6 py-5">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
           <Link href="/" aria-label={content.brand}>
             <Logo />

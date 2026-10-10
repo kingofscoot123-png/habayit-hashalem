@@ -1,0 +1,35 @@
+import { AccentLead } from "@/components/AccentLead";
+import { content } from "@/content";
+
+export function About() {
+  return (
+    <section id="who" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <div className="mx-auto max-w-3xl" data-reveal>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">{content.who.title}</p>
+        <h2 className="text-h2">
+          <AccentLead text={content.who.name} />
+        </h2>
+        <p className="mt-4 text-lead">{content.who.role}</p>
+        <p className="mt-2 text-body text-ink-soft">{content.who.years}</p>
+      </div>
+      <div className="mx-auto mt-8 max-w-3xl space-y-5" data-reveal>
+        {content.who.paragraphs.map((p) => (
+          <p key={p} className="text-body text-ink-soft">
+            {p}
+          </p>
+        ))}
+      </div>
+      <div className="mx-auto mt-10 max-w-3xl clinic-card rounded-shell px-6 py-5" data-reveal>
+        <p className="text-caption tracking-widest text-ink-soft">כתובת הקליניקה</p>
+        <a
+          href={content.mapsHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-block text-lead transition hover:text-accent"
+        >
+          {content.address}
+        </a>
+      </div>
+    </section>
+  );
+}

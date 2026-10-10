@@ -64,6 +64,38 @@ export function Providers({ children }: { children: React.ReactNode }) {
         );
       });
 
+      gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((wrap) => {
+        const kids = wrap.querySelectorAll<HTMLElement>(":scope > *");
+        if (kids.length === 0) return;
+        gsap.fromTo(
+          kids,
+          { y: desktop ? 22 : 14, opacity: 0, filter: desktop ? "blur(6px)" : "blur(0px)" },
+          {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: desktop ? 0.7 : 0.5,
+            stagger: 0.08,
+            ease: "power2.out",
+            scrollTrigger: { trigger: wrap, start: "top 88%", once: true },
+          },
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
+        const dist = Number(el.dataset.parallax || -36);
+        gsap.to(el, {
+          y: dist,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el.closest("header, section") || el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.15,
+          },
+        });
+      });
+
       gsap.utils.toArray<HTMLElement>("[data-depth]").forEach((el) => {
         gsap.fromTo(
           el,

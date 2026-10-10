@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
@@ -59,13 +60,15 @@ export function Pain() {
       className={`px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
-        <h2 className="text-h2">{content.pain.title}</h2>
+        <h2 className="text-h2">
+          <AccentLead text={content.pain.title} />
+        </h2>
       </div>
       <div className="pain-stage mx-auto">
         {content.pain.cards.map((card) => (
           <article key={card.title} data-pain-card className="pain-card">
             <div className="media-zoom pain-card__media">
-              <img src={card.image} alt={card.alt} />
+              <img src={card.image} alt={card.alt} data-parallax="-28" />
             </div>
             <div className="pain-card__copy">
               <h3>{card.title}</h3>

@@ -1,33 +1,25 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 
 export function Quotes() {
-  const [i, setI] = useState(0);
-  const quote = content.quotes.items[i];
-
-  useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    const id = window.setInterval(() => {
-      setI((n) => (n + 1) % content.quotes.items.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, []);
-
   return (
-    <section className="px-6 py-[88px] lg:px-16 lg:py-[140px]">
-      <div className="mx-auto max-w-3xl text-center" data-reveal>
-        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">
-          {content.quotes.title}
-        </p>
-        <p className="quote-mark" aria-hidden="true">
-          ”
-        </p>
-        <p key={quote} className="mt-6 text-h2">
-          {quote}
-        </p>
+    <section id="quotes" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <div className="mx-auto mb-10 max-w-3xl text-center" data-reveal>
+        <h2 className="text-h2">
+          <AccentLead text={content.quotes.title} />
+        </h2>
+        <p className="mt-3 text-caption text-ink-soft">{content.quotes.hint}</p>
+      </div>
+      <div className="quote-grid mx-auto max-w-5xl" data-stagger>
+        {content.quotes.items.map((item) => (
+          <figure key={item.quote} className="quote-card">
+            <blockquote className="quote-card__text">“{item.quote}”</blockquote>
+            <figcaption className="quote-card__who">
+              {item.name ? <span className="quote-card__name">{item.name}</span> : null}
+              <span>{item.who}</span>
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </section>
   );

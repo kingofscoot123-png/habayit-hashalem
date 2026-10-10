@@ -1,34 +1,33 @@
+"use client";
+
+import { useState } from "react";
+import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
-import { SwipeDeck } from "@/components/SwipeDeck";
-import { BreakSwitch } from "@/components/BreakSwitch";
-
-function Cert({ item }: { item: (typeof content.credentials.items)[number] }) {
-  return (
-    <figure className="cert-photo h-full rounded-shell p-[12px]">
-      <img src={item.src} alt={item.alt} />
-      <figcaption>{item.alt.replace("תעודת ", "")}</figcaption>
-    </figure>
-  );
-}
-
-function items(prefix: string) {
-  return content.credentials.items.map((item) => <Cert key={`${prefix}-${item.src}`} item={item} />);
-}
 
 export function Credentials() {
+  const [open, setOpen] = useState(false);
+  const items = open ? content.credentials.items : content.credentials.items.slice(0, content.credentials.previewCount);
+  const canToggle = content.credentials.items.length > content.credentials.previewCount;
+
   return (
-    <section id="credentials" className="px-0 py-16 lg:px-16 lg:py-[140px]">
-      <h2 className="mx-auto mb-10 max-w-3xl px-5 text-center text-h2 sm:px-6 lg:mb-14" data-reveal>
-        {content.credentials.title}
+    <section id="credentials" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <h2 className="mb-6 text-center text-h2" data-reveal>
+        <AccentLead text={content.credentials.title} />
       </h2>
-      <BreakSwitch
-        mobile={
-          <SwipeDeck label={content.credentials.title} variant="certs">
-            {items("m")}
-          </SwipeDeck>
-        }
-        desktop={<div className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-5">{items("d")}</div>}
-      />
+      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+        {items.map((item) => (
+          <figure key={item.src} className="cert-photo rounded-shell p-2">
+            <img src={item.src} alt={item.alt} />
+          </figure>
+        ))}
+      </div>
+      {canToggle ? (
+        <div className="mt-8 text-center">
+          <button type="button" className="btn-ghost rounded-2xl px-6 py-3 text-sm" onClick={() => setOpen((v) => !v)}>
+            {open ? content.credentials.less : content.credentials.more}
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }

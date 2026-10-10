@@ -11,6 +11,7 @@ const config: Config = {
         "ink-soft": "var(--ink-soft)",
         "ink-inv": "var(--ink-inv)",
         accent: "var(--accent)",
+        mint: "var(--mint)",
       },
       fontFamily: {
         sans: ["var(--font-rubik)", "sans-serif"],

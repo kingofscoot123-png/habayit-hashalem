@@ -1,6 +1,11 @@
 import { Hero } from "@/components/sections/Hero";
 import { Pain } from "@/components/sections/Pain";
-import { Path } from "@/components/sections/Path";
+import { Treat } from "@/components/sections/Treat";
+import { Methods } from "@/components/sections/Methods";
+import { About } from "@/components/sections/About";
+import { Credentials } from "@/components/sections/Credentials";
+import { Quotes } from "@/components/sections/Quotes";
+import { Faq } from "@/components/sections/Faq";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
@@ -11,7 +16,12 @@ export default function Page() {
       <Nav />
       <Hero />
       <Pain />
-      <Path />
+      <Treat />
+      <Methods />
+      <About />
+      <Credentials />
+      <Quotes />
+      <Faq />
       <Footer />
       <WhatsAppFab />
     </>
