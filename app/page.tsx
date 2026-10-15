@@ -3,6 +3,7 @@ import { Pain } from "@/components/sections/Pain";
 import { Treat } from "@/components/sections/Treat";
 import { Methods } from "@/components/sections/Methods";
 import { About } from "@/components/sections/About";
+import { Why } from "@/components/sections/Why";
 import { Credentials } from "@/components/sections/Credentials";
 import { Quotes } from "@/components/sections/Quotes";
 import { Faq } from "@/components/sections/Faq";
@@ -19,6 +20,7 @@ export default function Page() {
       <Treat />
       <Methods />
       <About />
+      <Why />
       <Credentials />
       <Quotes />
       <Faq />

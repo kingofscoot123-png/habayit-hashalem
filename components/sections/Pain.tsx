@@ -57,7 +57,7 @@ export function Pain() {
     <section
       id="about"
       ref={sectionRef}
-      className={`px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
+      className={`pain-section px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">
@@ -72,6 +72,7 @@ export function Pain() {
             </div>
             <div className="pain-card__copy">
               <h3>{card.title}</h3>
+              <p>{card.line}</p>
             </div>
           </article>
         ))}

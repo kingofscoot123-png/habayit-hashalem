@@ -4,8 +4,11 @@ import { content } from "@/content";
 export function Footer() {
   return (
     <footer className="border-t border-[var(--line)] px-6 py-14">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
+      <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
         <p className="text-caption text-ink-soft">{content.footer}</p>
+        <a href={content.phoneHref} className="text-lead text-[var(--hs-olive)] transition hover:opacity-80">
+          {content.phoneDisplay}
+        </a>
         <a
           href={content.mapsHref}
           target="_blank"

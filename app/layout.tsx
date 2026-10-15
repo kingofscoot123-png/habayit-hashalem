@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Frank_Ruhl_Libre, Rubik } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
@@ -7,6 +7,13 @@ const rubik = Rubik({
   subsets: ["hebrew", "latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-rubik",
+  display: "swap",
+});
+
+const frank = Frank_Ruhl_Libre({
+  subsets: ["hebrew"],
+  weight: ["500", "700"],
+  variable: "--font-frank",
   display: "swap",
 });
 
@@ -26,7 +33,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${rubik.variable} ${rubik.className}`}>
+    <html lang="he" dir="rtl" className={`${rubik.variable} ${frank.variable} ${rubik.className}`}>
       <body className={`${rubik.className} font-sans antialiased`}>
         <div className="relative z-10">
           <Providers>{children}</Providers>

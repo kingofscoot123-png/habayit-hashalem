@@ -14,7 +14,7 @@ export function About() {
       </div>
       <div className="mx-auto mt-8 max-w-3xl space-y-5" data-reveal>
         {content.who.paragraphs.map((p) => (
-          <p key={p} className="text-body text-ink-soft">
+          <p key={p} className="text-body text-[var(--hs-ink)]">
             {p}
           </p>
         ))}
@@ -28,6 +28,9 @@ export function About() {
           className="mt-2 inline-block text-lead transition hover:text-accent"
         >
           {content.address}
+        </a>
+        <a href={content.phoneHref} className="mt-3 block text-body text-accent">
+          {content.phoneDisplay}
         </a>
       </div>
     </section>

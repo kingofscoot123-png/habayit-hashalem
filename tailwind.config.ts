@@ -15,19 +15,19 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-rubik)", "sans-serif"],
-        display: ["var(--font-rubik)", "sans-serif"],
+        display: ["var(--font-frank)", "Frank Ruhl Libre", "serif"],
       },
       fontSize: {
         display: [
           "clamp(2.2rem, 6.5vw, 4rem)",
-          { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "500" },
+          { lineHeight: "1.15", letterSpacing: "-0.02em", fontWeight: "700" },
         ],
         h2: [
-          "clamp(1.6rem, 3.6vw, 2.3rem)",
-          { lineHeight: "1.25", letterSpacing: "-0.015em", fontWeight: "500" },
+          "clamp(1.7rem, 3.6vw, 2.5rem)",
+          { lineHeight: "1.25", letterSpacing: "-0.015em", fontWeight: "700" },
         ],
-        lead: ["1.25rem", { lineHeight: "1.5", fontWeight: "400" }],
-        body: ["1.0625rem", { lineHeight: "1.65", fontWeight: "400" }],
+        lead: ["1.3rem", { lineHeight: "1.5", fontWeight: "400" }],
+        body: ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],
         caption: ["0.875rem", { lineHeight: "1.4", fontWeight: "400" }],
       },
       maxWidth: {

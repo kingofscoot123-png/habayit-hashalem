@@ -1,31 +1,19 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 
+const icons: Record<string, string> = {
+  "שיטת NLP רפואי": "M12 3v18M4 12h16",
+  "שיטת EFT": "M12 4v16M7 9l10 6M17 9L7 15",
+  "שיטת TAT": "M5 19h14M12 19V5M6 11l6-6 6 6",
+  "שיטת TFT": "M4 7h10M4 12h16M4 17h12",
+  "דמיון מודרך": "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z",
+  "אקסס בארס": "M12 3c3.5 4 4 8 0 18C8 11 8.5 7 12 3z",
+  "טרנס": "M12 3v6M12 15v6M3 12h6M15 12h6",
+  "שיטת ספירל": "M12 6a4 4 0 1 1-4 4c0 6 8 4 8 10a4 4 0 1 1-8 0",
+  "שיטת EMDR": "M4 8h16M4 16h16",
+};
+
 export function Methods() {
-  const [open, setOpen] = useState<(typeof content.methods.items)[number] | null>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!open) return;
-    const id = window.requestAnimationFrame(() => setVisible(true));
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => {
-      window.cancelAnimationFrame(id);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
-
-  const close = () => {
-    setVisible(false);
-    window.setTimeout(() => setOpen(null), 280);
-  };
-
   return (
     <section id="path" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
@@ -36,36 +24,17 @@ export function Methods() {
       </div>
       <div className="method-grid mx-auto max-w-5xl" data-stagger>
         {content.methods.items.map((item) => (
-          <button
-            key={item.name}
-            type="button"
-            className="method-card"
-            onClick={() => setOpen(item)}
-          >
-            {item.name}
-          </button>
+          <article key={item.name} className="method-card method-card--open">
+            <span className="method-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d={icons[item.name] || "M12 5v14M5 12h14"} />
+              </svg>
+            </span>
+            <h3>{item.name}</h3>
+            <p>{item.body}</p>
+          </article>
         ))}
       </div>
-
-      {open ? (
-        <div
-          className={`method-modal ${visible ? "is-on" : ""}`}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="method-title"
-        >
-          <button type="button" className="method-modal__backdrop" aria-label={content.methods.close} onClick={close} />
-          <div className="method-modal__panel">
-            <h3 id="method-title" className="text-2xl font-medium">
-              {open.name}
-            </h3>
-            <p className="mt-4 text-body text-ink-soft">{open.body}</p>
-            <button type="button" className="btn-ghost mt-6 rounded-2xl px-5 py-2.5 text-sm" onClick={close}>
-              {content.methods.close}
-            </button>
-          </div>
-        </div>
-      ) : null}
     </section>
   );
 }

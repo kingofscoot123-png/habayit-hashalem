@@ -17,21 +17,9 @@ export function Faq() {
             </span>
           ))}
         </h2>
-        <a
-          href={content.whatsappHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-gold shimmer mt-8 rounded-2xl px-8 py-4 text-base"
-        >
-          {content.cta}
-        </a>
-        <p className="mt-4 text-caption text-ink-soft">{content.ctaAfter}</p>
       </div>
 
-      <h3 className="mx-auto mt-14 max-w-2xl text-center text-h2" data-reveal>
-        <AccentLead text={content.objections.title} />
-      </h3>
-      <div className="mx-auto mt-6 max-w-2xl space-y-3">
+      <div className="mx-auto mt-10 max-w-2xl space-y-3">
         {content.objections.items.map((item) => {
           const isOpen = open === item.q;
           return (
@@ -55,6 +43,24 @@ export function Faq() {
             </div>
           );
         })}
+      </div>
+
+      <div className="mx-auto mt-16 max-w-2xl text-center" data-reveal>
+        <p className="mb-6 text-lead text-[var(--hs-ink)]">מוכנים להתחיל? שיחה קצרה, בלי טופס.</p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href={content.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hs-hero__btn hs-hero__btn--wa px-8"
+          >
+            {content.cta} בוואטסאפ
+          </a>
+          <a href={content.phoneHref} className="hs-hero__btn hs-hero__btn--tel">
+            להתקשר: {content.phoneDisplay}
+          </a>
+        </div>
+        <p className="mt-4 text-caption text-ink-soft">{content.ctaAfter}</p>
       </div>
     </section>
   );
