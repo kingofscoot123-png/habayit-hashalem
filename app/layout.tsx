@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Frank_Ruhl_Libre, Rubik } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { SiteBackdrop } from "@/components/SiteBackdrop";
 import "./globals.css";
 
 const rubik = Rubik({
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${rubik.variable} ${frank.variable} ${rubik.className}`}>
       <body className={`${rubik.className} font-sans antialiased`}>
+        <SiteBackdrop />
         <div className="relative z-10">
           <Providers>{children}</Providers>
         </div>

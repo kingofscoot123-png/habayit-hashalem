@@ -84,14 +84,28 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const dist = Number(el.dataset.parallax || -36);
+        const trigger = el.closest(".site-backdrop") || el.closest("header, section") || document.documentElement;
         gsap.to(el, {
           y: dist,
           ease: "none",
           scrollTrigger: {
-            trigger: el.closest("header, section") || el,
-            start: "top bottom",
+            trigger,
+            start: "top top",
             end: "bottom top",
             scrub: 1.15,
+          },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>(".site-backdrop__orb").forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 0.35 + (i % 3) * 0.08,
+          ease: "none",
+          scrollTrigger: {
+            trigger: document.documentElement,
+            start: "top top",
+            end: "max",
+            scrub: 1.2,
           },
         });
       });
