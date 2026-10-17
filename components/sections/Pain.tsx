@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -12,54 +12,76 @@ gsap.registerPlugin(ScrollTrigger);
 export function Pain() {
   const sectionRef = useRef<HTMLElement>(null);
   const { reduced } = useMotionPrefs();
-  const [active, setActive] = useState(0);
-  const cards = content.pain.cards;
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    if (!section || reduced) return;
-    if (!window.matchMedia("(min-width: 768px)").matches) return;
+    if (!section) return;
+    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-pain-card]"));
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top top+=88",
-        end: "bottom bottom",
-        onUpdate: (self) => {
-          const i = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
-          setActive((prev) => (prev === i ? prev : i));
+      if (reduced || cards.length === 0) {
+        gsap.set(cards, { autoAlpha: 1, y: 0 });
+        return;
+      }
+
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set(cards, { autoAlpha: 0, y: mobile ? 20 : 24 });
+      gsap.set(cards[0], { autoAlpha: 1, y: 0 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: mobile ? "top top+=72" : "top top+=88",
+          end: mobile ? `+=${Math.round(window.innerHeight * 2.2)}` : "+=200%",
+          pin: true,
+          scrub: mobile ? 1.15 : 1.35,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
+      });
+
+      cards.forEach((card, i) => {
+        if (i === 0) return;
+        tl.to(
+          cards[i - 1],
+          { autoAlpha: 0, y: mobile ? -14 : -18, duration: 0.55, ease: "power2.inOut" },
+          i,
+        );
+        tl.fromTo(
+          card,
+          { autoAlpha: 0, y: mobile ? 22 : 28 },
+          { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" },
+          i,
+        );
       });
     }, section);
 
     return () => ctx.revert();
-  }, [reduced, cards.length]);
+  }, [reduced]);
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className={`pain-section pain-section--flow px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
+      className={`pain-section px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
-      <div className="pain-flow">
-        <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
-          <h2 className="text-h2">
-            <AccentLead text={content.pain.title} />
-          </h2>
-        </div>
-        <div className="pain-stage mx-auto">
-          {cards.map((card, i) => (
-            <article key={card.title} data-pain-card className={`pain-card ${i === active ? "is-on" : ""}`}>
-              <div className="media-zoom pain-card__media">
-                <img src={card.image} alt={card.alt} />
-              </div>
-              <div className="pain-card__copy">
-                <h3>{card.title}</h3>
-                <p>{card.line}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+      <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
+        <h2 className="text-h2">
+          <AccentLead text={content.pain.title} />
+        </h2>
+      </div>
+      <div className="pain-stage mx-auto">
+        {content.pain.cards.map((card) => (
+          <article key={card.title} data-pain-card className="pain-card">
+            <div className="media-zoom pain-card__media">
+              <img src={card.image} alt={card.alt} data-parallax="-28" />
+            </div>
+            <div className="pain-card__copy">
+              <h3>{card.title}</h3>
+              <p>{card.line}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

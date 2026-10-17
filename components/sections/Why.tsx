@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STEP_MS = 3000;
 
@@ -27,19 +31,56 @@ export function Why() {
   const pick = (i: number) => {
     pauseRef.current = true;
     setStep(i);
+    const st = ScrollTrigger.getById("why-pin");
+    if (st) {
+      const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
     window.setTimeout(() => {
       pauseRef.current = false;
     }, STEP_MS * 3);
   };
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    if (!section || !pin || reduced) return;
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
+
+    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        id: "why-pin",
+        trigger: section,
+        start: "top top+=80",
+        end: `+=${endDistance}`,
+        pin,
+        scrub: 1.25,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (pauseRef.current) return;
+          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
+          if (i !== indexRef.current) setStep(i);
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [reduced, items.length]);
 
   useEffect(() => {
     if (reduced) return;
 
     const section = sectionRef.current;
     let tick: number | undefined;
+    const mq = window.matchMedia("(max-width: 767px)");
 
     const setup = () => {
       if (tick) window.clearInterval(tick);
+      tick = undefined;
+      if (!mq.matches) return;
       tick = window.setInterval(() => {
         if (pauseRef.current || !section) return;
         const rect = section.getBoundingClientRect();
@@ -50,8 +91,10 @@ export function Why() {
     };
 
     setup();
+    mq.addEventListener("change", setup);
     return () => {
       if (tick) window.clearInterval(tick);
+      mq.removeEventListener("change", setup);
     };
   }, [reduced, items.length]);
 

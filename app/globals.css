@@ -92,7 +92,7 @@
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -145,7 +145,7 @@ body {
   font-weight: 400;
   font-size: 18px;
   line-height: 1.7;
-  overflow-x: clip;
+  overflow-x: hidden;
   background-color: var(--brand-light);
   background-image: linear-gradient(180deg, var(--brand-cream) 0%, var(--brand-light) 44%, var(--brand-cream) 100%);
 }
@@ -649,26 +649,6 @@ h3,
   letter-spacing: 0.14em;
 }
 
-.pain-section--flow {
-  min-height: 0;
-}
-
-.pain-flow {
-  position: relative;
-}
-
-@media (min-width: 768px) {
-  .pain-section--flow {
-    min-height: 170vh;
-  }
-
-  .pain-flow {
-    position: sticky;
-    top: 88px;
-    padding-bottom: 8px;
-  }
-}
-
 .pain-stage {
   position: relative;
   width: min(100%, 36rem);
@@ -683,21 +663,6 @@ h3,
   background: #faf8f5;
   border: 1px solid rgba(30, 58, 43, 0.1);
   box-shadow: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition:
-    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    visibility 0.45s;
-  pointer-events: none;
-}
-
-.pain-card.is-on {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  pointer-events: auto;
 }
 
 .pain-card__media img {
@@ -730,29 +695,9 @@ h3,
   gap: 16px;
 }
 
-@media (max-width: 767px) {
-  .pain-stage {
-    min-height: 0;
-    display: grid;
-    gap: 16px;
-  }
-
-  .pain-card {
-    position: relative;
-    inset: auto;
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    pointer-events: auto;
-  }
-}
-
 .pain-static .pain-card {
   position: relative;
   inset: auto;
-  opacity: 1;
-  visibility: visible;
-  transform: none;
 }
 
 .path-grid {
@@ -3171,25 +3116,13 @@ h3,
 }
 
 .treat-pin {
-  position: relative;
-  top: auto;
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 0;
+  min-height: min(calc(100svh - 72px), 820px);
   padding: 20px 20px 24px;
-}
-
-@media (min-width: 768px) {
-  .treat-pin-section {
-    min-height: 185vh;
-  }
-
-  .treat-pin {
-    position: sticky;
-    top: 72px;
-    min-height: auto;
-  }
 }
 
 .treat-pin__head {
@@ -3488,9 +3421,7 @@ h3,
 
 @media (max-width: 767px) {
   .treat-pin {
-    position: relative;
-    top: auto;
-    min-height: 0;
+    min-height: calc(100svh - 64px);
     padding: 10px 16px 16px;
     justify-content: flex-start;
   }
@@ -4266,7 +4197,7 @@ h3,
   }
 
   .treat-pin {
-    min-height: 0;
+    min-height: calc(100svh - 64px);
     padding-top: 8px;
   }
 
@@ -4306,6 +4237,6 @@ h3,
   }
 
   .kit-section__pin {
-    min-height: 0;
+    min-height: calc(100svh - 72px);
   }
 }

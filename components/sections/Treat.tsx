@@ -14,8 +14,9 @@ const flow = ["now", "how", "result"] as const;
 
 export function Treat() {
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const stRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef(0);
-  const pauseRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [stage, setStage] = useState(0);
   const items = content.treat.items;
@@ -28,36 +29,54 @@ export function Treat() {
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    if (!section || reduced) return;
-    if (!window.matchMedia("(min-width: 768px)").matches) return;
+    const pin = pinRef.current;
+    if (!section || !pin || reduced) return;
+
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const endDistance = mobile
+      ? Math.round(window.innerHeight * 3)
+      : Math.max(2200, Math.round(window.innerHeight * 4.2));
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: section,
-        start: "top top+=72",
-        end: "bottom bottom",
+        start: mobile ? "top top" : "top top+=72",
+        end: `+=${endDistance}`,
+        pin,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
-          if (pauseRef.current) return;
           const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.001));
           if (i !== stageRef.current) setStep(i);
         },
       });
+      stRef.current = st;
     }, section);
 
-    return () => ctx.revert();
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+    document.fonts.ready.then(refresh);
+
+    return () => {
+      window.removeEventListener("load", refresh);
+      stRef.current = null;
+      ctx.revert();
+    };
   }, [reduced, items.length]);
 
   const goTo = (i: number) => {
-    pauseRef.current = true;
     setStep(i);
-    window.setTimeout(() => {
-      pauseRef.current = false;
-    }, 1200);
+    if (reduced) return;
+    const st = stRef.current;
+    if (!st) return;
+    const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+    window.scrollTo({ top: y, behavior: "smooth" });
   };
 
   return (
     <section id="treat" ref={sectionRef} className="treat-pin-section">
-      <div className="treat-pin">
+      <div ref={pinRef} className="treat-pin">
         <div className="treat-pin__head">
           <h2 className="text-h2">
             <AccentLead text={content.treat.title} />
