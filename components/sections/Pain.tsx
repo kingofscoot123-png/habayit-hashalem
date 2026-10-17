@@ -24,27 +24,33 @@ export function Pain() {
         return;
       }
 
-      gsap.set(cards, { autoAlpha: 0, y: 24 });
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set(cards, { autoAlpha: 0, y: mobile ? 20 : 24 });
       gsap.set(cards[0], { autoAlpha: 1, y: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: "top 88px",
-          end: "+=150%",
+          start: mobile ? "top top+=72" : "top top+=88",
+          end: mobile ? `+=${Math.round(window.innerHeight * 2.2)}` : "+=200%",
           pin: true,
-          scrub: 0.7,
+          scrub: mobile ? 1.15 : 1.35,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
 
       cards.forEach((card, i) => {
         if (i === 0) return;
-        tl.to(cards[i - 1], { autoAlpha: 0, y: -18, duration: 0.45, ease: "power2.inOut" }, i);
+        tl.to(
+          cards[i - 1],
+          { autoAlpha: 0, y: mobile ? -14 : -18, duration: 0.55, ease: "power2.inOut" },
+          i,
+        );
         tl.fromTo(
           card,
-          { autoAlpha: 0, y: 28 },
-          { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" },
+          { autoAlpha: 0, y: mobile ? 22 : 28 },
+          { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" },
           i,
         );
       });

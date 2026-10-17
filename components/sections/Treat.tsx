@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -30,7 +30,7 @@ export function Treat() {
       const st = ScrollTrigger.create({
         trigger: section,
         start: "top top+=72",
-        end: () => `+=${Math.max(3600, Math.round(window.innerHeight * 8.4))}`,
+        end: () => `+=${Math.max(2800, Math.round(window.innerHeight * 5.6))}`,
         pin,
         pinSpacing: true,
         anticipatePin: 1,
@@ -78,7 +78,7 @@ export function Treat() {
             {items.map((item, i) => (
               <article
                 key={item.n}
-                className={`treat-pin__card ${i === stage ? "is-on" : ""}`}
+                className={`treat-pin__card ${i === stage ? "is-on animate-fade-up" : ""}`}
                 aria-hidden={i !== stage}
               >
                 <div className="treat-pin__meta">
@@ -87,8 +87,12 @@ export function Treat() {
                 </div>
                 <h3 className="treat-pin__title">{item.title}</h3>
                 <ol className="treat-pin__flow">
-                  {flow.map((key) => (
-                    <li key={key} className={`treat-step treat-step--${key}`}>
+                  {flow.map((key, si) => (
+                    <li
+                      key={key}
+                      className={`treat-step treat-step--${key}`}
+                      style={i === stage ? ({ ["--d" as string]: si } as CSSProperties) : undefined}
+                    >
                       <span className="treat-step__label">{content.treat.labels[key]}</span>
                       <p>{item[key]}</p>
                     </li>

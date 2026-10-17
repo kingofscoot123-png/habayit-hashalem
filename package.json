@@ -3,13 +3,17 @@
   "private": true,
   "homepage": "https://kingofscoot123-png.github.io/habayit-hashalem/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3000",
+    "dev:clean": "npx --yes kill-port 3000 && next dev --port 3000",
+    "dev:fresh": "npx --yes kill-port 3000 && npx --yes rimraf .next && next dev --port 3000",
     "build": "next build",
-    "start": "next start"
+    "start": "next start --port 3000",
+    "prod": "npm run build && npm run start"
   },
   "dependencies": {
     "gsap": "^3.13.0",
     "lenis": "^1.3.11",
+    "lucide-react": "^1.59.0",
     "next": "^15.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

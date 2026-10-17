@@ -1,47 +1,56 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { ArrowRight } from "lucide-react";
+import { HeroVideoLoop } from "@/components/HeroVideoLoop";
 import { content } from "@/content";
-import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+const HERO_VIDEO =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260820_010308_b1636845-4c15-4ab6-b0c9-9a29bfb0c6e3.mp4";
 
 const GOOGLE_RATING: number | null = null;
 const GOOGLE_REVIEWS_COUNT: number | null = null;
 const HAS_MICHAEL_PHOTO = false;
 
+const TRUST_MARKS = [
+  { label: "Access Bars", font: "font-playfair" },
+  { label: "NLP", font: "font-oswald uppercase tracking-[0.08em]" },
+  { label: "NLPP", font: "font-montserrat tracking-wide" },
+  { label: "TFT", font: "font-roboto-slab uppercase tracking-[0.06em]" },
+  { label: "TAT", font: "font-raleway tracking-wide" },
+] as const;
+
 export function Hero() {
-  const { reduced } = useMotionPrefs();
-  const [windowsOn, setWindowsOn] = useState(reduced);
-
-  useEffect(() => {
-    if (reduced) {
-      setWindowsOn(true);
-      return;
-    }
-    const onScroll = () => {
-      if (window.scrollY <= 40) return;
-      setWindowsOn(true);
-      window.removeEventListener("scroll", onScroll);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [reduced]);
-
   return (
     <header
       id="top"
       dir="rtl"
-      className={`hs-hero ${windowsOn ? "is-windows" : ""} ${reduced ? "is-static" : ""}`}
+      className="hs-hero hs-hero--video relative h-screen min-h-[700px] w-full overflow-hidden bg-brand-cream"
     >
-      <div className="hs-hero__inner">
-        <div className="hs-hero__copy">
-          <p className="hs-hero__kicker">מיכאל מרום, מטפל זוגי ורגשי, 13 שנה בראש העין</p>
-          <h1 className="hs-hero__title">
+      <div className="hs-hero__media absolute inset-0 overflow-hidden" data-hero-media aria-hidden="true">
+        <HeroVideoLoop src={HERO_VIDEO} className="md:object-bottom" />
+      </div>
+
+      <div className="relative z-[2] mx-auto flex h-full max-w-7xl flex-col justify-center px-6 pb-12 pt-28 md:pb-14 md:pt-36 lg:px-8">
+        <div className="hs-hero__copy min-w-0 font-sans">
+          <a
+            href={content.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-dark/15 bg-white/60 px-4 py-2 text-sm text-brand-dark backdrop-blur-sm transition-colors hover:bg-white/80 md:mb-6 animate-fade-up stagger-3"
+          >
+            מיכאל מרום, מטפל זוגי ורגשי, 13 שנה בראש העין
+            <ArrowRight className="h-3.5 w-3.5 shrink-0 rotate-180" aria-hidden="true" />
+          </a>
+
+          <h1 className="hs-hero__title font-display max-w-4xl text-start text-3xl leading-[1.08] tracking-tight text-brand-dark sm:text-4xl md:text-5xl lg:text-6xl animate-fade-up stagger-4">
             חוזרים לקרבה שהייתה לפני שהשיחות <span>נשברו</span>
           </h1>
-          <p className="hs-hero__sub">
+
+          <p className="hs-hero__sub mt-4 max-w-4xl text-start animate-fade-up stagger-4">
             טיפול זוגי ורגשי בגובה העיניים, בדיסקרטיות מלאה. אפשר להתחיל גם לבד.
           </p>
-          <div className="hs-hero__actions">
+
+          <div className="hs-hero__actions animate-fade-up stagger-5">
             <a
               href={content.whatsappHref}
               target="_blank"
@@ -60,49 +69,35 @@ export function Hero() {
               </svg>
               לשיחת היכרות בוואטסאפ
             </a>
-            <a href="tel:+972543534973" className="hs-hero__btn hs-hero__btn--tel">
-              להתקשר: 054-353-4973
+            <a href={content.phoneHref} className="hs-hero__btn hs-hero__btn--tel">
+              להתקשר: {content.phoneDisplay}
             </a>
           </div>
-          <div className="hs-hero__trust">
+
+          <div className="hs-hero__trust animate-fade-up stagger-5">
             {HAS_MICHAEL_PHOTO ? (
               <img src="/images/michael.jpg" alt="" width={48} height={48} className="hs-hero__photo" />
             ) : null}
-            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer">
-              סמדר 13, ראש העין
+            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address">
+              {content.address}
             </a>
             {GOOGLE_RATING != null && GOOGLE_REVIEWS_COUNT != null ? (
               <span className="hs-hero__rating">
                 דירוג {GOOGLE_RATING} בגוגל, {GOOGLE_REVIEWS_COUNT} ביקורות
               </span>
             ) : null}
+
+            <div className="hs-hero__creds">
+              <p className="hs-hero__creds-line">{content.hero.trust}</p>
+              <div className="hs-hero__creds-row">
+                {TRUST_MARKS.map((mark) => (
+                  <span key={mark.label} className={`hs-hero__cred ${mark.font}`}>
+                    {mark.label}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="hs-hero__art" aria-hidden="true">
-          <svg className="hs-house" viewBox="0 0 400 360" width="400" height="360">
-            <defs>
-              <filter id="hs-glow" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="5" />
-              </filter>
-            </defs>
-            <rect className="hs-glow hs-glow--win-r" x="228" y="196" width="46" height="46" rx="2" filter="url(#hs-glow)" />
-            <rect className="hs-glow hs-glow--win-l" x="126" y="196" width="46" height="46" rx="2" filter="url(#hs-glow)" />
-            <rect className="hs-glow hs-glow--door" x="174" y="236" width="52" height="84" rx="4" filter="url(#hs-glow)" />
-
-            <path data-draw style={{ "--i": 0 } as CSSProperties} pathLength="1" d="M24 318 H376" />
-            <path data-draw style={{ "--i": 1 } as CSSProperties} pathLength="1" d="M108 318 V178 H292 V318" />
-            <path data-draw style={{ "--i": 2 } as CSSProperties} pathLength="1" d="M88 178 L200 58 L312 178" />
-            <path data-draw style={{ "--i": 2 } as CSSProperties} pathLength="1" d="M238 99 V56 H266 V129" />
-            <path data-draw style={{ "--i": 3 } as CSSProperties} pathLength="1" d="M176 318 V252 A24 24 0 0 1 224 252 V318" />
-            <path
-              data-draw
-              style={{ "--i": 4 } as CSSProperties}
-              pathLength="1"
-              d="M128 198 H170 V240 H128 Z M149 198 V240 M128 219 H170 M230 198 H272 V240 H230 Z M251 198 V240 M230 219 H272"
-            />
-            <path data-draw style={{ "--i": 5 } as CSSProperties} pathLength="1" d="M88 178 H312" />
-          </svg>
         </div>
       </div>
     </header>

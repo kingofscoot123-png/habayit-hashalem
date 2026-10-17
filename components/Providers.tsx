@@ -20,14 +20,30 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
     if (!reduced) {
       const media = document.querySelector<HTMLElement>("[data-hero-media]");
-      if (media) {
+      const inner = media?.querySelector<HTMLElement>(".hs-hero__media-inner");
+      if (media && inner) {
+        gsap.set(inner, { transformOrigin: "50% 86%", force3D: true, scale: 1.012 });
+        gsap.to(inner, {
+          scale: 1.036,
+          duration: 68,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+        gsap.set(media, { transformOrigin: "50% 86%", force3D: true });
         gsap.fromTo(
           media,
-          { scale: 1.04 },
+          { y: 0 },
           {
-            scale: 1.08,
+            y: -12,
             ease: "none",
-            scrollTrigger: { trigger: "#top", start: "top top", end: "bottom top", scrub: 0.9 },
+            scrollTrigger: {
+              trigger: "#top",
+              start: "top top",
+              end: "bottom top",
+              scrub: 6.5,
+              invalidateOnRefresh: true,
+            },
           },
         );
       }
@@ -112,7 +128,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
       const scenes: { id: string; scene: string }[] = [
         { id: "#top", scene: "hero" },
-        { id: "#pain", scene: "calm" },
+        { id: "#about", scene: "calm" },
         { id: "#treat", scene: "treat" },
         { id: "#path", scene: "tools" },
         { id: "#who", scene: "warm" },

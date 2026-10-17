@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
+import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
+import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 const icons: Record<string, string> = {
   "שיטת NLP רפואי": "M12 3v18M4 12h16",
@@ -26,11 +28,21 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
 
 export function Methods() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const pauseRef = useRef(false);
+  const indexRef = useRef(0);
+  const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const items = content.methods.items;
   const current = items[active];
   const left = items.slice(0, 4);
   const right = items.slice(4);
+
+  const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
+    const track = trackRef.current;
+    const card = track?.querySelector<HTMLElement>(`[data-method-card="${i}"]`);
+    card?.scrollIntoView({ behavior, inline: "center", block: "nearest" });
+  };
 
   useEffect(() => {
     const track = trackRef.current;
@@ -39,12 +51,16 @@ export function Methods() {
     const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-method-card]"));
     const io = new IntersectionObserver(
       (entries) => {
+        if (pauseRef.current) return;
         const visible = entries
           .filter((entry) => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (!visible) return;
         const i = Number((visible.target as HTMLElement).dataset.methodCard);
-        if (!Number.isNaN(i)) setActive(i);
+        if (!Number.isNaN(i)) {
+          indexRef.current = i;
+          setActive(i);
+        }
       },
       { root: track, threshold: 0.55 },
     );
@@ -53,20 +69,46 @@ export function Methods() {
     return () => io.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (reduced) return;
+    const mobile = window.matchMedia("(max-width: 767px)");
+    if (!mobile.matches) return;
+
+    const section = sectionRef.current;
+    const tick = window.setInterval(() => {
+      if (pauseRef.current || !mobile.matches) return;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      if (rect.top > window.innerHeight * 0.9 || rect.bottom < window.innerHeight * 0.1) return;
+
+      const next = (indexRef.current + 1) % items.length;
+      indexRef.current = next;
+      setActive(next);
+      scrollToCard(next);
+    }, 4000);
+
+    return () => window.clearInterval(tick);
+  }, [reduced, items.length]);
+
   const goTo = (i: number) => {
+    pauseRef.current = true;
+    indexRef.current = i;
     setActive(i);
-    const track = trackRef.current;
-    const card = track?.querySelector<HTMLElement>(`[data-method-card="${i}"]`);
-    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    scrollToCard(i);
+    window.setTimeout(() => {
+      pauseRef.current = false;
+    }, 6000);
   };
 
   return (
-    <section id="path" className="kit-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="path" ref={sectionRef} className="kit-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">
           <AccentLead text={content.methods.title} />
         </h2>
-        <p className="mt-3 text-caption text-ink-soft">{content.methods.hint}</p>
+        <p className="mt-3 text-caption methods-copy-soft">
+          <HighlightCopy text={content.methods.hint} />
+        </p>
       </div>
 
       <div className="kit-core kit-core--mobile" aria-hidden="true">
@@ -92,7 +134,9 @@ export function Methods() {
                 <MethodIcon name={item.name} />
               </span>
               <h3>{item.name}</h3>
-              <p>{item.body}</p>
+              <p className="methods-copy-soft">
+                <HighlightCopy text={item.body} />
+              </p>
             </article>
           ))}
         </div>
@@ -120,7 +164,9 @@ export function Methods() {
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
-                <p>{item.body}</p>
+                <p className="methods-copy-soft">
+                  <HighlightCopy text={item.body} />
+                </p>
               </article>
             );
           })}
@@ -139,7 +185,9 @@ export function Methods() {
               <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
-            <p>{item.body}</p>
+            <p className="methods-copy-soft">
+              <HighlightCopy text={item.body} />
+            </p>
           </article>
         ))}
       </div>

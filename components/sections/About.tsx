@@ -1,21 +1,26 @@
 import { AccentLead } from "@/components/AccentLead";
+import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
 
 export function About() {
   return (
-    <section id="who" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="who" className="about-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto max-w-3xl" data-reveal>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">{content.who.title}</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#047857]">{content.who.title}</p>
         <h2 className="text-h2">
           <AccentLead text={content.who.name} />
         </h2>
-        <p className="mt-4 text-lead">{content.who.role}</p>
-        <p className="mt-2 text-body text-ink-soft">{content.who.years}</p>
+        <p className="about-copy-soft mt-4 text-lead">
+          <HighlightCopy text={content.who.role} />
+        </p>
+        <p className="about-copy-soft mt-2 text-body">
+          <HighlightCopy text={content.who.years} />
+        </p>
       </div>
       <div className="mx-auto mt-8 max-w-3xl space-y-5" data-reveal>
         {content.who.paragraphs.map((p) => (
-          <p key={p} className="text-body text-[var(--hs-ink)]">
-            {p}
+          <p key={p} className="about-copy-soft text-body text-[var(--hs-ink)]">
+            <HighlightCopy text={p} />
           </p>
         ))}
       </div>
@@ -25,11 +30,11 @@ export function About() {
           href={content.mapsHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-block text-lead transition hover:text-accent"
+          className="mt-2 inline-block text-lead transition hover:text-[#047857]"
         >
           {content.address}
         </a>
-        <a href={content.phoneHref} className="mt-3 block text-body text-accent">
+        <a href={content.phoneHref} className="mt-3 block text-body text-[#78350F]">
           {content.phoneDisplay}
         </a>
       </div>
