@@ -23,9 +23,14 @@ export function Hero() {
         <HeroVideoLoop src={HERO_VIDEO} />
       </div>
 
-      <div className="relative z-[2] mx-auto flex h-full max-w-7xl flex-col justify-center px-6 pb-12 pt-28 md:pb-14 md:pt-36 lg:px-8">
+      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col justify-start px-6 pb-28 pt-[5.75rem] sm:pt-28 md:max-w-none md:pb-32 md:pt-32 md:ps-14 md:pe-24 lg:pt-36">
         <div className="hs-hero__copy min-w-0 font-sans">
-          <h1 className="hs-hero__title font-display max-w-4xl text-start text-3xl leading-[1.08] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl animate-fade-up stagger-4">
+          <p className="hs-hero__kicker animate-fade-up stagger-3">
+            {content.person}
+            <span aria-hidden="true"> · </span>
+            מטפל בכיר זוגי ורגשי
+          </p>
+          <h1 className="hs-hero__title font-display text-start text-[2.05rem] leading-[1.14] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.85rem] animate-fade-up stagger-4">
             חוזרים לקרבה שהייתה לפני שהשיחות <span>נשברו</span>
           </h1>
 
@@ -78,7 +83,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-36 bg-gradient-to-b from-transparent to-brand-cream" />
+      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF8F5]/70 to-[#FAF8F5]" />
     </header>
   );
 }

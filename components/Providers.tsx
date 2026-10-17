@@ -24,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       const heroDesktop = window.matchMedia("(min-width: 768px)").matches;
 
       if (media && inner) {
-        const origin = heroDesktop ? "50% 86%" : "50% 100%";
+        const origin = "50% 74%";
         gsap.set(inner, { transformOrigin: origin, force3D: true, scale: 1 });
         if (heroDesktop) {
           gsap.to(inner, {
