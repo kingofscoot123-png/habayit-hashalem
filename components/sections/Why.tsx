@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -9,11 +9,12 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const STEP_MS = 3000;
+
 export function Why() {
   const items = content.why.items;
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
-  const snapRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
   const pauseRef = useRef(false);
   const { reduced } = useMotionPrefs();
@@ -32,7 +33,7 @@ export function Why() {
     setStep(i);
     window.setTimeout(() => {
       pauseRef.current = false;
-    }, 9000);
+    }, STEP_MS * 4);
   };
 
   useLayoutEffect(() => {
@@ -40,18 +41,18 @@ export function Why() {
     const pin = pinRef.current;
     if (!section || !pin || reduced) return;
 
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    const endDistance = mobile
-      ? Math.round(window.innerHeight * (1.8 + items.length * 0.35))
-      : Math.round(window.innerHeight * (2.2 + items.length * 0.45));
+    const desktop = window.matchMedia("(min-width: 768px)").matches;
+    if (!desktop) return;
+
+    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: section,
-        start: mobile ? "top top+=72" : "top top+=80",
+        start: "top top+=80",
         end: `+=${endDistance}`,
         pin,
-        scrub: mobile ? 1.1 : 1.25,
+        scrub: 1.25,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -65,26 +66,25 @@ export function Why() {
     return () => ctx.revert();
   }, [reduced, items.length]);
 
-  useLayoutEffect(() => {
-    const snap = snapRef.current;
-    if (!snap || reduced) return;
+  useEffect(() => {
+    if (reduced) return;
+    const mobile = window.matchMedia("(max-width: 767px)");
+    if (!mobile.matches) return;
 
-    const slides = Array.from(snap.querySelectorAll<HTMLElement>("[data-why-slide]"));
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (pauseRef.current) return;
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        const i = Number((visible.target as HTMLElement).dataset.whySlide);
-        if (!Number.isNaN(i)) setStep(i);
-      },
-      { root: snap, threshold: 0.62 },
-    );
-    slides.forEach((s) => io.observe(s));
-    return () => io.disconnect();
-  }, [reduced]);
+    const section = sectionRef.current;
+    const tick = window.setInterval(() => {
+      if (pauseRef.current) return;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.12;
+      if (!inView) return;
+
+      const next = (indexRef.current + 1) % items.length;
+      setStep(next);
+    }, STEP_MS);
+
+    return () => window.clearInterval(tick);
+  }, [reduced, items.length]);
 
   return (
     <section id="why" ref={sectionRef} className="why-radar px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
@@ -133,7 +133,7 @@ export function Why() {
           </div>
 
           <div className="why-radar__copy">
-            <article key={active} className="why-depth is-on">
+            <article key={active} className="why-depth why-depth--active is-on">
               <span className="why-depth__n">{stepLabel}</span>
               <h3>{current.title}</h3>
               <p>{current.body}</p>
@@ -154,20 +154,6 @@ export function Why() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div ref={snapRef} className="why-snap" role="region" aria-label={content.why.title}>
-        {items.map((item, i) => (
-          <article
-            key={item.title}
-            data-why-slide={i}
-            className={`why-depth why-depth--slide ${i === active ? "is-on" : ""}`}
-          >
-            <span className="why-depth__n">{String(i + 1).padStart(2, "0")}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))}
       </div>
 
       <div className="why-mobile-dots method-dots" role="tablist" aria-label={content.why.title}>

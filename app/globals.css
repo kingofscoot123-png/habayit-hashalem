@@ -508,18 +508,75 @@ h3,
   font-weight: 600;
 }
 
-.methods-copy-soft,
+.methods-copy-soft {
+  color: #18181b;
+}
+
+.about-section .text-h2,
+.about-section .text-lead {
+  color: #1e3a2b;
+}
+
 .about-copy-soft {
-  color: #5c665f;
+  color: #18181b;
+}
+
+.about-section .text-xs.uppercase {
+  color: #047857;
 }
 
 .hs-hero__video {
-  object-position: center 58%;
+  object-position: center bottom;
 }
 
 @media (min-width: 768px) {
-  .hs-hero__video {
-    object-position: center bottom;
+  .hs-hero__media.is-mobile-static,
+  .hs-hero__media-inner.is-mobile-static {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .hs-hero__media,
+  .hs-hero__media-inner {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .hs-hero--video::before {
+    background:
+      linear-gradient(to left, rgba(24, 24, 27, 0.82) 0%, rgba(24, 24, 27, 0.52) 38%, rgba(24, 24, 27, 0.22) 62%, transparent 82%),
+      linear-gradient(to top, rgba(24, 24, 27, 0.55) 0%, transparent 42%);
+  }
+
+  .hs-hero--video .hs-hero__title {
+    color: #faf8f5;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+  }
+
+  .hs-hero--video .hs-hero__title span {
+    color: #d4af37;
+  }
+
+  .hs-hero--video .hs-hero__sub {
+    color: rgba(250, 248, 245, 0.92);
+  }
+
+  .hs-hero__creds-line {
+    color: #faf8f5;
+  }
+
+  .hs-hero__cred {
+    color: #d4af37;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  }
+
+  .hs-hero__cred.font-playfair {
+    color: #faf8f5;
+  }
+
+  .hs-hero__address {
+    color: #d4af37;
   }
 }
 
@@ -3958,25 +4015,54 @@ h3,
   cursor: pointer;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 767px) {
   .why-compass {
-    width: min(100%, 248px);
+    width: min(100%, 260px);
   }
 
-  .why-radar__copy .why-depth:not(.why-depth--slide) {
-    display: none;
+  .why-radar__stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .why-radar__copy {
+    width: 100%;
+    max-width: 100%;
   }
 
   .why-snap {
-    display: flex;
+    display: none;
+  }
+
+  .why-depth--active {
+    animation: whyCardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
   .why-depth {
-    padding: 16px 16px 14px;
+    padding: 18px 18px 16px;
   }
 
   .why-depth h3 {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
+  }
+}
+
+@keyframes whyCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .why-snap {
+    display: none;
   }
 }
 

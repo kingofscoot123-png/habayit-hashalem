@@ -21,7 +21,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     if (!reduced) {
       const media = document.querySelector<HTMLElement>("[data-hero-media]");
       const inner = media?.querySelector<HTMLElement>(".hs-hero__media-inner");
-      if (media && inner) {
+      const heroMotion = window.matchMedia("(min-width: 768px)").matches;
+
+      if (media && inner && heroMotion) {
         gsap.set(inner, { transformOrigin: "50% 86%", force3D: true, scale: 1.012 });
         gsap.to(inner, {
           scale: 1.036,
@@ -46,6 +48,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
             },
           },
         );
+      } else if (media && inner) {
+        gsap.set([media, inner], { scale: 1, y: 0, clearProps: "transform" });
+        media.classList.add("is-mobile-static");
+        inner.classList.add("is-mobile-static");
       }
 
       gsap.utils.toArray<HTMLElement>("[data-reveal-word]").forEach((el, i) => {

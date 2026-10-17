@@ -55,13 +55,13 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     };
   }, [src]);
 
-  const videoClass = `${className} absolute inset-0 h-full w-full object-cover transition-opacity duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)]`;
+  const videoClass = `hs-hero__video absolute inset-0 h-full w-full object-cover transition-opacity duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${className}`;
 
   return (
     <div className="hs-hero__media-inner relative h-full w-full overflow-hidden">
       <video
         ref={v0}
-        className={`${videoClass} hs-hero__video ${front === 0 ? "opacity-100" : "opacity-0"}`}
+        className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
         src={src}
         muted
         playsInline
@@ -69,7 +69,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       />
       <video
         ref={v1}
-        className={`${videoClass} hs-hero__video ${front === 1 ? "opacity-100" : "opacity-0"}`}
+        className={`${videoClass} ${front === 1 ? "opacity-100" : "opacity-0"}`}
         src={src}
         muted
         playsInline

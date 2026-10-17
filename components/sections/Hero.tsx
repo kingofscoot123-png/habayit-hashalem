@@ -27,7 +27,7 @@ export function Hero() {
       className="hs-hero hs-hero--video relative h-screen min-h-[700px] w-full overflow-hidden bg-brand-cream"
     >
       <div className="hs-hero__media absolute inset-0 overflow-hidden" data-hero-media aria-hidden="true">
-        <HeroVideoLoop src={HERO_VIDEO} className="md:object-bottom" />
+        <HeroVideoLoop src={HERO_VIDEO} />
       </div>
 
       <div className="relative z-[2] mx-auto flex h-full max-w-7xl flex-col justify-center px-6 pb-12 pt-28 md:pb-14 md:pt-36 lg:px-8">
