@@ -22,9 +22,9 @@ export function TreatHouse({ stage }: TreatHouseProps) {
       <svg className="treat-house__svg" viewBox="0 0 400 380" width="400" height="380">
         <defs>
           <linearGradient id="th-roof" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#8B5A2B" />
-            <stop offset="55%" stopColor="#7C4A2D" />
-            <stop offset="100%" stopColor="#5E3822" />
+            <stop offset="0%" stopColor="#1E3A2B" />
+            <stop offset="55%" stopColor="#2D3A2E" />
+            <stop offset="100%" stopColor="#163024" />
           </linearGradient>
           <linearGradient id="th-wall" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#FAF8F5" />
@@ -41,7 +41,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
 
         <g filter="url(#th-soft)">
           <rect data-build="1" className="treat-house__base" x="74" y="318" width="252" height="10" rx="2" fill="#2D3A2E" opacity="0.94" />
-          <line data-build="1" x1="82" y1="328" x2="318" y2="328" stroke="rgba(124,74,45,0.35)" strokeWidth="1.2" />
+          <line data-build="1" x1="82" y1="328" x2="318" y2="328" stroke="rgba(30,58,43,0.35)" strokeWidth="1.2" />
 
           <path
             data-build="1"
@@ -66,14 +66,14 @@ export function TreatHouse({ stage }: TreatHouseProps) {
           <path
             data-build="2"
             d={`M${doorX} 318 V264 Q${doorX} 254 ${cx} 254 Q${doorX + doorW} 254 ${doorX + doorW} 264 V318 Z`}
-            fill="#7C4A2D"
+            fill="#1E3A2B"
             stroke="#2D3A2E"
             strokeWidth="1.5"
           />
           <path
             data-build="2"
             d={`M${doorX + 5} 318 V268 Q${doorX + 5} 260 ${cx} 260 Q${doorX + doorW - 5} 260 ${doorX + doorW - 5} 268 V318 Z`}
-            fill="#8B5A2B"
+            fill="#047857"
             opacity="0.32"
           />
           <circle data-build="2" cx={doorX + doorW - 8} cy="287" r="2.5" fill="#C5A059" />
@@ -104,7 +104,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
           />
           <path
             data-build="3"
-            stroke="rgba(124,74,45,0.45)"
+            stroke="rgba(30,58,43,0.45)"
             strokeWidth="0.9"
             fill="none"
             d={`M${winLeft + winSize / 2} ${winY} V${winY + winSize} M${winLeft} ${winY + winSize / 2} H${winLeft + winSize} M${winRight + winSize / 2} ${winY} V${winY + winSize} M${winRight} ${winY + winSize / 2} H${winRight + winSize}`}

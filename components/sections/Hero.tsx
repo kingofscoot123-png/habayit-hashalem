@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
 import { HeroVideoLoop } from "@/components/HeroVideoLoop";
 import { content } from "@/content";
 
@@ -11,13 +10,7 @@ const GOOGLE_RATING: number | null = null;
 const GOOGLE_REVIEWS_COUNT: number | null = null;
 const HAS_MICHAEL_PHOTO = false;
 
-const TRUST_MARKS = [
-  { label: "Access Bars", font: "font-playfair" },
-  { label: "NLP", font: "font-oswald uppercase tracking-[0.08em]" },
-  { label: "NLPP", font: "font-montserrat tracking-wide" },
-  { label: "TFT", font: "font-roboto-slab uppercase tracking-[0.06em]" },
-  { label: "TAT", font: "font-raleway tracking-wide" },
-] as const;
+const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 export function Hero() {
   return (
@@ -32,23 +25,9 @@ export function Hero() {
 
       <div className="relative z-[2] mx-auto flex h-full max-w-7xl flex-col justify-center px-6 pb-12 pt-28 md:pb-14 md:pt-36 lg:px-8">
         <div className="hs-hero__copy min-w-0 font-sans">
-          <a
-            href={content.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-dark/15 bg-white/60 px-4 py-2 text-sm text-brand-dark backdrop-blur-sm transition-colors hover:bg-white/80 md:mb-6 animate-fade-up stagger-3"
-          >
-            מיכאל מרום, מטפל זוגי ורגשי, 13 שנה בראש העין
-            <ArrowRight className="h-3.5 w-3.5 shrink-0 rotate-180" aria-hidden="true" />
-          </a>
-
-          <h1 className="hs-hero__title font-display max-w-4xl text-start text-3xl leading-[1.08] tracking-tight text-brand-dark sm:text-4xl md:text-5xl lg:text-6xl animate-fade-up stagger-4">
+          <h1 className="hs-hero__title font-display max-w-4xl text-start text-3xl leading-[1.08] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl animate-fade-up stagger-4">
             חוזרים לקרבה שהייתה לפני שהשיחות <span>נשברו</span>
           </h1>
-
-          <p className="hs-hero__sub mt-4 max-w-4xl text-start animate-fade-up stagger-4">
-            טיפול זוגי ורגשי בגובה העיניים, בדיסקרטיות מלאה. אפשר להתחיל גם לבד.
-          </p>
 
           <div className="hs-hero__actions animate-fade-up stagger-5">
             <a
@@ -88,11 +67,10 @@ export function Hero() {
             ) : null}
 
             <div className="hs-hero__creds">
-              <p className="hs-hero__creds-line">{content.hero.trust}</p>
               <div className="hs-hero__creds-row">
                 {TRUST_MARKS.map((mark) => (
-                  <span key={mark.label} className={`hs-hero__cred ${mark.font}`}>
-                    {mark.label}
+                  <span key={mark} className="hs-hero__cred">
+                    {mark}
                   </span>
                 ))}
               </div>

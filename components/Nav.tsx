@@ -34,11 +34,20 @@ export function Nav() {
   return (
     <>
       <nav
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "bg-brand-cream/90 shadow-sm backdrop-blur-md" : "bg-transparent"
+        className={`site-nav fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled ? "site-nav--scrolled bg-brand-cream/90 shadow-sm backdrop-blur-md" : "bg-transparent"
         }`}
       >
-        <div className="relative mx-auto flex h-16 max-w-7xl items-center px-6 md:h-20 lg:px-8">
+        <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-6 lg:px-8">
+          <a
+            href="#top"
+            className="relative z-10 flex min-w-0 items-center md:absolute md:left-1/2 md:-translate-x-1/2"
+            aria-label={content.brand}
+            onClick={closeMenu}
+          >
+            <Logo className="scale-90 md:scale-100" />
+          </a>
+
           <div className="hidden items-center gap-8 md:flex">
             <a
               href={NAV_LINKS[0].href}
@@ -62,15 +71,6 @@ export function Nav() {
           </div>
 
           <a
-            href="#top"
-            className="absolute left-1/2 flex -translate-x-1/2 items-center animate-fade-down stagger-2"
-            aria-label={content.brand}
-            onClick={closeMenu}
-          >
-            <Logo className="scale-90 md:scale-100" />
-          </a>
-
-          <a
             href={content.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
@@ -81,18 +81,18 @@ export function Nav() {
 
           <button
             type="button"
-            className="relative z-50 ms-auto h-10 w-10 md:hidden"
+            className="relative z-50 h-10 w-10 shrink-0 md:hidden"
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
           >
             <span
-              className={`absolute left-1/2 top-[6px] h-[2px] w-6 -translate-x-1/2 rounded bg-brand-dark transition-all duration-300 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] ${
+              className={`site-nav__bar absolute left-1/2 top-[6px] h-[2px] w-6 -translate-x-1/2 rounded transition-all duration-300 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] ${
                 menuOpen ? "translate-y-[5px] rotate-45" : ""
               }`}
             />
             <span
-              className={`absolute left-1/2 top-[13px] h-[2px] w-6 -translate-x-1/2 rounded bg-brand-dark transition-all duration-300 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] ${
+              className={`site-nav__bar absolute left-1/2 top-[13px] h-[2px] w-6 -translate-x-1/2 rounded transition-all duration-300 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] ${
                 menuOpen ? "-rotate-45" : ""
               }`}
             />

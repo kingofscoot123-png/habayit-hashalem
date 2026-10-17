@@ -24,10 +24,10 @@ export function Logo({ className = "" }: { className?: string }) {
         <circle cx="24" cy="24.4" r="2.3" fill="#0b0f19" />
       </svg>
       <span className="min-w-0">
-        <span className="block font-display text-lg font-medium leading-none tracking-[0.02em] text-brand-dark">
+        <span className="logo-word block font-display text-lg font-medium leading-none tracking-[0.02em]">
           הבית השלם
         </span>
-        <span className="text-[10px] font-bold tracking-[0.18em] text-[var(--hs-muted)]">מיכאל מרום</span>
+        <span className="logo-sub text-[10px] font-bold tracking-[0.18em]">מיכאל מרום</span>
       </span>
     </span>
   );

@@ -100,7 +100,6 @@ export function Methods() {
           if (i === indexRef.current) return;
           indexRef.current = i;
           setActive(i);
-          scrollToCard(i, "auto");
         },
       });
     }, section);
@@ -142,6 +141,16 @@ export function Methods() {
         </div>
         <p className="kit-core__name">{current.name}</p>
       </div>
+      <article className="method-card method-card--open method-card--pinned is-hot">
+        <span className="method-card__tag">{String(active + 1).padStart(2, "0")}</span>
+        <span className="method-card__icon" aria-hidden="true">
+          <MethodIcon name={current.name} />
+        </span>
+        <h3>{current.name}</h3>
+        <p className="methods-copy-soft">
+          <HighlightCopy text={current.body} />
+        </p>
+      </article>
 
       <div className="kit-desk">
         <div className="kit-desk__col">

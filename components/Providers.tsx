@@ -24,28 +24,30 @@ export function Providers({ children }: { children: React.ReactNode }) {
       const heroDesktop = window.matchMedia("(min-width: 768px)").matches;
 
       if (media && inner) {
-        const origin = heroDesktop ? "50% 86%" : "50% 80%";
-        gsap.set(inner, { transformOrigin: origin, force3D: true, scale: heroDesktop ? 1.008 : 1.004 });
-        gsap.to(inner, {
-          scale: heroDesktop ? 1.018 : 1.01,
-          duration: 170,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: -1,
-        });
+        const origin = heroDesktop ? "50% 86%" : "50% 100%";
+        gsap.set(inner, { transformOrigin: origin, force3D: true, scale: 1 });
+        if (heroDesktop) {
+          gsap.to(inner, {
+            scale: 1.018,
+            duration: 170,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+          });
+        }
         gsap.set(media, { transformOrigin: origin, force3D: true });
         gsap.fromTo(
           media,
           { y: 0, scale: 1 },
           {
-            y: heroDesktop ? -5 : -3,
-            scale: heroDesktop ? 1.012 : 1.008,
+            y: heroDesktop ? -3 : -1,
+            scale: heroDesktop ? 1.005 : 1.002,
             ease: "none",
             scrollTrigger: {
               trigger: "#top",
               start: "top top",
               end: "bottom top",
-              scrub: 10.4,
+              scrub: heroDesktop ? 16 : 22,
               invalidateOnRefresh: true,
             },
           },

@@ -40,7 +40,7 @@ export function Treat() {
     const ctx = gsap.context(() => {
       const st = ScrollTrigger.create({
         trigger: section,
-        start: mobile ? "top top+=64" : "top top+=72",
+        start: mobile ? "top top" : "top top+=72",
         end: `+=${endDistance}`,
         pin,
         pinSpacing: true,

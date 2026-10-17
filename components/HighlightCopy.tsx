@@ -2,11 +2,11 @@ import { Fragment, type ReactNode } from "react";
 
 const PHRASES: { text: string; className: string }[] = [
   { text: "מיכאל מרום", className: "copy-accent copy-accent--olive" },
-  { text: "מטפל בכיר", className: "copy-accent copy-accent--chestnut" },
+  { text: "מטפל בכיר", className: "copy-accent copy-accent--olive" },
   { text: "מטפל זוגי", className: "copy-accent copy-accent--olive" },
-  { text: "מטפל בכיר זוגי ורגשי", className: "copy-accent copy-accent--chestnut" },
+  { text: "מטפל בכיר זוגי ורגשי", className: "copy-accent copy-accent--olive" },
   { text: "שיטות טיפול", className: "copy-accent copy-accent--olive" },
-  { text: "ארגז הכלים", className: "copy-accent copy-accent--chestnut" },
+  { text: "ארגז הכלים", className: "copy-accent copy-accent--olive" },
 ];
 
 export function HighlightCopy({ text }: { text: string }) {

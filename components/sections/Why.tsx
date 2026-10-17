@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -9,11 +9,14 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const STEP_MS = 3000;
+
 export function Why() {
   const items = content.why.items;
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
+  const pauseRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const angle = active * (360 / items.length);
@@ -26,34 +29,38 @@ export function Why() {
   };
 
   const pick = (i: number) => {
+    pauseRef.current = true;
     setStep(i);
-    const section = sectionRef.current;
-    if (!section || reduced) return;
     const st = ScrollTrigger.getById("why-pin");
-    if (!st) return;
-    const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
-    window.scrollTo({ top: y, behavior: "smooth" });
+    if (st) {
+      const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+    window.setTimeout(() => {
+      pauseRef.current = false;
+    }, STEP_MS * 3);
   };
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin || reduced) return;
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
 
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    const endDistance = Math.round(window.innerHeight * (mobile ? 3.2 : 2.2 + items.length * 0.45));
+    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         id: "why-pin",
         trigger: section,
-        start: mobile ? "top top+=64" : "top top+=80",
+        start: "top top+=80",
         end: `+=${endDistance}`,
         pin,
-        scrub: mobile ? 0.7 : 1.25,
+        scrub: 1.25,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
+          if (pauseRef.current) return;
           const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
           if (i !== indexRef.current) setStep(i);
         },
@@ -61,6 +68,34 @@ export function Why() {
     }, section);
 
     return () => ctx.revert();
+  }, [reduced, items.length]);
+
+  useEffect(() => {
+    if (reduced) return;
+
+    const section = sectionRef.current;
+    let tick: number | undefined;
+    const mq = window.matchMedia("(max-width: 767px)");
+
+    const setup = () => {
+      if (tick) window.clearInterval(tick);
+      tick = undefined;
+      if (!mq.matches) return;
+      tick = window.setInterval(() => {
+        if (pauseRef.current || !section) return;
+        const rect = section.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 48;
+        if (!inView) return;
+        setStep((indexRef.current + 1) % items.length);
+      }, STEP_MS);
+    };
+
+    setup();
+    mq.addEventListener("change", setup);
+    return () => {
+      if (tick) window.clearInterval(tick);
+      mq.removeEventListener("change", setup);
+    };
   }, [reduced, items.length]);
 
   return (
@@ -77,23 +112,22 @@ export function Why() {
       <div ref={pinRef} className="why-radar__pin">
         <div className="why-radar__stage">
           <div className="why-compass" style={{ ["--why-rot" as string]: `${reduced ? 0 : angle}deg` }}>
-            <div className="why-compass__halo" />
             <svg className="why-compass__svg" viewBox="0 0 320 320" aria-hidden="true">
               <defs>
                 <linearGradient id="why-ring" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#047857" />
-                  <stop offset="100%" stopColor="#78350F" />
+                  <stop offset="0%" stopColor="#1E3A2B" />
+                  <stop offset="100%" stopColor="#C5A059" />
                 </linearGradient>
               </defs>
               <g className="why-compass__spin why-compass__spin--a">
-                <circle cx="160" cy="160" r="118" fill="none" stroke="url(#why-ring)" strokeWidth="1.2" strokeDasharray="6 10" opacity="0.5" />
+                <circle cx="160" cy="160" r="118" fill="none" stroke="url(#why-ring)" strokeWidth="1.2" strokeDasharray="6 10" opacity="0.45" />
               </g>
               <g className="why-compass__spin why-compass__spin--b">
-                <circle cx="160" cy="160" r="92" fill="none" stroke="rgba(4,120,87,0.35)" strokeWidth="1.4" />
+                <circle cx="160" cy="160" r="92" fill="none" stroke="rgba(45,58,46,0.28)" strokeWidth="1.4" />
               </g>
-              <circle cx="160" cy="160" r="54" fill="rgba(250,248,245,0.88)" stroke="rgba(45,58,46,0.45)" strokeWidth="1.6" />
-              <circle cx="160" cy="160" r="8" fill="#2D3A2E" />
-              <path className="why-compass__needle" d="M160 86 L168 160 L160 148 L152 160 Z" fill="#78350F" />
+              <circle cx="160" cy="160" r="54" fill="none" stroke="rgba(45,58,46,0.35)" strokeWidth="1.4" />
+              <circle cx="160" cy="160" r="8" fill="#1E3A2B" />
+              <path className="why-compass__needle" d="M160 86 L168 160 L160 148 L152 160 Z" fill="#C5A059" />
               {items.map((_, i) => {
                 const stepAngle = (360 / items.length) * i;
                 const a = ((stepAngle - 90) * Math.PI) / 180;

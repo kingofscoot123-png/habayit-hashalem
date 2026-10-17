@@ -34,7 +34,7 @@ export function About() {
         >
           {content.address}
         </a>
-        <a href={content.phoneHref} className="mt-3 block text-body text-[#78350F]">
+        <a href={content.phoneHref} className="mt-3 block text-body text-[#047857]">
           {content.phoneDisplay}
         </a>
       </div>
