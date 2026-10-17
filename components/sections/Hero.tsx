@@ -34,7 +34,7 @@ export function Hero() {
     >
       <div className="hs-hero__inner">
         <div className="hs-hero__copy">
-          <p className="hs-hero__kicker">מיכאל מרום · מטפל זוגי ורגשי · 13 שנה בראש העין</p>
+          <p className="hs-hero__kicker">מיכאל מרום, מטפל זוגי ורגשי, 13 שנה בראש העין</p>
           <h1 className="hs-hero__title">
             חוזרים לקרבה שהייתה לפני שהשיחות <span>נשברו</span>
           </h1>

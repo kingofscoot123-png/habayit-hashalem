@@ -34,7 +34,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" className={`${rubik.variable} ${frank.variable} ${rubik.className}`}>
+    <html lang="he" dir="rtl" data-scene="hero" className={`${rubik.variable} ${frank.variable} ${rubik.className}`}>
       <body className={`${rubik.className} font-sans antialiased`}>
         <SiteBackdrop />
         <div className="relative z-10">

@@ -110,6 +110,33 @@ export function Providers({ children }: { children: React.ReactNode }) {
         });
       });
 
+      const scenes: { id: string; scene: string }[] = [
+        { id: "#top", scene: "hero" },
+        { id: "#pain", scene: "calm" },
+        { id: "#treat", scene: "treat" },
+        { id: "#path", scene: "tools" },
+        { id: "#who", scene: "warm" },
+        { id: "#why", scene: "trust" },
+        { id: "#credentials", scene: "trust" },
+        { id: "#assessment", scene: "warm" },
+      ];
+
+      const setScene = (scene: string) => {
+        document.documentElement.dataset.scene = scene;
+      };
+
+      scenes.forEach(({ id, scene }) => {
+        const trigger = document.querySelector(id);
+        if (!trigger) return;
+        ScrollTrigger.create({
+          trigger,
+          start: "top 55%",
+          end: "bottom 45%",
+          onEnter: () => setScene(scene),
+          onEnterBack: () => setScene(scene),
+        });
+      });
+
       gsap.utils.toArray<HTMLElement>("[data-depth]").forEach((el) => {
         gsap.fromTo(
           el,

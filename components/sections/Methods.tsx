@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 
@@ -13,26 +16,144 @@ const icons: Record<string, string> = {
   "שיטת EMDR": "M4 8h16M4 16h16",
 };
 
-export function Methods() {
+function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
   return (
-    <section id="path" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d={icons[name] || "M12 5v14M5 12h14"} />
+    </svg>
+  );
+}
+
+export function Methods() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const items = content.methods.items;
+  const current = items[active];
+  const left = items.slice(0, 4);
+  const right = items.slice(4);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-method-card]"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const i = Number((visible.target as HTMLElement).dataset.methodCard);
+        if (!Number.isNaN(i)) setActive(i);
+      },
+      { root: track, threshold: 0.55 },
+    );
+
+    cards.forEach((card) => io.observe(card));
+    return () => io.disconnect();
+  }, []);
+
+  const goTo = (i: number) => {
+    setActive(i);
+    const track = trackRef.current;
+    const card = track?.querySelector<HTMLElement>(`[data-method-card="${i}"]`);
+    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  return (
+    <section id="path" className="kit-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">
           <AccentLead text={content.methods.title} />
         </h2>
         <p className="mt-3 text-caption text-ink-soft">{content.methods.hint}</p>
       </div>
-      <div className="method-grid mx-auto max-w-5xl" data-stagger>
-        {content.methods.items.map((item) => (
-          <article key={item.name} className="method-card method-card--open">
+
+      <div className="kit-core kit-core--mobile" aria-hidden="true">
+        <div className="kit-core__glow" />
+        <div className="kit-core__orb" data-kit={active}>
+          <MethodIcon name={current.name} size={36} />
+        </div>
+        <p className="kit-core__name">{current.name}</p>
+      </div>
+
+      <div className="kit-desk">
+        <div className="kit-desk__col">
+          {left.map((item, i) => (
+            <article
+              key={item.name}
+              className={`method-card kit-card ${active === i ? "is-hot" : ""}`}
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => setActive(i)}
+              onClick={() => setActive(i)}
+            >
+              <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
+              <span className="method-card__icon">
+                <MethodIcon name={item.name} />
+              </span>
+              <h3>{item.name}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+        <div className="kit-core kit-core--desk" aria-hidden="true">
+          <div className="kit-core__glow" />
+          <div className="kit-core__orb" data-kit={active}>
+            <MethodIcon name={current.name} size={42} />
+          </div>
+          <p className="kit-core__kicker">{content.methods.core}</p>
+          <p className="kit-core__name">{current.name}</p>
+        </div>
+        <div className="kit-desk__col">
+          {right.map((item, i) => {
+            const idx = i + 4;
+            return (
+              <article
+                key={item.name}
+                className={`method-card kit-card ${active === idx ? "is-hot" : ""}`}
+                onMouseEnter={() => setActive(idx)}
+                onFocus={() => setActive(idx)}
+                onClick={() => setActive(idx)}
+              >
+                <span className="method-card__tag">{String(idx + 1).padStart(2, "0")}</span>
+                <span className="method-card__icon">
+                  <MethodIcon name={item.name} />
+                </span>
+                <h3>{item.name}</h3>
+                <p>{item.body}</p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div ref={trackRef} className="method-grid method-grid--snap mx-auto max-w-5xl">
+        {items.map((item, i) => (
+          <article
+            key={item.name}
+            className={`method-card method-card--open ${active === i ? "is-hot" : ""}`}
+            data-method-card={i}
+          >
+            <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
             <span className="method-card__icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d={icons[item.name] || "M12 5v14M5 12h14"} />
-              </svg>
+              <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
             <p>{item.body}</p>
           </article>
+        ))}
+      </div>
+      <div className="method-dots" role="tablist" aria-label={content.methods.title}>
+        {items.map((item, i) => (
+          <button
+            key={item.name}
+            type="button"
+            role="tab"
+            aria-label={item.name}
+            aria-selected={i === active}
+            className={`method-dots__dot ${i === active ? "is-on" : ""}`}
+            onClick={() => goTo(i)}
+          />
         ))}
       </div>
     </section>
