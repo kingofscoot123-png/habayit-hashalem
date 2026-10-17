@@ -41,7 +41,11 @@ export function Methods() {
   const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
     const card = track?.querySelector<HTMLElement>(`[data-method-card="${i}"]`);
-    card?.scrollIntoView({ behavior, inline: "center", block: "nearest" });
+    if (!track || !card) return;
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const delta = cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2;
+    track.scrollBy({ left: delta, behavior });
   };
 
   useEffect(() => {

@@ -87,7 +87,7 @@ export function Why() {
   }, [reduced, items.length]);
 
   return (
-    <section id="why" ref={sectionRef} className="why-radar px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="why" ref={sectionRef} className="why-radar overflow-visible px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">
           <AccentLead text={content.why.title} />

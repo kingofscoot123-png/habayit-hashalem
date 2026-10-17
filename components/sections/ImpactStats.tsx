@@ -34,7 +34,7 @@ export function ImpactStats() {
       ([entry]) => {
         if (entry.isIntersecting) setRun(true);
       },
-      { threshold: 0.35 },
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();

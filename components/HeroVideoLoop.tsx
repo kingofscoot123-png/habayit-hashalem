@@ -7,35 +7,50 @@ type HeroVideoLoopProps = {
   className?: string;
 };
 
-/** Seamless crossfade loop — avoids visible jump when native `loop` restarts. */
+function unlock(el: HTMLVideoElement) {
+  el.muted = true;
+  el.defaultMuted = true;
+  el.playsInline = true;
+  el.setAttribute("playsinline", "");
+  el.setAttribute("webkit-playsinline", "");
+}
+
+function tryPlay(el: HTMLVideoElement) {
+  return el.play().catch(() => undefined);
+}
+
+/** Seamless crossfade loop — avoids a visible jump when native `loop` restarts. */
 export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
   const [front, setFront] = useState(0);
   const v0 = useRef<HTMLVideoElement>(null);
   const v1 = useRef<HTMLVideoElement>(null);
   const swapping = useRef(false);
+  const frontRef = useRef(0);
+
+  useEffect(() => {
+    frontRef.current = front;
+  }, [front]);
 
   useEffect(() => {
     const a = v0.current;
     const b = v1.current;
     if (!a || !b) return;
 
-    const prime = async () => {
-      a.muted = true;
-      b.muted = true;
-      a.currentTime = 0;
-      b.currentTime = 0;
-      await a.play().catch(() => undefined);
+    unlock(a);
+    unlock(b);
+
+    const prime = () => {
+      void tryPlay(frontRef.current === 0 ? a : b);
     };
-    void prime();
 
     const maybeSwap = (lead: HTMLVideoElement, follow: HTMLVideoElement, nextFront: 0 | 1) => {
-      if (!lead.duration || swapping.current) return;
+      if (!lead.duration || !Number.isFinite(lead.duration) || swapping.current) return;
       const left = lead.duration - lead.currentTime;
       if (left > 0.55 || left <= 0.05) return;
 
       swapping.current = true;
       follow.currentTime = 0;
-      void follow.play().then(() => {
+      void tryPlay(follow).then(() => {
         setFront(nextFront);
         window.setTimeout(() => {
           lead.pause();
@@ -46,12 +61,21 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
 
     const onA = () => maybeSwap(a, b, 1);
     const onB = () => maybeSwap(b, a, 0);
+    const onVis = () => {
+      if (document.visibilityState === "visible") prime();
+    };
 
     a.addEventListener("timeupdate", onA);
     b.addEventListener("timeupdate", onB);
+    a.addEventListener("canplay", prime);
+    document.addEventListener("visibilitychange", onVis);
+    prime();
+
     return () => {
       a.removeEventListener("timeupdate", onA);
       b.removeEventListener("timeupdate", onB);
+      a.removeEventListener("canplay", prime);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, [src]);
 
@@ -62,17 +86,22 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
+        style={{ objectPosition: "center bottom" }}
         src={src}
         muted
         playsInline
+        autoPlay
+        loop
         preload="auto"
       />
       <video
         ref={v1}
         className={`${videoClass} ${front === 1 ? "opacity-100" : "opacity-0"}`}
+        style={{ objectPosition: "center bottom" }}
         src={src}
         muted
         playsInline
+        loop
         preload="auto"
       />
     </div>
