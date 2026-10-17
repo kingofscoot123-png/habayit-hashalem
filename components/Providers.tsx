@@ -19,51 +19,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
 
     if (!reduced) {
-      const media = document.querySelector<HTMLElement>("[data-hero-media]");
-      const inner = media?.querySelector<HTMLElement>(".hs-hero__media-inner");
-      const heroDesktop = window.matchMedia("(min-width: 768px)").matches;
-
-      if (media && inner) {
-        const origin = "50% 74%";
-        gsap.set(inner, { transformOrigin: origin, force3D: true, scale: 1 });
-        if (heroDesktop) {
-          gsap.to(inner, {
-            scale: 1.018,
-            duration: 170,
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: -1,
-          });
-        }
-        gsap.set(media, { transformOrigin: origin, force3D: true });
-        gsap.fromTo(
-          media,
-          { y: 0, scale: 1 },
-          {
-            y: heroDesktop ? -3 : -1,
-            scale: heroDesktop ? 1.005 : 1.002,
-            ease: "none",
-            scrollTrigger: {
-              trigger: "#top",
-              start: "top top",
-              end: "bottom top",
-              scrub: heroDesktop ? 16 : 22,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      }
-
       gsap.utils.toArray<HTMLElement>("[data-reveal-word]").forEach((el, i) => {
         gsap.fromTo(
           el,
-          { y: 16, opacity: 0, filter: "blur(6px)" },
+          { y: 12, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: 0.7,
-            delay: (i % 8) * 0.04,
+            duration: 0.55,
+            delay: (i % 8) * 0.03,
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 92%", once: true },
           },
@@ -73,12 +37,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
         gsap.fromTo(
           el,
-          { y: desktop ? 24 : 16, opacity: 0, filter: desktop ? "blur(6px)" : "blur(0px)" },
+          { y: desktop ? 18 : 12, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: desktop ? 0.85 : 0.55,
+            duration: desktop ? 0.6 : 0.45,
             delay: Number(el.dataset.delay || 0),
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 90%", once: true },
@@ -91,13 +54,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
         if (kids.length === 0) return;
         gsap.fromTo(
           kids,
-          { y: desktop ? 22 : 14, opacity: 0, filter: desktop ? "blur(6px)" : "blur(0px)" },
+          { y: desktop ? 16 : 10, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: desktop ? 0.7 : 0.5,
-            stagger: 0.08,
+            duration: desktop ? 0.5 : 0.4,
+            stagger: 0.06,
             ease: "power2.out",
             scrollTrigger: { trigger: wrap, start: "top 88%", once: true },
           },
@@ -163,19 +125,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
         gsap.fromTo(
           el,
           {
-            y: desktop ? 42 : 28,
-            rotateX: desktop ? 14 : 8,
-            z: desktop ? -70 : -30,
+            y: desktop ? 28 : 16,
             opacity: 0,
-            filter: desktop ? "blur(8px)" : "blur(4px)",
           },
           {
             y: 0,
-            rotateX: 0,
-            z: 0,
             opacity: 1,
-            filter: "blur(0px)",
-            duration: desktop ? 0.95 : 0.7,
+            duration: desktop ? 0.65 : 0.5,
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 82%", once: true },
             onStart: () => el.classList.add("is-in"),
@@ -187,7 +143,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const lenis =
       !reduced && desktop
         ? new Lenis({
-            lerp: 0.1,
+            lerp: 0.18,
             smoothWheel: true,
             syncTouch: false,
           })

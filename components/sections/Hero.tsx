@@ -23,15 +23,18 @@ export function Hero() {
         <HeroVideoLoop src={HERO_VIDEO} />
       </div>
 
-      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col justify-start px-6 pb-28 pt-[5.75rem] sm:pt-28 md:max-w-none md:pb-32 md:pt-32 md:ps-14 md:pe-24 lg:pt-36">
-        <div className="hs-hero__copy min-w-0 font-sans">
+      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
+        <div className="hs-hero__copy min-w-0 w-full font-sans">
+          <div className="hs-hero__veil" aria-hidden="true" />
           <p className="hs-hero__kicker animate-fade-up stagger-3">
             {content.person}
             <span aria-hidden="true"> · </span>
             מטפל בכיר זוגי ורגשי
           </p>
-          <h1 className="hs-hero__title font-display text-start text-[2.05rem] leading-[1.14] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.85rem] animate-fade-up stagger-4">
-            חוזרים לקרבה שהייתה לפני שהשיחות <span>נשברו</span>
+          <h1 className="hs-hero__title font-display animate-fade-up stagger-4">
+            חוזרים לקרבה שהייתה
+            <br />
+            לפני שהשיחות <span>נשברו</span>
           </h1>
 
           <div className="hs-hero__actions animate-fade-up stagger-5">

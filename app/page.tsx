@@ -10,7 +10,6 @@ import { Quotes } from "@/components/sections/Quotes";
 import { Faq } from "@/components/sections/Faq";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { WhatsAppFab } from "@/components/WhatsAppFab";
 
 export default function Page() {
   return (
@@ -27,7 +26,6 @@ export default function Page() {
       <Quotes />
       <Faq />
       <Footer />
-      <WhatsAppFab />
     </>
   );
 }
