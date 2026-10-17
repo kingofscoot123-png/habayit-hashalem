@@ -1,14 +1,9 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
-import { useMotionPrefs } from "@/lib/useMotionPrefs";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const icons: Record<string, string> = {
   "שיטת NLP רפואי": "M12 3v18M4 12h16",
@@ -36,7 +31,6 @@ export function Methods() {
   const pinRef = useRef<HTMLDivElement>(null);
   const pauseRef = useRef(false);
   const indexRef = useRef(0);
-  const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const items = content.methods.items;
   const current = items[active];
@@ -78,48 +72,14 @@ export function Methods() {
     return () => io.disconnect();
   }, []);
 
-  useLayoutEffect(() => {
-    if (reduced) return;
-    const section = sectionRef.current;
-    const pin = pinRef.current;
-    if (!section || !pin) return;
-    if (!window.matchMedia("(max-width: 767px)").matches) return;
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        id: "methods-pin",
-        trigger: section,
-        start: "top top+=64",
-        end: () => `+=${Math.round(window.innerHeight * (1.6 + items.length * 0.38))}`,
-        pin,
-        scrub: 0.7,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
-          if (i === indexRef.current) return;
-          indexRef.current = i;
-          setActive(i);
-        },
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, [reduced, items.length]);
-
   const goTo = (i: number) => {
     pauseRef.current = true;
     indexRef.current = i;
     setActive(i);
     scrollToCard(i);
-    const st = ScrollTrigger.getById("methods-pin");
-    if (st) {
-      const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
     window.setTimeout(() => {
       pauseRef.current = false;
-    }, 6000);
+    }, 800);
   };
 
   return (
