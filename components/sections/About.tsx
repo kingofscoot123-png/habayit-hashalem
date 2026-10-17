@@ -6,7 +6,7 @@ export function About() {
   return (
     <section id="who" className="about-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto max-w-3xl" data-reveal>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[#047857]">{content.who.title}</p>
+        <p className="about-badge mb-3 text-xs font-semibold uppercase tracking-widest">{content.who.title}</p>
         <h2 className="text-h2">
           <AccentLead text={content.who.name} />
         </h2>
@@ -19,7 +19,7 @@ export function About() {
       </div>
       <div className="mx-auto mt-8 max-w-3xl space-y-5" data-reveal>
         {content.who.paragraphs.map((p) => (
-          <p key={p} className="about-copy-soft text-body text-[var(--hs-ink)]">
+          <p key={p} className="about-copy-soft text-body">
             <HighlightCopy text={p} />
           </p>
         ))}

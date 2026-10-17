@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const icons: Record<string, string> = {
   "שיטת NLP רפואי": "M12 3v18M4 12h16",
@@ -29,6 +33,7 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
 export function Methods() {
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const pauseRef = useRef(false);
   const indexRef = useRef(0);
   const { reduced } = useMotionPrefs();
@@ -73,25 +78,34 @@ export function Methods() {
     return () => io.disconnect();
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (reduced) return;
-    const mobile = window.matchMedia("(max-width: 767px)");
-    if (!mobile.matches) return;
-
     const section = sectionRef.current;
-    const tick = window.setInterval(() => {
-      if (pauseRef.current || !mobile.matches) return;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      if (rect.top > window.innerHeight * 0.9 || rect.bottom < window.innerHeight * 0.1) return;
+    const pin = pinRef.current;
+    if (!section || !pin) return;
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
 
-      const next = (indexRef.current + 1) % items.length;
-      indexRef.current = next;
-      setActive(next);
-      scrollToCard(next);
-    }, 4000);
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        id: "methods-pin",
+        trigger: section,
+        start: "top top+=64",
+        end: () => `+=${Math.round(window.innerHeight * (1.6 + items.length * 0.38))}`,
+        pin,
+        scrub: 0.7,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
+          if (i === indexRef.current) return;
+          indexRef.current = i;
+          setActive(i);
+          scrollToCard(i, "auto");
+        },
+      });
+    }, section);
 
-    return () => window.clearInterval(tick);
+    return () => ctx.revert();
   }, [reduced, items.length]);
 
   const goTo = (i: number) => {
@@ -99,6 +113,11 @@ export function Methods() {
     indexRef.current = i;
     setActive(i);
     scrollToCard(i);
+    const st = ScrollTrigger.getById("methods-pin");
+    if (st) {
+      const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
     window.setTimeout(() => {
       pauseRef.current = false;
     }, 6000);
@@ -106,6 +125,7 @@ export function Methods() {
 
   return (
     <section id="path" ref={sectionRef} className="kit-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <div ref={pinRef} className="kit-section__pin">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <h2 className="text-h2">
           <AccentLead text={content.methods.title} />
@@ -207,6 +227,7 @@ export function Methods() {
             onClick={() => goTo(i)}
           />
         ))}
+      </div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -11,14 +11,12 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 gsap.registerPlugin(ScrollTrigger);
 
 const flow = ["now", "how", "result"] as const;
-const MOBILE_STEP_MS = 4000;
 
 export function Treat() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const stRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef(0);
-  const pauseRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [stage, setStage] = useState(0);
   const items = content.treat.items;
@@ -33,13 +31,17 @@ export function Treat() {
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin || reduced) return;
-    if (!window.matchMedia("(min-width: 768px)").matches) return;
+
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const endDistance = mobile
+      ? Math.round(window.innerHeight * 3)
+      : Math.max(2200, Math.round(window.innerHeight * 4.2));
 
     const ctx = gsap.context(() => {
       const st = ScrollTrigger.create({
         trigger: section,
-        start: "top top+=72",
-        end: () => `+=${Math.max(2200, Math.round(window.innerHeight * 4.2))}`,
+        start: mobile ? "top top+=64" : "top top+=72",
+        end: `+=${endDistance}`,
         pin,
         pinSpacing: true,
         anticipatePin: 1,
@@ -63,27 +65,8 @@ export function Treat() {
     };
   }, [reduced, items.length]);
 
-  useEffect(() => {
-    if (reduced) return;
-    if (!window.matchMedia("(max-width: 767px)").matches) return;
-
-    const section = sectionRef.current;
-    const tick = window.setInterval(() => {
-      if (pauseRef.current || !section) return;
-      const rect = section.getBoundingClientRect();
-      if (rect.top > window.innerHeight * 0.9 || rect.bottom < window.innerHeight * 0.1) return;
-      setStep((stageRef.current + 1) % items.length);
-    }, MOBILE_STEP_MS);
-
-    return () => window.clearInterval(tick);
-  }, [reduced, items.length]);
-
   const goTo = (i: number) => {
-    pauseRef.current = true;
     setStep(i);
-    window.setTimeout(() => {
-      pauseRef.current = false;
-    }, MOBILE_STEP_MS * 3);
     if (reduced) return;
     const st = stRef.current;
     if (!st) return;

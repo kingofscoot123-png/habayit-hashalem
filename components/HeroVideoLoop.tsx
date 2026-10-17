@@ -86,7 +86,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
-        style={{ objectPosition: "center bottom" }}
         src={src}
         muted
         playsInline
@@ -97,7 +96,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       <video
         ref={v1}
         className={`${videoClass} ${front === 1 ? "opacity-100" : "opacity-0"}`}
-        style={{ objectPosition: "center bottom" }}
         src={src}
         muted
         playsInline

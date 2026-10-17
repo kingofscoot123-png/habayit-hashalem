@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -9,14 +9,11 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const STEP_MS = 3000;
-
 export function Why() {
   const items = content.why.items;
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
-  const pauseRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const angle = active * (360 / items.length);
@@ -29,11 +26,13 @@ export function Why() {
   };
 
   const pick = (i: number) => {
-    pauseRef.current = true;
     setStep(i);
-    window.setTimeout(() => {
-      pauseRef.current = false;
-    }, STEP_MS * 4);
+    const section = sectionRef.current;
+    if (!section || reduced) return;
+    const st = ScrollTrigger.getById("why-pin");
+    if (!st) return;
+    const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+    window.scrollTo({ top: y, behavior: "smooth" });
   };
 
   useLayoutEffect(() => {
@@ -41,22 +40,20 @@ export function Why() {
     const pin = pinRef.current;
     if (!section || !pin || reduced) return;
 
-    const desktop = window.matchMedia("(min-width: 768px)").matches;
-    if (!desktop) return;
-
-    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const endDistance = Math.round(window.innerHeight * (mobile ? 3.2 : 2.2 + items.length * 0.45));
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
+        id: "why-pin",
         trigger: section,
-        start: "top top+=80",
+        start: mobile ? "top top+=64" : "top top+=80",
         end: `+=${endDistance}`,
         pin,
-        scrub: 1.25,
+        scrub: mobile ? 0.7 : 1.25,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          if (pauseRef.current) return;
           const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
           if (i !== indexRef.current) setStep(i);
         },
@@ -64,26 +61,6 @@ export function Why() {
     }, section);
 
     return () => ctx.revert();
-  }, [reduced, items.length]);
-
-  useEffect(() => {
-    if (reduced) return;
-    const mobile = window.matchMedia("(max-width: 767px)");
-    if (!mobile.matches) return;
-
-    const section = sectionRef.current;
-    const tick = window.setInterval(() => {
-      if (pauseRef.current) return;
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.12;
-      if (!inView) return;
-
-      const next = (indexRef.current + 1) % items.length;
-      setStep(next);
-    }, STEP_MS);
-
-    return () => window.clearInterval(tick);
   }, [reduced, items.length]);
 
   return (
@@ -154,18 +131,17 @@ export function Why() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="why-mobile-dots method-dots" role="tablist" aria-label={content.why.title}>
-        {items.map((item, i) => (
-          <button
-            key={item.title}
-            type="button"
-            aria-label={item.title}
-            className={`method-dots__dot ${i === active ? "is-on" : ""}`}
-            onClick={() => pick(i)}
-          />
-        ))}
+        <div className="why-mobile-dots method-dots" role="tablist" aria-label={content.why.title}>
+          {items.map((item, i) => (
+            <button
+              key={item.title}
+              type="button"
+              aria-label={item.title}
+              className={`method-dots__dot ${i === active ? "is-on" : ""}`}
+              onClick={() => pick(i)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

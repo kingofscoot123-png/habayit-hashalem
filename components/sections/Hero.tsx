@@ -100,6 +100,7 @@ export function Hero() {
           </div>
         </div>
       </div>
+      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-36 bg-gradient-to-b from-transparent to-brand-cream" />
     </header>
   );
 }

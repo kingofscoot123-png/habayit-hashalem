@@ -21,37 +21,35 @@ export function Providers({ children }: { children: React.ReactNode }) {
     if (!reduced) {
       const media = document.querySelector<HTMLElement>("[data-hero-media]");
       const inner = media?.querySelector<HTMLElement>(".hs-hero__media-inner");
-      const heroMotion = window.matchMedia("(min-width: 768px)").matches;
+      const heroDesktop = window.matchMedia("(min-width: 768px)").matches;
 
-      if (media && inner && heroMotion) {
-        gsap.set(inner, { transformOrigin: "50% 86%", force3D: true, scale: 1.012 });
+      if (media && inner) {
+        const origin = heroDesktop ? "50% 86%" : "50% 80%";
+        gsap.set(inner, { transformOrigin: origin, force3D: true, scale: heroDesktop ? 1.008 : 1.004 });
         gsap.to(inner, {
-          scale: 1.036,
-          duration: 68,
+          scale: heroDesktop ? 1.018 : 1.01,
+          duration: 170,
           ease: "sine.inOut",
           yoyo: true,
           repeat: -1,
         });
-        gsap.set(media, { transformOrigin: "50% 86%", force3D: true });
+        gsap.set(media, { transformOrigin: origin, force3D: true });
         gsap.fromTo(
           media,
-          { y: 0 },
+          { y: 0, scale: 1 },
           {
-            y: -12,
+            y: heroDesktop ? -5 : -3,
+            scale: heroDesktop ? 1.012 : 1.008,
             ease: "none",
             scrollTrigger: {
               trigger: "#top",
               start: "top top",
               end: "bottom top",
-              scrub: 6.5,
+              scrub: 10.4,
               invalidateOnRefresh: true,
             },
           },
         );
-      } else if (media && inner) {
-        gsap.set([media, inner], { scale: 1, y: 0, clearProps: "transform" });
-        media.classList.add("is-mobile-static");
-        inner.classList.add("is-mobile-static");
       }
 
       gsap.utils.toArray<HTMLElement>("[data-reveal-word]").forEach((el, i) => {
