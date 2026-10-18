@@ -149,6 +149,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
           })
         : null;
 
+    const navOffset = 80;
+
+    const scrollToSection = (target: HTMLElement) => {
+      if (lenis) {
+        lenis.scrollTo(target, { offset: -navOffset, duration: 1.15 });
+        return;
+      }
+      const top = window.scrollY + target.getBoundingClientRect().top - navOffset;
+      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+    };
+
     const onHash = (e: Event) => {
       const link = (e.target as HTMLElement | null)?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
       if (!link) return;
@@ -157,11 +168,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       const target = document.querySelector<HTMLElement>(id);
       if (!target) return;
       e.preventDefault();
-      if (lenis) {
-        lenis.scrollTo(target, { offset: -80, duration: 1.15 });
-        return;
-      }
-      target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      scrollToSection(target);
     };
     document.addEventListener("click", onHash);
 

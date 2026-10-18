@@ -3,9 +3,10 @@
   "private": true,
   "homepage": "https://kingofscoot123-png.github.io/habayit-hashalem/",
   "scripts": {
-    "dev": "next dev --port 3000",
-    "dev:clean": "npx --yes kill-port 3000 && next dev --port 3000",
-    "dev:fresh": "npx --yes kill-port 3000 && npx --yes rimraf .next && next dev --port 3000",
+    "dev": "next dev --port 3000 --hostname 0.0.0.0",
+    "dev:clean": "npx --yes kill-port 3000 && next dev --port 3000 --hostname 0.0.0.0",
+    "dev:fresh": "npx --yes kill-port 3000 && npx --yes rimraf .next && next dev --port 3000 --hostname 0.0.0.0",
+    "dev:tunnel": "npx --yes cloudflared tunnel --url http://127.0.0.1:3000",
     "build": "next build",
     "start": "next start --port 3000",
     "prod": "npm run build && npm run start"

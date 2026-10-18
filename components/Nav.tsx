@@ -29,7 +29,12 @@ export function Nav() {
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
+  const setMenu = (open: boolean) => {
+    document.body.style.overflow = open ? "hidden" : "";
+    setMenuOpen(open);
+  };
+
+  const closeMenu = () => setMenu(false);
 
   return (
     <>
@@ -84,7 +89,7 @@ export function Nav() {
             className="relative z-50 h-10 w-10 shrink-0 md:hidden"
             aria-label="Toggle menu"
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
+            onClick={() => setMenu(!menuOpen)}
           >
             <span
               className={`site-nav__bar absolute left-1/2 top-[6px] h-[2px] w-6 -translate-x-1/2 rounded transition-all duration-300 ease-[cubic-bezier(0.68,-0.6,0.32,1.6)] ${
