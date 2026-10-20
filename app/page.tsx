@@ -4,8 +4,8 @@ import { Treat } from "@/components/sections/Treat";
 import { Methods } from "@/components/sections/Methods";
 import { About } from "@/components/sections/About";
 import { Why } from "@/components/sections/Why";
-import { Credentials } from "@/components/sections/Credentials";
 import { ImpactStats } from "@/components/sections/ImpactStats";
+import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { Quotes } from "@/components/sections/Quotes";
 import { Faq } from "@/components/sections/Faq";
 import { Nav } from "@/components/Nav";
@@ -21,11 +21,11 @@ export default function Page() {
       <Methods />
       <About />
       <Why />
-      <Credentials />
       <ImpactStats />
       <Quotes />
       <Faq />
       <Footer />
+      <WhatsAppFab />
     </>
   );
 }

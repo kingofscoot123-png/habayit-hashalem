@@ -63,7 +63,7 @@ export function Pain() {
     <section
       id="about"
       ref={sectionRef}
-      className={`pain-section px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
+      className={`pain-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
         <p className="section-welcome">{content.pain.welcome}</p>

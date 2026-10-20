@@ -9,10 +9,10 @@ export function About() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section id="who" className="about-section px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
-          <div className="about-portrait__frame">
+          <div className="about-portrait__frame border-4 border-[#82152B]">
             <img src={content.who.portrait} alt={content.who.portraitAlt} />
           </div>
         </div>
@@ -47,21 +47,30 @@ export function About() {
           </div>
 
           <div className="mt-6" data-reveal>
-            <button type="button" className="btn-ghost rounded-2xl px-6 py-3 text-sm" onClick={() => setOpen((v) => !v)}>
+            <button type="button" className="btn-burgundy rounded-2xl px-6 py-3 text-sm" onClick={() => setOpen((v) => !v)}>
               {open ? content.who.less : content.who.more}
             </button>
             {open ? (
-              <div className="about-creds-more" aria-label="הסמכות נוספות">
-                {content.who.secondaryCreds.map((cred) => (
-                  <span key={cred} className="about-cred about-cred--soft">
-                    {cred}
-                  </span>
-                ))}
+              <div className="about-secondary-creds mt-5">
+                <div className="about-creds-more" aria-label="הסמכות משניות">
+                  {content.who.secondaryCreds.map((cred) => (
+                    <span key={cred} className="about-cred about-cred--soft">
+                      {cred}
+                    </span>
+                  ))}
+                </div>
+                <div className="about-certs-grid mt-5">
+                  {content.credentials.items.map((item) => (
+                    <figure key={item.src} className="about-cert-card rounded-2xl">
+                      <img src={item.src} alt={item.alt} loading="lazy" />
+                    </figure>
+                  ))}
+                </div>
               </div>
             ) : null}
           </div>
 
-          <div className="clinic-card mt-10 rounded-shell px-6 py-5" data-reveal>
+          <div className="clinic-card mt-10 rounded-2xl px-6 py-5" data-reveal>
             <p className="text-caption tracking-widest text-ink-soft">כתובת הקליניקה</p>
             <a
               href={content.mapsHref}

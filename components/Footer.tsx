@@ -6,7 +6,7 @@ export function Footer() {
     <footer className="border-t border-[rgba(30,58,43,0.1)] bg-[#faf8f5] px-6 py-16">
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center">
         <p className="text-caption tracking-[0.14em] text-[#1e3a2b]">{content.footer}</p>
-        <a href={content.phoneHref} className="text-lead text-[#1e3a2b] transition hover:text-[#047857]">
+        <a href={content.phoneHref} className="text-lead text-[#1e3a2b] transition hover:text-burgundy">
           {content.phoneDisplay}
         </a>
         <a

@@ -73,7 +73,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
           <path
             data-build="2"
             d={`M${doorX + 5} 318 V268 Q${doorX + 5} 260 ${cx} 260 Q${doorX + doorW - 5} 260 ${doorX + doorW - 5} 268 V318 Z`}
-            fill="#047857"
+            fill="#82152B"
             opacity="0.32"
           />
           <circle data-build="2" cx={doorX + doorW - 8} cy="287" r="2.5" fill="#C5A059" />

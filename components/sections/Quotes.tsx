@@ -9,8 +9,11 @@ type Quote = { punch: string; quote: string; name: string; group: string };
 
 function QuoteCard({ punch, quote, name }: Quote) {
   return (
-    <figure className="quote-card quote-card--uniform quote-card--glass card-lift">
-      <QuoteStars />
+    <figure className="quote-card quote-card--uniform quote-card--google card-lift">
+      <div className="quote-card__meta">
+        <span className="quote-card__google">{content.quotes.googleBadge}</span>
+        <QuoteStars />
+      </div>
       <p className="quote-card__punch">"{punch}"</p>
       <blockquote className="quote-card__text">{quote}</blockquote>
       <figcaption className="quote-card__who">
@@ -54,9 +57,9 @@ export function Quotes() {
   const visible = all.slice(page, page + per);
 
   return (
-    <section id="quotes" className="site-section site-section--band-b px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="quotes" className="site-section site-section--band-b mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-10 max-w-3xl text-center" data-reveal>
-        <h2 className="text-h2">
+        <h2 className="section-title-rule text-h2">
           <AccentLead text={content.quotes.title} />
         </h2>
         <p className="mt-3 text-body text-ink-soft">{content.quotes.hint}</p>
@@ -88,7 +91,7 @@ export function Quotes() {
           </button>
         </div>
         <div className="mt-8 text-center">
-          <button type="button" className="quote-more cta-mint" onClick={() => setModal(true)}>
+          <button type="button" className="quote-more btn-burgundy" onClick={() => setModal(true)}>
             {content.quotes.more}
           </button>
         </div>
@@ -101,8 +104,11 @@ export function Quotes() {
             <h3>{content.quotes.more}</h3>
             <div className="quote-modal__list">
               {all.map((item) => (
-                <figure key={`${item.group}-${item.name}`} className="quote-card quote-card--uniform quote-card--glass card-lift">
-                  <QuoteStars />
+                <figure key={`${item.group}-${item.name}`} className="quote-card quote-card--uniform quote-card--google card-lift">
+                  <div className="quote-card__meta">
+                    <span className="quote-card__google">{content.quotes.googleBadge}</span>
+                    <QuoteStars />
+                  </div>
                   <p className="quote-card__punch">"{item.punch}"</p>
                   <blockquote className="quote-card__text">{item.quote}</blockquote>
                   <figcaption className="quote-card__who">
