@@ -9,9 +9,9 @@ export function Faq() {
   const [open, setOpen] = useState<string | null>(null);
 
   return (
-    <section id="faq" className="site-section site-section--band-c px-5 pb-16 sm:px-6 lg:px-16 lg:pb-[100px]">
+    <section id="faq" className="site-section site-section--band-c mishpacha-canvas px-5 pb-16 sm:px-6 lg:px-16 lg:pb-[100px]">
       <div className="mx-auto max-w-2xl text-center" data-reveal>
-        <h2 className="text-h2">
+        <h2 className="section-title-rule text-h2">
           <AccentLead text={content.objections.title} />
         </h2>
         <p className="mt-4 text-lead text-ink-soft">

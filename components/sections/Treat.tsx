@@ -78,7 +78,7 @@ export function Treat() {
     <section id="treat" ref={sectionRef} className="treat-pin-section">
       <div ref={pinRef} className="treat-pin">
         <div className="treat-pin__head">
-          <h2 className="text-h2">
+          <h2 className="section-title-rule text-h2">
             <AccentLead text={content.treat.title} />
           </h2>
           <p className="mt-3 text-body text-ink-soft">{content.treat.lead}</p>

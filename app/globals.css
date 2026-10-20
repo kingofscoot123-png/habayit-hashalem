@@ -5,7 +5,7 @@
 :root {
   --brand-cream: #FAF8F5;
   --brand-light: #F5F3EF;
-  --brand-dark: #2D3A2E;
+  --brand-dark: #82152B;
   --brand-green: #9E1B32;
   --burgundy: #82152B;
   --burgundy-bright: #9E1B32;
@@ -151,7 +151,7 @@ section:not(.hs-hero) .text-h2 {
 }
 
 body {
-  font-family: var(--font-rubik), var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: var(--font-assistant), var(--font-heebo), "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.7;
@@ -436,11 +436,12 @@ h3,
 .font-display,
 .hero-title,
 .text-h2,
-.text-display {
-  font-family: var(--font-frank), var(--font-playfair), "Frank Ruhl Libre", Georgia, serif;
-  font-weight: 700;
-  color: #1e3a2b;
-  letter-spacing: -0.02em;
+.text-display,
+.logo-word {
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
+  font-weight: 800;
+  color: var(--burgundy);
+  letter-spacing: -0.03em;
 }
 
 section:not(.hs-hero) h2,
@@ -680,11 +681,11 @@ section:not(.hs-hero) .font-display {
 
 .section-welcome {
   margin-bottom: 10px;
-  font-family: var(--font-frank), var(--font-playfair), "Frank Ruhl Libre", Georgia, serif;
-  font-size: clamp(1.2rem, 3.4vw, 2rem);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
+  font-size: clamp(1.55rem, 4.6vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
   color: var(--burgundy);
 }
 
@@ -803,7 +804,7 @@ section:not(.hs-hero) .font-display {
 }
 
 .hs-hero__cred {
-  font-family: var(--font-rubik), Rubik, sans-serif;
+  font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
   color: #1e3a2b;
@@ -839,9 +840,9 @@ section:not(.hs-hero) .font-display {
 }
 
 .pain-card__copy h3 {
-  font-family: var(--font-frank), "Frank Ruhl Libre", serif;
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
   color: var(--burgundy);
 }
 
@@ -2123,7 +2124,7 @@ section:not(.hs-hero) .font-display {
 
 .quote-card__punch {
   margin: 0 0 12px;
-  font-family: var(--font-frank), "Frank Ruhl Libre", serif;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.35;
@@ -2254,7 +2255,7 @@ section:not(.hs-hero) .font-display {
 
 .treat-stack__title {
   display: block;
-  font-family: var(--font-frank), "Frank Ruhl Libre", serif;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--hs-ink);
@@ -2661,7 +2662,7 @@ section:not(.hs-hero) .font-display {
 }
 
 .hs-hero--video .hs-hero__title {
-  font-family: var(--font-frank), "Frank Ruhl Libre", serif;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
   font-weight: 700;
   font-size: clamp(2.5rem, 5.5vw, 5rem);
   line-height: 1.1;
@@ -2675,13 +2676,13 @@ section:not(.hs-hero) .font-display {
 
 .hs-hero--video .hs-hero__sub,
 .hs-hero--video .hs-hero__trust {
-  font-family: var(--font-rubik), Rubik, sans-serif;
+  font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-weight: 400;
   color: var(--hs-muted);
 }
 
 .hs-hero--video .hs-hero__trust-line {
-  font-family: var(--font-rubik), Rubik, sans-serif;
+  font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.06em;
@@ -2778,7 +2779,7 @@ section:not(.hs-hero) .font-display {
 
 .hs-hero__kicker {
   margin: 0 0 16px;
-  font-family: var(--font-rubik), Rubik, sans-serif;
+  font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
   letter-spacing: 0.16em;
@@ -2791,7 +2792,7 @@ section:not(.hs-hero) .font-display {
 
 .hs-hero__title {
   margin: 0;
-  font-family: var(--font-frank), "Frank Ruhl Libre", serif;
+  font-family: var(--font-heebo), Heebo, Arial, sans-serif;
   font-weight: 700;
   font-size: clamp(2.5rem, 5.5vw, 5rem);
   line-height: 1.1;
