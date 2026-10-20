@@ -18,6 +18,13 @@ const config: Config = {
           light: "#f5f3ef",
           cream: "#faf8f5",
         },
+        burgundy: {
+          DEFAULT: "#82152B",
+          deep: "#82152B",
+          bright: "#9E1B32",
+          wine: "#8B1E2B",
+        },
+        gold: "#C5A059",
         "brand-cream": "var(--brand-cream)",
         "brand-light": "var(--brand-light)",
         "brand-dark": "var(--brand-dark)",

@@ -66,7 +66,8 @@ export function Pain() {
       className={`pain-section px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
-        <h2 className="text-h2">
+        <p className="section-welcome">{content.pain.welcome}</p>
+        <h2 className="section-title-rule text-h2">
           <AccentLead text={content.pain.title} />
         </h2>
       </div>

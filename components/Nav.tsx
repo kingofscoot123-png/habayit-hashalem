@@ -79,7 +79,7 @@ export function Nav() {
             href={content.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="ms-auto hidden items-center rounded-full bg-brand-dark px-5 py-2.5 text-sm uppercase tracking-wide text-white transition-colors hover:bg-brand-green md:inline-flex animate-fade-down stagger-3"
+            className="ms-auto hidden items-center rounded-full bg-burgundy px-5 py-2.5 text-sm uppercase tracking-wide text-white transition-colors hover:bg-burgundy-bright md:inline-flex animate-fade-down stagger-3"
           >
             {content.cta}
           </a>
@@ -130,7 +130,7 @@ export function Nav() {
             href={content.whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center rounded-full bg-brand-dark px-8 py-3.5 text-lg tracking-wide text-white"
+            className="mt-4 inline-flex items-center rounded-full bg-burgundy px-8 py-3.5 text-lg tracking-wide text-white"
             onClick={closeMenu}
           >
             {content.cta}

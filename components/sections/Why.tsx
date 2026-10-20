@@ -101,21 +101,21 @@ export function Why() {
   return (
     <section id="why" ref={sectionRef} className="why-radar overflow-visible px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
-        <h2 className="text-h2">
+        <h2 className="section-title-rule text-h2">
           <AccentLead text={content.why.title} />
         </h2>
         <p className="mt-3 text-caption text-ink-soft">
-          <span className="copy-accent copy-accent--olive">{content.why.core}</span>
+          <span className="copy-accent font-semibold text-burgundy">{content.why.core}</span>
         </p>
       </div>
 
       <div ref={pinRef} className="why-radar__pin">
         <div className="why-radar__stage">
-          <div className="why-compass" style={{ ["--why-rot" as string]: `${reduced ? 0 : angle}deg` }}>
+          <div className="why-compass bg-transparent" style={{ ["--why-rot" as string]: `${reduced ? 0 : angle}deg` }}>
             <svg className="why-compass__svg" viewBox="0 0 320 320" aria-hidden="true">
               <defs>
                 <linearGradient id="why-ring" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#1E3A2B" />
+                  <stop offset="0%" stopColor="#82152B" />
                   <stop offset="100%" stopColor="#C5A059" />
                 </linearGradient>
               </defs>
@@ -123,10 +123,10 @@ export function Why() {
                 <circle cx="160" cy="160" r="118" fill="none" stroke="url(#why-ring)" strokeWidth="1.2" strokeDasharray="6 10" opacity="0.45" />
               </g>
               <g className="why-compass__spin why-compass__spin--b">
-                <circle cx="160" cy="160" r="92" fill="none" stroke="rgba(45,58,46,0.28)" strokeWidth="1.4" />
+                <circle cx="160" cy="160" r="92" fill="none" stroke="rgba(130,21,43,0.28)" strokeWidth="1.4" />
               </g>
-              <circle cx="160" cy="160" r="54" fill="none" stroke="rgba(45,58,46,0.35)" strokeWidth="1.4" />
-              <circle cx="160" cy="160" r="8" fill="#1E3A2B" />
+              <circle cx="160" cy="160" r="54" fill="none" stroke="rgba(130,21,43,0.35)" strokeWidth="1.4" />
+              <circle cx="160" cy="160" r="8" fill="#82152B" />
               <path className="why-compass__needle" d="M160 86 L168 160 L160 148 L152 160 Z" fill="#C5A059" />
               {items.map((_, i) => {
                 const stepAngle = (360 / items.length) * i;
