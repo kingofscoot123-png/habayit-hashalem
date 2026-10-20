@@ -215,7 +215,15 @@ html[data-scene="treat"] .site-backdrop__photo--treat,
 html[data-scene="tools"] .site-backdrop__photo--tools,
 html[data-scene="trust"] .site-backdrop__photo--trust,
 html[data-scene="warm"] .site-backdrop__photo--warm {
-  opacity: 0.12;
+  opacity: 0.28;
+}
+
+.site-backdrop__veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(250, 243, 234, 0.78), rgba(243, 235, 224, 0.72), rgba(250, 243, 234, 0.86));
+  backdrop-filter: blur(2px);
 }
 
 html[data-scene="hero"] .site-backdrop {
@@ -478,7 +486,7 @@ section:not(.hs-hero) .font-display {
   border: 1px solid rgba(130, 21, 43, 0.3);
   border-top: 4px solid var(--burgundy);
   border-radius: 1rem;
-  box-shadow: 0 20px 40px -18px rgba(130, 21, 43, 0.22);
+  box-shadow: 0 24px 48px -16px rgba(130, 21, 43, 0.18);
   transition: border-color 0.45s ease, transform 0.35s var(--ease-out), box-shadow 0.35s ease;
 }
 
@@ -644,9 +652,58 @@ section:not(.hs-hero) .font-display {
 }
 
 .mishpacha-canvas {
-  background:
-    radial-gradient(ellipse at top, #faf3ea, transparent 58%),
-    linear-gradient(180deg, #faf3ea 0%, #f6efe6 48%, #ebe2d3 100%);
+  position: relative;
+  isolation: isolate;
+  background-color: #faf3ea;
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.9), rgba(243, 235, 224, 0.86), rgba(250, 243, 234, 0.94)),
+    url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1800&q=80");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.pain-section.mishpacha-canvas {
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.9), rgba(243, 235, 224, 0.86), rgba(250, 243, 234, 0.94)),
+    url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1800&q=80");
+}
+
+.treat-pin-section.mishpacha-canvas {
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.91), rgba(243, 235, 224, 0.88), rgba(250, 243, 234, 0.95)),
+    url("https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1800&q=80");
+}
+
+.kit-section.mishpacha-canvas {
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.91), rgba(243, 235, 224, 0.88), rgba(250, 243, 234, 0.95)),
+    url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=80");
+}
+
+.about-section.mishpacha-canvas {
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.92), rgba(243, 235, 224, 0.88), rgba(250, 243, 234, 0.95)),
+    url("https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1800&q=80");
+}
+
+.why-radar.mishpacha-canvas {
+  background-image:
+    linear-gradient(to bottom, rgba(250, 243, 234, 0.91), rgba(243, 235, 224, 0.87), rgba(250, 243, 234, 0.95)),
+    url("https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=80");
+}
+
+.pain-section.mishpacha-canvas,
+.treat-pin-section.mishpacha-canvas,
+.why-radar.mishpacha-canvas {
+  background-attachment: scroll;
+}
+
+@media (max-width: 767px) {
+  .mishpacha-canvas {
+    background-attachment: scroll;
+  }
 }
 
 .about-creds-primary {
@@ -829,7 +886,7 @@ section:not(.hs-hero) .font-display {
   background: #faf3ea;
   border: 1px solid rgba(130, 21, 43, 0.3);
   border-top: 4px solid var(--burgundy);
-  box-shadow: 0 20px 40px -18px rgba(130, 21, 43, 0.28);
+  box-shadow: 0 24px 48px -16px rgba(130, 21, 43, 0.18);
 }
 
 .pain-card__media img {
@@ -2648,7 +2705,8 @@ section:not(.hs-hero) .font-display {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 900px;
+  max-width: 48rem;
+  width: 100%;
   margin-inline: auto;
   text-align: center;
 }
