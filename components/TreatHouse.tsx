@@ -22,7 +22,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
       <svg className="treat-house__svg" viewBox="0 0 400 380" width="400" height="380">
         <defs>
           <linearGradient id="th-roof" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#1E3A2B" />
+            <stop offset="0%" stopColor="#82152B" />
             <stop offset="55%" stopColor="#2D3A2E" />
             <stop offset="100%" stopColor="#163024" />
           </linearGradient>
@@ -47,7 +47,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             data-build="1"
             className="treat-house__ghost treat-house__ghost--roof"
             fill="none"
-            stroke="#2D3A2E"
+            stroke="#82152B"
             strokeWidth="1.5"
             d={`M${wallX - 6} ${wallTop} L${cx} ${peakY} L${wallX + wallW + 6} ${wallTop}`}
           />
@@ -59,15 +59,15 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             width={wallW}
             height={140}
             fill="url(#th-wall)"
-            stroke="#2D3A2E"
+            stroke="#82152B"
             strokeWidth="1.8"
           />
 
           <path
             data-build="2"
             d={`M${doorX} 318 V264 Q${doorX} 254 ${cx} 254 Q${doorX + doorW} 254 ${doorX + doorW} 264 V318 Z`}
-            fill="#1E3A2B"
-            stroke="#2D3A2E"
+            fill="#82152B"
+            stroke="#82152B"
             strokeWidth="1.5"
           />
           <path
@@ -87,7 +87,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             height={winSize}
             rx="2"
             fill="url(#th-glass)"
-            stroke="#2D3A2E"
+            stroke="#82152B"
             strokeWidth="1.2"
           />
           <rect
@@ -99,7 +99,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             height={winSize}
             rx="2"
             fill="url(#th-glass)"
-            stroke="#2D3A2E"
+            stroke="#82152B"
             strokeWidth="1.2"
           />
           <path
@@ -114,7 +114,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             <path
               d={`M${wallX - 8} ${wallTop} L${cx} ${peakY} L${wallX + wallW + 8} ${wallTop} Z`}
               fill="url(#th-roof)"
-              stroke="#2D3A2E"
+              stroke="#82152B"
               strokeWidth="1.6"
               strokeLinejoin="miter"
             />

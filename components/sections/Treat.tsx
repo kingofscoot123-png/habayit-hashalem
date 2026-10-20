@@ -75,7 +75,7 @@ export function Treat() {
   };
 
   return (
-    <section id="treat" ref={sectionRef} className="treat-pin-section">
+    <section id="treat" ref={sectionRef} className="treat-pin-section mishpacha-canvas">
       <div ref={pinRef} className="treat-pin">
         <div className="treat-pin__head">
           <h2 className="section-title-rule text-h2">

@@ -34,7 +34,7 @@ export function Pain() {
           start: mobile ? "top top+=72" : "top top+=88",
           end: mobile ? `+=${Math.round(window.innerHeight * 2.2)}` : "+=200%",
           pin: true,
-          scrub: mobile ? 1.15 : 1.35,
+          scrub: mobile ? 1.45 : 1.6,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
