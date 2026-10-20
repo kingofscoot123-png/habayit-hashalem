@@ -31,7 +31,7 @@ export function Hero() {
             <span aria-hidden="true"> · </span>
             מטפל בכיר זוגי ורגשי
           </p>
-          <h1 className="hs-hero__title font-display animate-fade-up stagger-4">
+          <h1 className="hs-hero__title font-display mx-auto max-w-3xl text-center leading-tight animate-fade-up stagger-4">
             חוזרים לקרבה שהייתה
             <br />
             לפני שהשיחות <span>נשברו</span>
@@ -86,7 +86,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF8F5]/70 to-[#FAF8F5]" />
+      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF3EA]/70 to-[#EBE2D3]" />
     </header>
   );
 }

@@ -16,7 +16,7 @@ const config: Config = {
           dark: "#82152B",
           green: "#9E1B32",
           light: "#f5f3ef",
-          cream: "#faf8f5",
+          cream: "#faf3ea",
         },
         burgundy: {
           DEFAULT: "#82152B",
