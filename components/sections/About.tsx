@@ -17,7 +17,7 @@ export function About() {
           </div>
         </div>
 
-        <div>
+        <div className="content-shield px-5 py-5 sm:px-6">
           <div data-reveal>
             <p className="about-badge mb-3 text-xs font-semibold uppercase tracking-widest">{content.who.title}</p>
             <h2 className="section-title-rule text-h2">
@@ -76,7 +76,7 @@ export function About() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block text-lead transition hover:text-burgundy"
+              className="mt-2 inline-block text-lead font-bold text-[#82152B] transition hover:text-[#C5A059]"
             >
               {content.address}
             </a>

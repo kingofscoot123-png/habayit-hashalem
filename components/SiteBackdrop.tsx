@@ -1,15 +1,22 @@
-"use client";
+import { asset } from "@/lib/asset";
 
-/** Fixed editorial canvas — warm cream layers only, no blurry orbs or watermarks. */
+/** Fixed watercolor artwork behind non-hero sections. Hero video stays untouched. */
 export function SiteBackdrop() {
   return (
     <div className="site-backdrop" aria-hidden="true">
-      <div className="site-backdrop__scene site-backdrop__scene--hero" />
-      <div className="site-backdrop__scene site-backdrop__scene--calm" />
-      <div className="site-backdrop__scene site-backdrop__scene--treat" />
-      <div className="site-backdrop__scene site-backdrop__scene--tools" />
-      <div className="site-backdrop__scene site-backdrop__scene--trust" />
-      <div className="site-backdrop__scene site-backdrop__scene--warm" />
+      <picture>
+        <source media="(min-width: 768px)" srcSet={asset("/bg-desktop.jpg")} />
+        <img
+          src={asset("/bg-mobile.jpg")}
+          alt=""
+          className="site-artwork__img"
+          decoding="async"
+        />
+      </picture>
+      <div className="site-ambient">
+        <div className="site-ambient__glow animate-pulse-slow" />
+        <div className="site-ambient__stars" />
+      </div>
     </div>
   );
 }

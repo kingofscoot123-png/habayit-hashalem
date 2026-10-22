@@ -68,7 +68,7 @@ export function Hero() {
             {HAS_MICHAEL_PHOTO ? (
               <img src="/images/michael.jpg" alt="" width={48} height={48} className="hs-hero__photo" />
             ) : null}
-            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address">
+            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address font-bold">
               {content.address}
             </a>
             {GOOGLE_RATING != null && GOOGLE_REVIEWS_COUNT != null ? (

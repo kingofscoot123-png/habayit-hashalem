@@ -88,6 +88,15 @@ const config: Config = {
         out: "cubic-bezier(0.22, 1, 0.36, 1)",
         io: "cubic-bezier(0.65, 0, 0.35, 1)",
       },
+      animation: {
+        "pulse-slow": "pulse-slow 8s ease-in-out infinite",
+      },
+      keyframes: {
+        "pulse-slow": {
+          "0%, 100%": { opacity: "0.5", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.08)" },
+        },
+      },
     },
   },
   plugins: [],

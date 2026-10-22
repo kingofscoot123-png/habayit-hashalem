@@ -58,7 +58,7 @@ export function Quotes() {
 
   return (
     <section id="quotes" className="site-section site-section--band-b mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
-      <div className="mx-auto mb-10 max-w-3xl text-center" data-reveal>
+      <div className="content-shield mx-auto mb-10 max-w-3xl px-5 py-4 text-center" data-reveal>
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.quotes.title} />
         </h2>

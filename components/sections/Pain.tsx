@@ -65,7 +65,7 @@ export function Pain() {
       ref={sectionRef}
       className={`pain-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
-      <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
+      <div className="content-shield mx-auto mb-8 max-w-3xl px-5 py-4 text-center" data-reveal>
         <p className="section-welcome">
           {content.pain.welcome.split(/\s+[—–]\s+/).map((part, i) => (
             <span key={part}>
