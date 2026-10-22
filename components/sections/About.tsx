@@ -76,7 +76,7 @@ export function About() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-block text-lead font-bold text-[#82152B] transition hover:text-[#C5A059]"
+              className="clinic-address mt-2 inline-block text-lead font-bold transition hover:text-[#C5A059]"
             >
               {content.address}
             </a>

@@ -13,7 +13,7 @@ export function Footer() {
           href={content.mapsHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-caption font-bold text-[#82152B] transition hover:text-[#C5A059]"
+          className="clinic-address text-caption font-bold transition hover:text-[#C5A059]"
         >
           {content.legal.clinic}
         </a>

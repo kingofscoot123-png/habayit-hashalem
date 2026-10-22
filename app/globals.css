@@ -674,6 +674,13 @@ section:not(.hs-hero) .font-display {
   border-radius: 1rem;
 }
 
+.clinic-address,
+.clinic-card a.clinic-address,
+a.clinic-address {
+  color: #82152B !important;
+  font-weight: 700;
+}
+
 .about-creds-primary {
   display: flex;
   flex-wrap: wrap;
