@@ -14,7 +14,7 @@ export function Faq() {
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.objections.title} />
         </h2>
-        <p className="mt-4 text-lead text-ink-soft">
+        <p className="mt-4 text-lead text-ink">
           {content.close.titleLines[0]} {content.close.titleLines[1]}
         </p>
       </div>

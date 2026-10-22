@@ -28,7 +28,10 @@ export function Hero() {
           <div className="hs-hero__veil" aria-hidden="true" />
           <p className="hs-hero__kicker animate-fade-up stagger-3">
             {content.person}
-            <span aria-hidden="true"> · </span>
+            <span className="gold-sep" aria-hidden="true">
+              {" "}
+              •{" "}
+            </span>
             מטפל בכיר זוגי ורגשי
           </p>
           <h1 className="hs-hero__title font-display animate-fade-up stagger-4">
@@ -86,7 +89,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF8F5]/70 to-[#FAF8F5]" />
+      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF3EA]/70 to-[#FAF3EA]" />
     </header>
   );
 }

@@ -8,7 +8,7 @@ export function Posts() {
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.posts.title} />
         </h2>
-        <p className="mt-3 text-body text-ink-soft">{content.posts.hint}</p>
+        <p className="mt-3 text-body text-ink">{content.posts.hint}</p>
       </div>
       <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
         {content.posts.items.map((item) => (

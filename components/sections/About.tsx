@@ -12,7 +12,7 @@ export function About() {
     <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
-          <div className="about-portrait__frame border-4 border-[#82152B]">
+          <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl">
             <img src={content.who.portrait} alt={content.who.portraitAlt} />
           </div>
         </div>
@@ -25,7 +25,7 @@ export function About() {
             </h2>
             <div className="about-creds-primary" aria-label="הסמכות ראשיות">
               {content.who.primaryCreds.map((cred) => (
-                <span key={cred} className="about-cred">
+                <span key={cred} className="about-cred font-bold text-[#82152B]">
                   {cred}
                 </span>
               ))}

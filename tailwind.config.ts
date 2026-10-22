@@ -15,8 +15,8 @@ const config: Config = {
         brand: {
           dark: "#82152B",
           green: "#9E1B32",
-          light: "#f5f3ef",
-          cream: "#faf8f5",
+          light: "#F5EBE0",
+          cream: "#FAF3EA",
         },
         burgundy: {
           DEFAULT: "#82152B",
@@ -32,24 +32,28 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
+          "General Sans",
+          "Satoshi",
           "var(--font-assistant)",
-          "var(--font-heebo)",
+          "Assistant",
           "Helvetica Neue",
           "Arial",
           "sans-serif",
         ],
         "helvetica-neue": [
+          "General Sans",
           "var(--font-assistant)",
+          "Assistant",
           "Helvetica Neue",
           "Arial",
           "sans-serif",
         ],
-        playfair: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        oswald: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        montserrat: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        "roboto-slab": ["var(--font-heebo)", "Heebo", "sans-serif"],
-        raleway: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        display: ["var(--font-heebo)", "Heebo", "Arial", "sans-serif"],
+        playfair: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
+        oswald: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
+        montserrat: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
+        "roboto-slab": ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
+        raleway: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
+        display: ["Clash Display", "var(--font-heebo)", "Heebo", "Arial", "sans-serif"],
       },
       fontSize: {
         display: [
@@ -58,7 +62,7 @@ const config: Config = {
         ],
         h2: [
           "clamp(2rem, 5vw, 3.25rem)",
-          { lineHeight: "1.18", letterSpacing: "-0.03em", fontWeight: "800" },
+          { lineHeight: "1.15", letterSpacing: "-0.03em", fontWeight: "800" },
         ],
         lead: ["1.3rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],

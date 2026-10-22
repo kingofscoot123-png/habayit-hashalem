@@ -66,7 +66,19 @@ export function Pain() {
       className={`pain-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
     >
       <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
-        <p className="section-welcome">{content.pain.welcome}</p>
+        <p className="section-welcome">
+          {content.pain.welcome.split(/\s+[—–]\s+/).map((part, i) => (
+            <span key={part}>
+              {i > 0 ? (
+                <span className="gold-sep" aria-hidden="true">
+                  {" "}
+                  •{" "}
+                </span>
+              ) : null}
+              {part}
+            </span>
+          ))}
+        </p>
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.pain.title} />
         </h2>

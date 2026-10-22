@@ -62,7 +62,7 @@ export function Quotes() {
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.quotes.title} />
         </h2>
-        <p className="mt-3 text-body text-ink-soft">{content.quotes.hint}</p>
+        <p className="mt-3 text-body text-ink">{content.quotes.hint}</p>
       </div>
 
       <div className="quote-carousel mx-auto max-w-6xl">
