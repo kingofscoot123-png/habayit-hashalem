@@ -24,7 +24,7 @@ export function Hero() {
       </div>
 
       <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
-        <div className="hs-hero__copy min-w-0 w-full font-sans">
+        <div className="hs-hero__copy min-w-0 w-full">
           <div className="hs-hero__veil" aria-hidden="true" />
           <p className="hs-hero__kicker animate-fade-up stagger-3">
             {content.person}

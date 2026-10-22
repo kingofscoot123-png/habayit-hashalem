@@ -1,5 +1,23 @@
 import type { Config } from "tailwindcss";
 
+const hebrewSans = [
+  "var(--font-assistant)",
+  "Assistant",
+  "General Sans",
+  "Satoshi",
+  "Helvetica Neue",
+  "Arial",
+  "sans-serif",
+] as const;
+
+const hebrewDisplay = [
+  "var(--font-heebo)",
+  "Heebo",
+  "Clash Display",
+  "Arial",
+  "sans-serif",
+] as const;
+
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
@@ -31,29 +49,14 @@ const config: Config = {
         "brand-green": "var(--brand-green)",
       },
       fontFamily: {
-        sans: [
-          "General Sans",
-          "Satoshi",
-          "var(--font-assistant)",
-          "Assistant",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
-        "helvetica-neue": [
-          "General Sans",
-          "var(--font-assistant)",
-          "Assistant",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
-        playfair: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
-        oswald: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
-        montserrat: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
-        "roboto-slab": ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
-        raleway: ["Clash Display", "var(--font-heebo)", "Heebo", "sans-serif"],
-        display: ["Clash Display", "var(--font-heebo)", "Heebo", "Arial", "sans-serif"],
+        sans: [...hebrewSans],
+        "helvetica-neue": [...hebrewSans],
+        playfair: [...hebrewDisplay],
+        oswald: [...hebrewDisplay],
+        montserrat: [...hebrewDisplay],
+        "roboto-slab": [...hebrewDisplay],
+        raleway: [...hebrewDisplay],
+        display: [...hebrewDisplay],
       },
       fontSize: {
         display: [
