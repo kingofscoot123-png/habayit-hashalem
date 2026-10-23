@@ -30,8 +30,8 @@ export function Hero() {
       <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
         <div className="hs-hero__copy min-w-0 w-full">
           <div className="hs-hero__veil" aria-hidden="true" />
-          <p className="hs-hero__kicker animate-fade-up stagger-3 font-bold text-[#C5A059]">
-            {content.person}
+          <p className="hs-hero__kicker animate-fade-up stagger-3 font-bold">
+            <span className="kicker-name">{content.person}</span>
             <span className="gold-sep" aria-hidden="true">
               {" "}
               •{" "}
@@ -49,7 +49,7 @@ export function Hero() {
               href={content.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hs-hero__btn hs-hero__btn--wa"
+              className="hs-hero__btn hs-hero__btn--wa border border-[#C5A059]/70 shadow-xl"
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                 <path
@@ -63,7 +63,10 @@ export function Hero() {
               </svg>
               לשיחת היכרות בוואטסאפ
             </a>
-            <a href={content.phoneHref} className="hs-hero__btn hs-hero__btn--tel">
+            <a
+              href={content.phoneHref}
+              className="hs-hero__btn hs-hero__btn--tel border border-[#C5A059]/50 bg-white/80 font-bold text-[#18181B] backdrop-blur-md"
+            >
               להתקשר: {content.phoneDisplay}
             </a>
           </div>
@@ -76,7 +79,7 @@ export function Hero() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-pill hs-hero__address my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+              className="hero-pill hs-hero__address my-1 inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-xs font-semibold text-[#82152B] shadow-md backdrop-blur-md"
             >
               {content.address}
             </a>
@@ -91,7 +94,7 @@ export function Hero() {
                 {TRUST_MARKS.map((mark) => (
                   <span
                     key={mark}
-                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full border border-[#C5A059]/50 bg-[#D4B483]/25 px-4 py-1.5 text-xs font-semibold text-[#5C4318] shadow-md backdrop-blur-md"
                   >
                     {mark}
                   </span>
