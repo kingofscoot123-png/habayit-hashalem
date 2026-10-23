@@ -843,7 +843,7 @@ a.clinic-address {
   width: 120px;
   height: 1px;
   margin-bottom: 12px;
-  background: #4a5d4e;
+  background: #c5a059;
 }
 
 .hs-hero__creds-line {
@@ -4706,16 +4706,17 @@ body.studio-body li,
   font-family: var(--font-assistant), Assistant, Satoshi, "Helvetica Neue", Arial, sans-serif;
 }
 
-.impact-bar p,
-.impact-bar span,
-.impact-bar li,
-.impact-bar__title,
-.impact-bar__label,
-.impact-bar__pill {
+body.studio-body .impact-bar p,
+body.studio-body .impact-bar span,
+body.studio-body .impact-bar li,
+body.studio-body .impact-bar__title,
+body.studio-body .impact-bar__label,
+body.studio-body .impact-bar__pill {
   color: #faf8f5 !important;
 }
 
-.impact-bar__num {
+body.studio-body .impact-bar p.impact-bar__num,
+body.studio-body .impact-bar__num {
   color: #c5a059 !important;
 }
 
@@ -4734,18 +4735,19 @@ h3,
   letter-spacing: -0.03em;
 }
 
-.section-welcome,
-.quote-card__punch,
-.hs-hero__kicker,
-.hs-hero--video .hs-hero__kicker,
-.hs-hero__title span,
-.method-card__tag,
-.treat-pin__n,
-.treat-pin__tag,
-.quote-card__google,
-.gold-sep,
-.copy-accent,
-.why-depth__n {
+body.studio-body .section-welcome,
+body.studio-body .quote-card p.quote-card__punch,
+body.studio-body .quote-card__punch,
+body.studio-body .hs-hero__kicker,
+body.studio-body .hs-hero--video .hs-hero__kicker,
+body.studio-body .hs-hero__title span,
+body.studio-body .method-card__tag,
+body.studio-body .treat-pin__n,
+body.studio-body .treat-pin__tag,
+body.studio-body .quote-card__google,
+body.studio-body .gold-sep,
+body.studio-body .copy-accent,
+body.studio-body .why-depth__n {
   color: #c5a059 !important;
   font-weight: 700;
 }
