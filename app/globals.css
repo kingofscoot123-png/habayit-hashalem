@@ -203,9 +203,9 @@ p, li, .text-body, .text-lead, .faq-a, .faq-q, .quote-card__text,
 .site-ambient__glow {
   position: absolute;
   inset: -12%;
-  background: radial-gradient(circle at 50% 20%, rgba(225, 180, 120, 0.18), transparent 60%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.15), transparent 70%);
   will-change: opacity, transform;
-  transform-origin: 50% 20%;
+  transform-origin: 50% 30%;
 }
 
 .site-ambient__stars {
@@ -493,9 +493,9 @@ section:not(.hs-hero) .font-display {
 .clinic-card {
   position: relative;
   overflow: hidden;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--burgundy-soft);
   border-top: 4px solid #82152B;
   border-radius: 1rem;
@@ -621,7 +621,9 @@ section:not(.hs-hero) .font-display {
   border-radius: 9999px;
   background: #ffffff;
   border: 4px solid #82152B;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    inset 0 0 0 2px #C5A059,
+    0 25px 50px -12px rgba(130, 21, 43, 0.28);
 }
 
 .about-portrait__frame img {
@@ -668,10 +670,25 @@ section:not(.hs-hero) .font-display {
 }
 
 .content-shield {
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  position: relative;
+  isolation: isolate;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
+}
+
+.content-shield::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: -1;
+  width: min(100%, 40rem);
+  height: 9rem;
+  transform: translate(-50%, -15%);
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.15), transparent 70%);
 }
 
 .clinic-address,
@@ -863,9 +880,9 @@ a.clinic-address {
   inset: 0;
   overflow: hidden;
   border-radius: 1rem;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--burgundy-soft);
   border-top: 4px solid #82152B;
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
@@ -964,9 +981,9 @@ a.clinic-address {
   border-radius: 1rem;
   border: 1px solid rgba(130, 21, 43, 0.12);
   border-top: 4px solid #82152B;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: #18181B;
   letter-spacing: 0.01em;
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
@@ -1091,15 +1108,15 @@ a.clinic-address {
   border-radius: 1rem;
   border: 1px solid var(--line);
   border-top: 4px solid #82152B;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
   transition: border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .faq-item--neo {
-  background: rgba(250, 245, 239, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   box-shadow:
     14px 14px 28px rgba(140, 128, 108, 0.18),
     -10px -10px 22px rgba(255, 255, 255, 0.55),
@@ -2134,9 +2151,9 @@ a.clinic-address {
   border-radius: 1rem;
   border: 1px solid var(--line);
   border-top: 4px solid #82152B;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
   transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.4s ease;
 }
@@ -2216,9 +2233,9 @@ a.clinic-address {
   border-radius: 1rem;
   border: 1px solid var(--line);
   border-top: 4px solid #82152B;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease, border-color 0.35s ease;
 }
@@ -2257,9 +2274,9 @@ a.clinic-address {
   border-radius: 1rem;
   border: 1px solid var(--line);
   border-top: 4px solid #82152B;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
   transition: transform 0.35s var(--ease-out), border-color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -3068,9 +3085,9 @@ a.clinic-address {
 .quote-card--google {
   border: 1px solid rgba(130, 21, 43, 0.3);
   border-top: 4px solid var(--burgundy);
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 16px 34px -20px rgba(130, 21, 43, 0.28);
 }
 
@@ -3421,9 +3438,9 @@ a.clinic-address {
   margin-bottom: 18px;
   padding: 16px 20px;
   text-align: center;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
 }
 
@@ -3531,9 +3548,9 @@ a.clinic-address {
 .treat-pin__copy {
   position: relative;
   padding: 16px 18px 12px;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
   border-top: 4px solid #82152B;
 }
@@ -4066,9 +4083,9 @@ a.clinic-address {
 .why-depth {
   padding: 22px 20px 20px;
   border-radius: 1rem;
-  background: rgba(250, 245, 239, 0.85);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--burgundy-soft);
   border-top: 4px solid #82152B;
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
