@@ -72,7 +72,12 @@ export function Hero() {
             {HAS_MICHAEL_PHOTO ? (
               <img src="/images/michael.jpg" alt="" width={48} height={48} className="hs-hero__photo" />
             ) : null}
-            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address font-extrabold">
+            <a
+              href={content.mapsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-pill hs-hero__address my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+            >
               {content.address}
             </a>
             {GOOGLE_RATING != null && GOOGLE_REVIEWS_COUNT != null ? (
@@ -84,7 +89,10 @@ export function Hero() {
             <div className="hs-hero__creds">
               <div className="hs-hero__creds-row">
                 {TRUST_MARKS.map((mark) => (
-                  <span key={mark} className="hs-hero__cred font-extrabold text-[#C5A059]">
+                  <span
+                    key={mark}
+                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+                  >
                     {mark}
                   </span>
                 ))}
@@ -94,7 +102,7 @@ export function Hero() {
         </div>
       </div>
       <div
-        className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-32 bg-gradient-to-b from-transparent via-[#FAF5EF]/70 to-[#FAF5EF] md:h-40"
+        className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-10 -mt-16 h-32 bg-gradient-to-b from-transparent via-[#FAF5EF]/80 to-[#FAF5EF] md:h-40"
         aria-hidden="true"
       />
     </header>

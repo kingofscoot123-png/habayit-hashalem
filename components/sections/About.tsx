@@ -12,12 +12,12 @@ export function About() {
     <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
-          <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl ring-4 ring-[#C5A059]/40">
+          <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl ring-2 ring-[#C5A059]">
             <img src={content.who.portrait} alt={content.who.portraitAlt} />
           </div>
         </div>
 
-        <div className="content-shield px-5 py-5 sm:px-6">
+        <div className="card-glass content-shield rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8">
           <div data-reveal>
             <p className="about-badge mb-3 text-xs font-semibold uppercase tracking-widest">{content.who.title}</p>
             <h2 className="section-title-rule text-h2">

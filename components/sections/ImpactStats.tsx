@@ -47,7 +47,10 @@ export function ImpactStats() {
   const counts = [c0, c1, c2];
 
   return (
-    <section className="impact-bar bg-[#82152B] px-5 py-10 text-white shadow-2xl sm:px-6 lg:px-16" aria-label={content.impact.title}>
+    <section
+      className="impact-bar mx-5 my-8 rounded-2xl bg-[#82152B] p-8 text-white shadow-2xl sm:mx-6 lg:mx-16"
+      aria-label={content.impact.title}
+    >
       <div ref={ref} className="impact-bar__inner mx-auto max-w-5xl">
         <div className="impact-bar__live">
           <span className="impact-bar__pill">נתוני אמון בלייב</span>

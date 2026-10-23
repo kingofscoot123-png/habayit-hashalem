@@ -43,6 +43,7 @@ const config: Config = {
           wine: "#8B1E2B",
         },
         gold: "#C5A059",
+        bronze: "#B38038",
         olive: "#4A5D4E",
         "brand-cream": "var(--brand-cream)",
         "brand-light": "var(--brand-light)",

@@ -12,6 +12,7 @@
   --burgundy-wine: #8B1E2B;
   --burgundy-soft: rgba(130, 21, 43, 0.2);
   --gold: #C5A059;
+  --bronze: #B38038;
   --olive: #4A5D4E;
   --surface: var(--brand-cream);
   --surface-deep: var(--brand-light);
@@ -686,7 +687,7 @@ section:not(.hs-hero) .font-display {
   height: 9rem;
   transform: translate(-50%, -15%);
   pointer-events: none;
-  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.15), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.2), transparent 70%);
 }
 
 .clinic-address,
@@ -4540,24 +4541,48 @@ a.clinic-address {
   }
 }
 
-/* One fixed canvas on SiteBackdrop. Sections stay transparent so pins cannot tile. */
+/* 100k-NIS editorial studio: one fixed canvas, 3-tone type, glass cards. */
+html {
+  background-color: #faf5ef;
+}
+
+body.studio-body {
+  background-color: #faf5ef;
+  background-image: var(--artwork-mobile) !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  color: #18181b;
+  font-family: var(--font-assistant), Assistant, Satoshi, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (min-width: 768px) {
+  body.studio-body {
+    background-image: var(--artwork-desktop) !important;
+  }
+}
+
+.studio-main {
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+.site-artwork__img {
+  display: none !important;
+}
+
 .hs-hero__media,
 .hs-hero__media-inner,
 .hs-hero__video {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
-  will-change: transform, opacity;
+  will-change: transform;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hs-hero__blend {
   pointer-events: none;
-}
-
-html,
-body {
-  background-color: #faf5ef;
-  background-image: none;
 }
 
 .mishpacha-canvas,
@@ -4584,16 +4609,21 @@ footer {
 }
 
 .hs-hero,
-.hs-hero__media,
-.impact-bar {
+.hs-hero__media {
   background-image: none !important;
 }
 
 .impact-bar {
+  background-image: none !important;
   background-color: #82152b !important;
+  color: #ffffff !important;
+  border-radius: 1rem;
+  padding: 2rem !important;
   box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.55);
 }
 
+.impact-bar p,
+.impact-bar span,
 .impact-bar__title,
 .impact-bar__label,
 .impact-bar__pill {
@@ -4604,6 +4634,7 @@ footer {
   color: #c5a059 !important;
 }
 
+.card-glass,
 .clinic-card,
 .quote-card,
 .quote-card--google,
@@ -4612,7 +4643,6 @@ footer {
 .why-depth,
 .faq-item,
 .faq-item--neo,
-.treat-stack,
 .treat-pin__head,
 .treat-pin__copy,
 .content-shield {
@@ -4627,6 +4657,7 @@ footer {
 }
 
 .content-shield::before,
+.card-glass::after,
 .clinic-card::after,
 .quote-card::after,
 .why-depth::after {
@@ -4645,20 +4676,20 @@ footer {
 .clinic-card,
 .quote-card,
 .why-card,
-.why-depth {
+.why-depth,
+.card-glass {
   padding: 1.5rem;
 }
 
 .clinic-card:hover,
 .quote-card:hover,
-.why-card:hover,
-.method-card:hover,
 .faq-item:hover {
   transform: translateY(-4px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-p,
-li,
+body.studio-body p,
+body.studio-body li,
 .text-body,
 .text-lead,
 .clinic-card p,
@@ -4672,17 +4703,31 @@ li,
 .about-copy-soft,
 .treat-pin p {
   color: #18181b !important;
+  font-family: var(--font-assistant), Assistant, Satoshi, "Helvetica Neue", Arial, sans-serif;
+}
+
+.impact-bar p,
+.impact-bar span,
+.impact-bar li,
+.impact-bar__title,
+.impact-bar__label,
+.impact-bar__pill {
+  color: #faf8f5 !important;
+}
+
+.impact-bar__num {
+  color: #c5a059 !important;
 }
 
 h1,
 h2,
 h3,
-h4,
 .text-h2,
 .clinic-card h3,
 .pain-card h3,
 .why-card h3,
-.method-card h3 {
+.method-card h3,
+.why-depth h3 {
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
   color: #82152b !important;
   font-weight: 800;
@@ -4693,15 +4738,14 @@ h4,
 .quote-card__punch,
 .hs-hero__kicker,
 .hs-hero--video .hs-hero__kicker,
-.hs-hero__cred,
-.hs-hero--video .hs-hero__cred,
 .hs-hero__title span,
 .method-card__tag,
 .treat-pin__n,
 .treat-pin__tag,
 .quote-card__google,
 .gold-sep,
-.copy-accent {
+.copy-accent,
+.why-depth__n {
   color: #c5a059 !important;
   font-weight: 700;
 }
@@ -4709,23 +4753,46 @@ h4,
 .about-cred--soft,
 .faq-plus,
 .logo-sub {
-  color: #4a5d4e !important;
+  color: #b38038 !important;
 }
 
-.hs-hero__address,
-.hs-hero .hs-hero__address,
-.hs-hero--video .hs-hero__address,
-.hs-hero__trust a.hs-hero__address,
 .clinic-address,
 a.clinic-address {
   color: #82152b !important;
   font-weight: 800 !important;
-  text-shadow: 0 0 10px rgba(250, 243, 234, 0.95);
+}
+
+.hero-pill,
+a.hero-pill,
+span.hero-pill,
+.hs-hero__address.hero-pill,
+.hs-hero__cred.hero-pill,
+.hs-hero .hs-hero__address.hero-pill,
+.hs-hero--video .hs-hero__address.hero-pill,
+.hs-hero--video .hs-hero__cred.hero-pill,
+.hs-hero__trust a.hs-hero__address.hero-pill {
+  display: inline-block !important;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.375rem 1rem !important;
+  border-radius: 9999px !important;
+  background: rgba(130, 21, 43, 0.85) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 6px -1px rgba(24, 24, 27, 0.25);
+  text-shadow: none !important;
 }
 
 .about-portrait__frame {
+  border: 4px solid #82152b !important;
+  background: #ffffff !important;
+  padding: 4px;
+  border-radius: 9999px;
   box-shadow:
-    0 0 0 4px rgba(197, 160, 89, 0.4),
+    0 0 0 2px #c5a059,
     0 25px 50px -12px rgba(130, 21, 43, 0.35) !important;
 }
 
@@ -4733,13 +4800,32 @@ a.clinic-address {
   .clinic-card,
   .quote-card,
   .why-card,
-  .why-depth {
+  .why-depth,
+  .card-glass {
     padding: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .hs-hero--video .hs-hero__kicker,
+  .hs-hero__kicker {
+    color: #c5a059 !important;
+  }
+
+  .hero-pill,
+  .hs-hero--video .hero-pill,
+  .hs-hero--video .hs-hero__address.hero-pill,
+  .hs-hero--video .hs-hero__cred.hero-pill,
+  .hs-hero .hs-hero__address.hero-pill {
+    color: #ffffff !important;
+    background: rgba(130, 21, 43, 0.85) !important;
+    text-shadow: none !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .content-shield::before,
+  .card-glass::after,
   .clinic-card::after,
   .quote-card::after,
   .why-depth::after,

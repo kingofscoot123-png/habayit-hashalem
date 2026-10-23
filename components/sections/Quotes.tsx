@@ -9,7 +9,7 @@ type Quote = { punch: string; quote: string; name: string; group: string };
 
 function QuoteCard({ punch, quote, name }: Quote) {
   return (
-    <figure className="quote-card quote-card--uniform quote-card--google card-lift">
+    <figure className="card-glass quote-card quote-card--uniform quote-card--google card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8">
       <div className="quote-card__meta">
         <span className="quote-card__google">{content.quotes.googleBadge}</span>
         <QuoteStars />
@@ -58,7 +58,10 @@ export function Quotes() {
 
   return (
     <section id="quotes" className="site-section site-section--band-b mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
-      <div className="content-shield mx-auto mb-10 max-w-3xl px-5 py-4 text-center" data-reveal>
+      <div
+        className="card-glass content-shield mx-auto mb-10 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        data-reveal
+      >
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.quotes.title} />
         </h2>
@@ -104,7 +107,10 @@ export function Quotes() {
             <h3>{content.quotes.more}</h3>
             <div className="quote-modal__list">
               {all.map((item) => (
-                <figure key={`${item.group}-${item.name}`} className="quote-card quote-card--uniform quote-card--google card-lift">
+                <figure
+                  key={`${item.group}-${item.name}`}
+                  className="card-glass quote-card quote-card--uniform quote-card--google card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+                >
                   <div className="quote-card__meta">
                     <span className="quote-card__google">{content.quotes.googleBadge}</span>
                     <QuoteStars />

@@ -100,7 +100,10 @@ export function Why() {
 
   return (
     <section id="why" ref={sectionRef} className="why-radar mishpacha-canvas overflow-visible px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
-      <div className="content-shield mx-auto mb-8 max-w-3xl px-5 py-4 text-center" data-reveal>
+      <div
+        className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        data-reveal
+      >
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.why.title} />
         </h2>
@@ -144,7 +147,10 @@ export function Why() {
           </div>
 
           <div className="why-radar__copy">
-            <article key={active} className="why-depth why-depth--active is-on">
+            <article
+              key={active}
+              className="card-glass why-depth why-depth--active is-on rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+            >
               <span className="why-depth__n">{stepLabel}</span>
               <h3>{current.title}</h3>
               <p>{current.body}</p>

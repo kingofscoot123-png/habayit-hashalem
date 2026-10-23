@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 const FONTSHARE =
-  "https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=general-sans@600,500,400&f[]=satoshi@700,500,400&display=swap";
+  "https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@700,500,400&display=swap";
 
 export default function RootLayout({
   children,
@@ -42,7 +42,7 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       data-scene="hero"
-      data-rev="canvas-4d6cad2"
+      data-rev="studio-100k"
       className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
       style={{
         ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
@@ -53,7 +53,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="stylesheet" href={FONTSHARE} />
       </head>
-      <body className={`${assistant.className} antialiased`}>
+      <body
+        className={`${assistant.className} studio-body antialiased bg-[url('/bg-mobile.jpg')] bg-cover bg-fixed bg-center md:bg-[url('/bg-desktop.jpg')]`}
+      >
         <SiteBackdrop />
         <div className="relative z-10">
           <Providers>{children}</Providers>
