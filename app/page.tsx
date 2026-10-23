@@ -14,7 +14,7 @@ import { Footer } from "@/components/Footer";
 
 export default function Page() {
   return (
-    <main>
+    <>
       <Nav />
       <Hero />
       <Pain />
@@ -28,6 +28,6 @@ export default function Page() {
       <Faq />
       <Footer />
       <WhatsAppFab />
-    </main>
+    </>
   );
 }
