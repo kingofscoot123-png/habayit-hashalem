@@ -126,7 +126,7 @@ export function Methods() {
     <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div ref={pinRef} className="kit-section__pin">
       <div
-        className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#18181B] border-b border-[#C5A059]/30 bg-white/95 p-6 text-center shadow-2xl shadow-black/10 backdrop-blur-md md:p-8"
         data-reveal
       >
         <h2 className="section-title-rule text-h2">

@@ -11,7 +11,7 @@ export function Faq() {
   return (
     <section id="faq" className="site-section site-section--band-c mishpacha-canvas px-5 pb-16 sm:px-6 lg:px-16 lg:pb-[100px]">
       <div
-        className="card-glass content-shield mx-auto max-w-2xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        className="card-glass content-shield mx-auto max-w-2xl rounded-2xl border-t-4 border-[#18181B] border-b border-[#C5A059]/30 bg-white/95 p-6 text-center shadow-2xl shadow-black/10 backdrop-blur-md md:p-8"
         data-reveal
       >
         <h2 className="section-title-rule text-h2">

@@ -49,7 +49,7 @@ export function Hero() {
               href={content.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hs-hero__btn hs-hero__btn--wa"
+              className="hs-hero__btn hs-hero__btn--wa rounded-full border border-[#C5A059]/50 bg-[#18181B] px-6 py-3.5 font-bold text-white shadow-xl transition-all hover:border-[#C5A059] hover:bg-[#27272A]"
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                 <path
@@ -63,7 +63,10 @@ export function Hero() {
               </svg>
               לשיחת היכרות בוואטסאפ
             </a>
-            <a href={content.phoneHref} className="hs-hero__btn hs-hero__btn--tel">
+            <a
+              href={content.phoneHref}
+              className="hs-hero__btn hs-hero__btn--tel rounded-full border border-[#C5A059]/40 bg-white/80 px-6 py-3 font-bold text-[#18181B] backdrop-blur-md"
+            >
               להתקשר: {content.phoneDisplay}
             </a>
           </div>
@@ -76,7 +79,7 @@ export function Hero() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-pill hs-hero__address my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+              className="hero-pill hs-hero__address m-1 inline-block rounded-full border border-white/20 bg-black/50 px-4 py-1.5 text-xs font-semibold text-white shadow-md backdrop-blur-lg"
             >
               {content.address}
             </a>
@@ -91,7 +94,7 @@ export function Hero() {
                 {TRUST_MARKS.map((mark) => (
                   <span
                     key={mark}
-                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full bg-[#82152B]/85 px-4 py-1.5 font-bold text-white shadow-md backdrop-blur-md"
+                    className="hero-pill hs-hero__cred m-1 inline-block rounded-full border border-white/20 bg-black/50 px-4 py-1.5 text-xs font-semibold text-white shadow-md backdrop-blur-lg"
                   >
                     {mark}
                   </span>
