@@ -44,6 +44,7 @@ const config: Config = {
         },
         gold: "#C5A059",
         champagne: "#D4B483",
+        espresso: "#1F1714",
         bronze: "#B38038",
         olive: "#4A5D4E",
         "brand-cream": "var(--brand-cream)",

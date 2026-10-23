@@ -13,6 +13,7 @@
   --burgundy-soft: rgba(130, 21, 43, 0.2);
   --gold: #C5A059;
   --champagne: #D4B483;
+  --espresso: #1F1714;
   --bronze: #B38038;
   --olive: #4A5D4E;
   --surface: var(--brand-cream);
@@ -4600,6 +4601,23 @@ body.studio-body {
   font-weight: 700;
 }
 
+.hs-hero__title {
+  text-shadow: 0 2px 18px rgba(250, 245, 239, 0.55);
+}
+
+.hs-hero__title::after {
+  content: "";
+  display: block;
+  width: 88px;
+  height: 2px;
+  margin: 16px auto 0;
+  background: linear-gradient(90deg, transparent, #c5a059 20%, #d4b483 50%, #c5a059 80%, transparent);
+}
+
+.site-nav {
+  box-shadow: 0 1px 0 rgba(197, 160, 89, 0.35);
+}
+
 .mishpacha-canvas,
 .treat-pin-section,
 .pain-section,
@@ -4630,11 +4648,14 @@ footer {
 
 .impact-bar {
   background-image: none !important;
-  background-color: #82152b !important;
-  color: #ffffff !important;
+  background-color: #1f1714 !important;
+  color: #f6e7c8 !important;
   border-radius: 1rem;
   padding: 2rem !important;
-  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.55);
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  box-shadow:
+    0 25px 50px -12px rgba(31, 23, 20, 0.45),
+    inset 0 1px 0 rgba(197, 160, 89, 0.25);
 }
 
 .impact-bar p,
@@ -4666,10 +4687,12 @@ footer {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-top: 4px solid #82152b !important;
-  border-bottom: 1px solid rgba(212, 180, 131, 0.55) !important;
+  border-top: 4px solid #c5a059 !important;
+  border-bottom: 1px solid rgba(31, 23, 20, 0.12) !important;
   border-radius: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(197, 160, 89, 0.18) !important;
+  box-shadow:
+    0 25px 50px -12px rgba(31, 23, 20, 0.12),
+    0 0 0 1px rgba(197, 160, 89, 0.08) !important;
 }
 
 .content-shield::before,
@@ -4740,15 +4763,22 @@ body.studio-body .impact-bar__num {
 
 h1,
 h2,
+.text-h2 {
+  font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
+  color: #82152b !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
 h3,
-.text-h2,
 .clinic-card h3,
 .pain-card h3,
 .why-card h3,
 .method-card h3,
-.why-depth h3 {
+.why-depth h3,
+.treat-pin__title {
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
-  color: #82152b !important;
+  color: #1f1714 !important;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
@@ -4836,12 +4866,16 @@ span.hero-pill.hs-hero__cred,
 .hs-hero__cred.hero-pill,
 .hs-hero--video .hs-hero__cred.hero-pill {
   display: inline-block !important;
-  background: rgba(212, 180, 131, 0.28) !important;
-  color: #5c4318 !important;
-  border: 1px solid rgba(197, 160, 89, 0.5) !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
+  background: #1f1714 !important;
+  color: #f6e7c8 !important;
+  border: 2px solid #c5a059 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em;
   text-shadow: none !important;
+  box-shadow:
+    0 8px 22px -8px rgba(31, 23, 20, 0.55),
+    0 0 0 1px rgba(197, 160, 89, 0.35);
 }
 
 .hs-hero__creds::before {
@@ -4849,13 +4883,13 @@ span.hero-pill.hs-hero__cred,
 }
 
 .about-portrait__frame {
-  border: 4px solid #82152b !important;
+  border: 4px solid #1f1714 !important;
   background: #ffffff !important;
   padding: 4px;
   border-radius: 9999px;
   box-shadow:
     0 0 0 2px #c5a059,
-    0 25px 50px -12px rgba(130, 21, 43, 0.35) !important;
+    0 25px 50px -12px rgba(31, 23, 20, 0.35) !important;
 }
 
 @media (min-width: 768px) {
@@ -4897,9 +4931,9 @@ span.hero-pill.hs-hero__cred,
 
   .hs-hero--video .hs-hero__cred.hero-pill,
   .hs-hero__cred.hero-pill {
-    color: #5c4318 !important;
-    background: rgba(212, 180, 131, 0.28) !important;
-    border: 1px solid rgba(197, 160, 89, 0.5) !important;
+    color: #f6e7c8 !important;
+    background: #1f1714 !important;
+    border: 2px solid #c5a059 !important;
   }
 }
 

@@ -94,7 +94,7 @@ export function Hero() {
                 {TRUST_MARKS.map((mark) => (
                   <span
                     key={mark}
-                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full border border-[#C5A059]/50 bg-[#D4B483]/25 px-4 py-1.5 text-xs font-semibold text-[#5C4318] shadow-md backdrop-blur-md"
+                    className="hero-pill hs-hero__cred my-1 inline-block rounded-full border-2 border-[#C5A059] bg-[#1F1714] px-4 py-1.5 text-xs font-bold text-[#F6E7C8] shadow-lg"
                   >
                     {mark}
                   </span>

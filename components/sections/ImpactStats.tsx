@@ -48,7 +48,7 @@ export function ImpactStats() {
 
   return (
     <section
-      className="impact-bar mx-5 my-8 rounded-2xl bg-[#82152B] p-8 text-white shadow-2xl sm:mx-6 lg:mx-16"
+      className="impact-bar mx-5 my-8 rounded-2xl border border-[#C5A059]/40 bg-[#1F1714] p-8 text-white shadow-2xl sm:mx-6 lg:mx-16"
       aria-label={content.impact.title}
     >
       <div ref={ref} className="impact-bar__inner mx-auto max-w-5xl">
