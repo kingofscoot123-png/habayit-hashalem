@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { asset } from "@/lib/asset";
 
 type HeroVideoLoopProps = {
   src: string;
@@ -84,15 +83,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
 
   return (
     <div className="hs-hero__media-inner relative h-full w-full overflow-hidden">
-      <picture>
-        <source media="(min-width: 768px)" srcSet={asset("/images/hero-desktop.jpg")} />
-        <img
-          src={asset("/images/hero-mobile.jpg")}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[62%_74%] md:object-[50%_74%]"
-          decoding="async"
-        />
-      </picture>
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}

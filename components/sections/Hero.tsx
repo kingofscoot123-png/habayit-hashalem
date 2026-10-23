@@ -17,7 +17,7 @@ export function Hero() {
     <header
       id="top"
       dir="rtl"
-      className="hs-hero hs-hero--video relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-transparent md:min-h-[700px]"
+      className="hs-hero hs-hero--video relative h-screen min-h-[700px] w-full overflow-hidden bg-transparent"
     >
       <div
         className="hs-hero__media absolute inset-0 overflow-hidden will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] transition-transform duration-500 ease-out"
@@ -27,7 +27,7 @@ export function Hero() {
         <HeroVideoLoop src={HERO_VIDEO} />
       </div>
 
-      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-24 pt-20 md:px-6 md:pb-28 md:pt-0 lg:px-8">
+      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
         <div className="hs-hero__copy min-w-0 w-full">
           <div className="hs-hero__veil" aria-hidden="true" />
           <p className="hs-hero__kicker animate-fade-up stagger-3 font-bold text-[#C5A059]">
