@@ -566,14 +566,11 @@ section:not(.hs-hero) .font-display {
   margin-top: -1px;
 }
 
-.copy-accent--olive {
-  color: var(--burgundy);
-  font-weight: 600;
-}
-
+.copy-accent,
+.copy-accent--olive,
 .copy-accent--chestnut {
-  color: var(--burgundy);
-  font-weight: 600;
+  color: #c5a059;
+  font-weight: 700;
 }
 
 .methods-copy-soft {
@@ -4541,9 +4538,21 @@ a.clinic-address {
   }
 }
 
-/* Force artwork on every non-hero section. Cards stay white so copy stays readable. */
+/* Artwork canvas, three-tone type, gold stats, GPU hero. */
+.hs-hero__media,
+.hs-hero__media-inner,
+.hs-hero__video {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.hs-hero__blend {
+  pointer-events: none;
+}
+
 body {
-  background-color: transparent;
+  background-color: #faf5ef;
   background-image: var(--artwork-mobile);
   background-size: cover;
   background-position: center;
@@ -4582,15 +4591,19 @@ footer {
   background-image: none !important;
 }
 
-.impact-bar,
-.impact-bar p,
-.impact-bar span {
-  color: #ffffff !important;
+.impact-bar {
+  background-color: #82152b !important;
+  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.55);
 }
 
-.impact-bar {
-  background-color: #82152B !important;
-  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.55);
+.impact-bar__title,
+.impact-bar__label,
+.impact-bar__pill {
+  color: #faf8f5 !important;
+}
+
+.impact-bar__num {
+  color: #c5a059 !important;
 }
 
 .clinic-card,
@@ -4605,12 +4618,30 @@ footer {
 .treat-pin__head,
 .treat-pin__copy,
 .content-shield {
+  position: relative;
+  isolation: isolate;
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-top: 4px solid #82152B !important;
+  border-top: 4px solid #82152b !important;
   border-radius: 1rem;
   box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.15) !important;
+}
+
+.content-shield::before,
+.clinic-card::after,
+.quote-card::after,
+.why-depth::after {
+  content: "";
+  position: absolute;
+  inset: -18% 8% auto;
+  height: 7rem;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(197, 160, 89, 0.25), transparent 70%);
+  filter: blur(24px);
+  animation: pulse-slow 8s ease-in-out infinite;
+  will-change: opacity, transform;
 }
 
 .clinic-card,
@@ -4628,6 +4659,10 @@ footer {
   transform: translateY(-4px);
 }
 
+p,
+li,
+.text-body,
+.text-lead,
 .clinic-card p,
 .quote-card p,
 .quote-card__text,
@@ -4637,9 +4672,8 @@ footer {
 .method-card p,
 .faq-a,
 .about-copy-soft,
-.treat-pin p,
-.posts p {
-  color: #18181B !important;
+.treat-pin p {
+  color: #18181b !important;
 }
 
 h1,
@@ -4647,26 +4681,30 @@ h2,
 h3,
 h4,
 .text-h2,
-.section-welcome,
 .clinic-card h3,
 .pain-card h3,
 .why-card h3,
-.method-card h3,
-.quote-card__punch {
+.method-card h3 {
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
-  color: #82152B !important;
+  color: #82152b !important;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
 
-.impact-bar h1,
-.impact-bar h2,
-.impact-bar h3,
-.impact-bar p,
-.impact-bar .impact-bar__title,
-.impact-bar .impact-bar__num,
-.impact-bar .impact-bar__label {
-  color: #ffffff !important;
+.section-welcome,
+.quote-card__punch,
+.hs-hero__kicker,
+.hs-hero--video .hs-hero__kicker,
+.hs-hero__cred,
+.hs-hero--video .hs-hero__cred,
+.hs-hero__title span,
+.method-card__tag,
+.treat-pin__n,
+.treat-pin__tag,
+.quote-card__google,
+.gold-sep,
+.copy-accent {
+  color: #c5a059 !important;
 }
 
 .hs-hero__address,
@@ -4675,14 +4713,14 @@ h4,
 .hs-hero__trust a.hs-hero__address,
 .clinic-address,
 a.clinic-address {
-  color: #82152B !important;
+  color: #82152b !important;
   font-weight: 800 !important;
   text-shadow: 0 0 10px rgba(250, 243, 234, 0.95);
 }
 
 .about-portrait__frame {
   box-shadow:
-    0 0 0 4px rgba(197, 160, 89, 0.3),
+    0 0 0 4px rgba(197, 160, 89, 0.4),
     0 25px 50px -12px rgba(130, 21, 43, 0.35) !important;
 }
 
@@ -4710,5 +4748,17 @@ a.clinic-address {
   .hs-hero__media,
   .impact-bar {
     background-image: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-shield::before,
+  .clinic-card::after,
+  .quote-card::after,
+  .why-depth::after,
+  .hs-hero__media,
+  .hs-hero__video {
+    animation: none;
+    will-change: auto;
   }
 }

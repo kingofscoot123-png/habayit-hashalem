@@ -105,7 +105,7 @@ export function Why() {
           <AccentLead text={content.why.title} />
         </h2>
         <p className="mt-3 text-caption text-ink-soft">
-          <span className="copy-accent font-semibold text-burgundy">{content.why.core}</span>
+          <span className="copy-accent font-semibold text-[#C5A059]">{content.why.core}</span>
         </p>
       </div>
 
