@@ -12,6 +12,7 @@
   --burgundy-wine: #8B1E2B;
   --burgundy-soft: rgba(130, 21, 43, 0.2);
   --gold: #C5A059;
+  --olive: #4A5D4E;
   --surface: var(--brand-cream);
   --surface-deep: var(--brand-light);
   --ink: #18181B;
@@ -21,7 +22,7 @@
   --accent-soft: var(--gold);
   --mint: var(--burgundy);
   --mint-bright: var(--burgundy-bright);
-  --olive-dark: var(--brand-dark);
+  --olive-dark: #4A5D4E;
   --chestnut: #82152B;
   --chestnut-soft: #82152B;
   --chestnut-gold: var(--gold);
@@ -38,7 +39,7 @@
   --hs-surface: #ffffff;
   --hs-ink: var(--brand-dark);
   --hs-muted: #18181B;
-  --hs-olive: var(--brand-dark);
+  --hs-olive: #4A5D4E;
   --hs-gold: var(--gold);
   --hs-mint: var(--burgundy);
   --hs-mint-deep: var(--burgundy-bright);
@@ -203,7 +204,7 @@ p, li, .text-body, .text-lead, .faq-a, .faq-q, .quote-card__text,
 .site-ambient__glow {
   position: absolute;
   inset: -12%;
-  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.15), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.2), transparent 70%);
   will-change: opacity, transform;
   transform-origin: 50% 30%;
 }
@@ -724,8 +725,8 @@ a.clinic-address {
 
 .about-cred--soft {
   background: #ffffff;
-  border-color: var(--burgundy-soft);
-  color: #4a3a3d;
+  border-color: #4a5d4e;
+  color: #4a5d4e;
   font-weight: 500;
 }
 
@@ -841,7 +842,7 @@ a.clinic-address {
   width: 120px;
   height: 1px;
   margin-bottom: 12px;
-  background: rgba(130, 21, 43, 0.22);
+  background: #4a5d4e;
 }
 
 .hs-hero__creds-line {
@@ -862,7 +863,8 @@ a.clinic-address {
   font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 500;
-  color: #82152B;
+  color: #c5a059;
+  font-weight: 700;
   letter-spacing: 0.14em;
 }
 
@@ -4538,25 +4540,24 @@ a.clinic-address {
   }
 }
 
-/* Artwork canvas, three-tone type, gold stats, GPU hero. */
+/* One fixed canvas on SiteBackdrop. Sections stay transparent so pins cannot tile. */
 .hs-hero__media,
 .hs-hero__media-inner,
 .hs-hero__video {
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hs-hero__blend {
   pointer-events: none;
 }
 
+html,
 body {
   background-color: #faf5ef;
-  background-image: var(--artwork-mobile);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background-image: none;
 }
 
 .mishpacha-canvas,
@@ -4567,11 +4568,8 @@ body {
 .about-section,
 .site-section,
 footer {
+  background-image: none !important;
   background-color: transparent !important;
-  background-image: var(--artwork-mobile) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-attachment: fixed !important;
 }
 
 .site-section::before,
@@ -4638,7 +4636,7 @@ footer {
   height: 7rem;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(197, 160, 89, 0.25), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.2), transparent 70%);
   filter: blur(24px);
   animation: pulse-slow 8s ease-in-out infinite;
   will-change: opacity, transform;
@@ -4705,6 +4703,13 @@ h4,
 .gold-sep,
 .copy-accent {
   color: #c5a059 !important;
+  font-weight: 700;
+}
+
+.about-cred--soft,
+.faq-plus,
+.logo-sub {
+  color: #4a5d4e !important;
 }
 
 .hs-hero__address,
@@ -4725,29 +4730,11 @@ a.clinic-address {
 }
 
 @media (min-width: 768px) {
-  body,
-  .mishpacha-canvas,
-  .treat-pin-section,
-  .pain-section,
-  .kit-section,
-  .why-radar,
-  .about-section,
-  .site-section,
-  footer {
-    background-image: var(--artwork-desktop) !important;
-  }
-
   .clinic-card,
   .quote-card,
   .why-card,
   .why-depth {
     padding: 2rem;
-  }
-
-  .hs-hero,
-  .hs-hero__media,
-  .impact-bar {
-    background-image: none !important;
   }
 }
 
@@ -4760,5 +4747,6 @@ a.clinic-address {
   .hs-hero__video {
     animation: none;
     will-change: auto;
+    transition: none;
   }
 }

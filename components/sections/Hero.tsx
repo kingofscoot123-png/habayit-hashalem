@@ -20,7 +20,7 @@ export function Hero() {
       className="hs-hero hs-hero--video relative h-screen min-h-[700px] w-full overflow-hidden bg-transparent"
     >
       <div
-        className="hs-hero__media absolute inset-0 overflow-hidden will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] transition-transform duration-300 ease-out"
+        className="hs-hero__media absolute inset-0 overflow-hidden will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] transition-transform duration-500 ease-out"
         data-hero-media
         aria-hidden="true"
       >
@@ -84,7 +84,7 @@ export function Hero() {
             <div className="hs-hero__creds">
               <div className="hs-hero__creds-row">
                 {TRUST_MARKS.map((mark) => (
-                  <span key={mark} className="hs-hero__cred">
+                  <span key={mark} className="hs-hero__cred font-bold text-[#C5A059]">
                     {mark}
                   </span>
                 ))}
@@ -94,7 +94,7 @@ export function Hero() {
         </div>
       </div>
       <div
-        className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-40 bg-gradient-to-b from-transparent via-[#FAF5EF]/60 to-[#FAF5EF] md:h-52"
+        className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-32 bg-gradient-to-b from-transparent via-[#FAF5EF]/70 to-[#FAF5EF] md:h-40"
         aria-hidden="true"
       />
     </header>
