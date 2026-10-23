@@ -861,11 +861,11 @@ a.clinic-address {
 
 .hs-hero__cred {
   font-family: var(--font-assistant), Assistant, Arial, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #c5a059;
-  font-weight: 700;
+  font-size: 0.92rem;
+  color: #c5a059 !important;
+  font-weight: 800 !important;
   letter-spacing: 0.14em;
+  text-shadow: 0 1px 10px rgba(24, 24, 27, 0.35);
 }
 
 .pain-stage {

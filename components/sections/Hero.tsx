@@ -30,7 +30,7 @@ export function Hero() {
       <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
         <div className="hs-hero__copy min-w-0 w-full">
           <div className="hs-hero__veil" aria-hidden="true" />
-          <p className="hs-hero__kicker animate-fade-up stagger-3">
+          <p className="hs-hero__kicker animate-fade-up stagger-3 font-bold text-[#C5A059]">
             {content.person}
             <span className="gold-sep" aria-hidden="true">
               {" "}
@@ -84,7 +84,7 @@ export function Hero() {
             <div className="hs-hero__creds">
               <div className="hs-hero__creds-row">
                 {TRUST_MARKS.map((mark) => (
-                  <span key={mark} className="hs-hero__cred font-bold text-[#C5A059]">
+                  <span key={mark} className="hs-hero__cred font-extrabold text-[#C5A059]">
                     {mark}
                   </span>
                 ))}
