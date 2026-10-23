@@ -125,7 +125,7 @@ export function Methods() {
   return (
     <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div ref={pinRef} className="kit-section__pin">
-      <div className="content-shield mx-auto mb-8 max-w-3xl px-5 py-4 text-center" data-reveal>
+      <div className="card-glass content-shield mx-auto mb-8 max-w-3xl px-5 py-4 text-center" data-reveal>
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.methods.title} />
         </h2>

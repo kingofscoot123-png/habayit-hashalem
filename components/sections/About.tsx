@@ -17,7 +17,7 @@ export function About() {
           </div>
         </div>
 
-        <div className="content-shield px-5 py-5 sm:px-6">
+        <div className="card-glass content-shield px-5 py-5 sm:px-6">
           <div data-reveal>
             <p className="about-badge mb-3 text-xs font-semibold uppercase tracking-widest">{content.who.title}</p>
             <h2 className="section-title-rule text-h2">

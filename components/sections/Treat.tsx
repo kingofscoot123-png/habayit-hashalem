@@ -77,7 +77,7 @@ export function Treat() {
   return (
     <section id="treat" ref={sectionRef} className="treat-pin-section mishpacha-canvas">
       <div ref={pinRef} className="treat-pin">
-        <div className="treat-pin__head">
+        <div className="card-glass treat-pin__head">
           <h2 className="section-title-rule text-h2">
             <AccentLead text={content.treat.title} />
           </h2>
@@ -85,7 +85,7 @@ export function Treat() {
         </div>
 
         <div className="treat-pin__grid">
-          <div className="treat-pin__copy" aria-live="polite">
+          <div className="card-glass treat-pin__copy" aria-live="polite">
             {items.map((item, i) => (
               <article
                 key={item.n}

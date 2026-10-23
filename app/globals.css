@@ -4540,7 +4540,7 @@ a.clinic-address {
   }
 }
 
-/* One fixed canvas on SiteBackdrop. Sections stay transparent so pins cannot tile. */
+/* FORCE OVERRIDE - LUXURY GLASS & BACKGROUND FIX */
 .hs-hero__media,
 .hs-hero__media-inner,
 .hs-hero__video {
@@ -4554,12 +4554,29 @@ a.clinic-address {
   pointer-events: none;
 }
 
-html,
-body {
-  background-color: #faf5ef;
-  background-image: none;
+body,
+main,
+#root {
+  background-image: var(--artwork-desktop, url("/bg-desktop.jpg")) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+  background-color: transparent !important;
 }
 
+@media (max-width: 768px) {
+  body,
+  main,
+  #root {
+    background-image: var(--artwork-mobile, url("/bg-mobile.jpg")) !important;
+  }
+}
+
+.site-artwork__img {
+  display: none;
+}
+
+section:not(.hs-hero):not(.impact-bar),
 .mishpacha-canvas,
 .treat-pin-section,
 .pain-section,
@@ -4604,6 +4621,7 @@ footer {
   color: #c5a059 !important;
 }
 
+.card-glass,
 .clinic-card,
 .quote-card,
 .quote-card--google,
@@ -4615,15 +4633,16 @@ footer {
 .treat-stack,
 .treat-pin__head,
 .treat-pin__copy,
-.content-shield {
+.content-shield,
+.pain-card {
   position: relative;
   isolation: isolate;
-  background: rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-top: 4px solid #82152b !important;
-  border-radius: 1rem;
-  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.15) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 40px -15px rgba(130, 21, 43, 0.15) !important;
 }
 
 .content-shield::before,
@@ -4712,15 +4731,21 @@ h4,
   color: #4a5d4e !important;
 }
 
+.address-tag,
+.hero-tag,
 .hs-hero__address,
 .hs-hero .hs-hero__address,
 .hs-hero--video .hs-hero__address,
 .hs-hero__trust a.hs-hero__address,
+.hs-hero__cred,
 .clinic-address,
 a.clinic-address {
-  color: #82152b !important;
-  font-weight: 800 !important;
-  text-shadow: 0 0 10px rgba(250, 243, 234, 0.95);
+  color: #c5a059 !important;
+  font-weight: 700 !important;
+  background: rgba(130, 21, 43, 0.85) !important;
+  padding: 4px 12px !important;
+  border-radius: 9999px !important;
+  text-shadow: none;
 }
 
 .about-portrait__frame {
