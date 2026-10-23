@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Assistant, Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { SiteBackdrop } from "@/components/SiteBackdrop";
+import { asset } from "@/lib/asset";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -37,7 +38,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" data-scene="hero" className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}>
+    <html
+      lang="he"
+      dir="rtl"
+      data-scene="hero"
+      className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
+      style={{
+        ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
+        ["--artwork-desktop" as string]: `url("${asset("/bg-desktop.jpg")}")`,
+      }}
+    >
       <head>
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="stylesheet" href={FONTSHARE} />

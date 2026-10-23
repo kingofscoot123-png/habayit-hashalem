@@ -4540,3 +4540,175 @@ a.clinic-address {
     min-height: calc(100svh - 72px);
   }
 }
+
+/* Force artwork on every non-hero section. Cards stay white so copy stays readable. */
+body {
+  background-color: transparent;
+  background-image: var(--artwork-mobile);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.mishpacha-canvas,
+.treat-pin-section,
+.pain-section,
+.kit-section,
+.why-radar,
+.about-section,
+.site-section,
+footer {
+  background-color: transparent !important;
+  background-image: var(--artwork-mobile) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+}
+
+.site-section::before,
+.site-section--band-a::before,
+.site-section--band-b::before,
+.site-section--band-c::before,
+.pain-section::before,
+.kit-section::before,
+.kit-section::after {
+  display: none !important;
+  background: none !important;
+}
+
+.hs-hero,
+.hs-hero__media,
+.impact-bar {
+  background-image: none !important;
+}
+
+.impact-bar,
+.impact-bar p,
+.impact-bar span {
+  color: #ffffff !important;
+}
+
+.impact-bar {
+  background-color: #82152B !important;
+  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.55);
+}
+
+.clinic-card,
+.quote-card,
+.quote-card--google,
+.method-card,
+.why-card,
+.why-depth,
+.faq-item,
+.faq-item--neo,
+.treat-stack,
+.treat-pin__head,
+.treat-pin__copy,
+.content-shield {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 4px solid #82152B !important;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(130, 21, 43, 0.15) !important;
+}
+
+.clinic-card,
+.quote-card,
+.why-card,
+.why-depth {
+  padding: 1.5rem;
+}
+
+.clinic-card:hover,
+.quote-card:hover,
+.why-card:hover,
+.method-card:hover,
+.faq-item:hover {
+  transform: translateY(-4px);
+}
+
+.clinic-card p,
+.quote-card p,
+.quote-card__text,
+.pain-card p,
+.why-depth p,
+.why-card p,
+.method-card p,
+.faq-a,
+.about-copy-soft,
+.treat-pin p,
+.posts p {
+  color: #18181B !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+.text-h2,
+.section-welcome,
+.clinic-card h3,
+.pain-card h3,
+.why-card h3,
+.method-card h3,
+.quote-card__punch {
+  font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
+  color: #82152B !important;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.impact-bar h1,
+.impact-bar h2,
+.impact-bar h3,
+.impact-bar p,
+.impact-bar .impact-bar__title,
+.impact-bar .impact-bar__num,
+.impact-bar .impact-bar__label {
+  color: #ffffff !important;
+}
+
+.hs-hero__address,
+.hs-hero .hs-hero__address,
+.hs-hero--video .hs-hero__address,
+.hs-hero__trust a.hs-hero__address,
+.clinic-address,
+a.clinic-address {
+  color: #82152B !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 10px rgba(250, 243, 234, 0.95);
+}
+
+.about-portrait__frame {
+  box-shadow:
+    0 0 0 4px rgba(197, 160, 89, 0.3),
+    0 25px 50px -12px rgba(130, 21, 43, 0.35) !important;
+}
+
+@media (min-width: 768px) {
+  body,
+  .mishpacha-canvas,
+  .treat-pin-section,
+  .pain-section,
+  .kit-section,
+  .why-radar,
+  .about-section,
+  .site-section,
+  footer {
+    background-image: var(--artwork-desktop) !important;
+  }
+
+  .clinic-card,
+  .quote-card,
+  .why-card,
+  .why-depth {
+    padding: 2rem;
+  }
+
+  .hs-hero,
+  .hs-hero__media,
+  .impact-bar {
+    background-image: none !important;
+  }
+}

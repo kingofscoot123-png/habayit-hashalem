@@ -12,7 +12,7 @@ export function About() {
     <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
-          <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl">
+          <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl ring-4 ring-[#C5A059]/30">
             <img src={content.who.portrait} alt={content.who.portraitAlt} />
           </div>
         </div>
@@ -76,7 +76,7 @@ export function About() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="clinic-address mt-2 inline-block text-lead font-bold transition hover:text-[#C5A059]"
+              className="clinic-address mt-2 inline-block text-lead font-extrabold text-[#82152B] transition hover:text-[#C5A059]"
             >
               {content.address}
             </a>
