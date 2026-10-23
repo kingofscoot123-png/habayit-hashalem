@@ -14,6 +14,7 @@
   --gold: #C5A059;
   --champagne: #D4B483;
   --espresso: #1F1714;
+  --stone: #6E5846;
   --bronze: #B38038;
   --olive: #4A5D4E;
   --surface: var(--brand-cream);
@@ -4648,14 +4649,14 @@ footer {
 
 .impact-bar {
   background-image: none !important;
-  background-color: #1f1714 !important;
-  color: #f6e7c8 !important;
+  background-color: #6e5846 !important;
+  color: #faf3ea !important;
   border-radius: 1rem;
   padding: 2rem !important;
-  border: 1px solid rgba(197, 160, 89, 0.4);
+  border: 1px solid rgba(197, 160, 89, 0.35);
   box-shadow:
-    0 25px 50px -12px rgba(31, 23, 20, 0.45),
-    inset 0 1px 0 rgba(197, 160, 89, 0.25);
+    0 25px 50px -12px rgba(110, 88, 70, 0.45),
+    inset 0 1px 0 rgba(197, 160, 89, 0.28);
 }
 
 .impact-bar p,
@@ -4688,11 +4689,11 @@ footer {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 4px solid #c5a059 !important;
-  border-bottom: 1px solid rgba(31, 23, 20, 0.12) !important;
+  border-bottom: 1px solid rgba(110, 88, 70, 0.16) !important;
   border-radius: 1rem;
   box-shadow:
-    0 25px 50px -12px rgba(31, 23, 20, 0.12),
-    0 0 0 1px rgba(197, 160, 89, 0.08) !important;
+    0 25px 50px -12px rgba(110, 88, 70, 0.14),
+    0 0 0 1px rgba(197, 160, 89, 0.1) !important;
 }
 
 .content-shield::before,
@@ -4778,7 +4779,7 @@ h3,
 .why-depth h3,
 .treat-pin__title {
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
-  color: #1f1714 !important;
+  color: #6e5846 !important;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
@@ -4805,7 +4806,7 @@ body.studio-body .why-depth__n {
 .logo-sub,
 .text-caption,
 .about-badge {
-  color: #d4b483 !important;
+  color: #6e5846 !important;
 }
 
 .clinic-address,
@@ -4866,16 +4867,21 @@ span.hero-pill.hs-hero__cred,
 .hs-hero__cred.hero-pill,
 .hs-hero--video .hs-hero__cred.hero-pill {
   display: inline-block !important;
-  background: #1f1714 !important;
-  color: #f6e7c8 !important;
-  border: 2px solid #c5a059 !important;
+  background-color: #c5a059 !important;
+  background-image: linear-gradient(180deg, #e4cf96 0%, #c5a059 55%, #b8954a 100%) !important;
+  color: #2a2118 !important;
+  border: 1px solid #a88840 !important;
+  border-radius: 12px !important;
   font-size: 0.78rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em;
+  padding: 0.5rem 1.15rem !important;
   text-shadow: none !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   box-shadow:
-    0 8px 22px -8px rgba(31, 23, 20, 0.55),
-    0 0 0 1px rgba(197, 160, 89, 0.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 10px 22px -10px rgba(197, 160, 89, 0.7);
 }
 
 .hs-hero__creds::before {
@@ -4883,13 +4889,13 @@ span.hero-pill.hs-hero__cred,
 }
 
 .about-portrait__frame {
-  border: 4px solid #1f1714 !important;
+  border: 4px solid #6e5846 !important;
   background: #ffffff !important;
   padding: 4px;
   border-radius: 9999px;
   box-shadow:
     0 0 0 2px #c5a059,
-    0 25px 50px -12px rgba(31, 23, 20, 0.35) !important;
+    0 25px 50px -12px rgba(110, 88, 70, 0.35) !important;
 }
 
 @media (min-width: 768px) {
@@ -4931,9 +4937,11 @@ span.hero-pill.hs-hero__cred,
 
   .hs-hero--video .hs-hero__cred.hero-pill,
   .hs-hero__cred.hero-pill {
-    color: #f6e7c8 !important;
-    background: #1f1714 !important;
-    border: 2px solid #c5a059 !important;
+    color: #2a2118 !important;
+    background-color: #c5a059 !important;
+    background-image: linear-gradient(180deg, #e4cf96 0%, #c5a059 55%, #b8954a 100%) !important;
+    border: 1px solid #a88840 !important;
+    border-radius: 12px !important;
   }
 }
 

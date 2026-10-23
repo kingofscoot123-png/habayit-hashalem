@@ -56,20 +56,20 @@ export function Nav() {
           <div className="hidden items-center gap-8 md:flex">
             <a
               href={NAV_LINKS[0].href}
-              className="flex items-center gap-1 text-sm uppercase tracking-wide text-brand-dark transition-opacity hover:opacity-70 animate-fade-down stagger-1"
+              className="flex items-center gap-1 text-sm uppercase tracking-wide text-[#6E5846] transition-opacity hover:opacity-70 animate-fade-down stagger-1"
             >
               {NAV_LINKS[0].label}
               <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
             <a
               href={NAV_LINKS[1].href}
-              className="text-sm uppercase tracking-wide text-brand-dark transition-opacity hover:opacity-70 animate-fade-down stagger-2"
+              className="text-sm uppercase tracking-wide text-[#6E5846] transition-opacity hover:opacity-70 animate-fade-down stagger-2"
             >
               {NAV_LINKS[1].label}
             </a>
             <a
               href={NAV_LINKS[2].href}
-              className="text-sm uppercase tracking-wide text-brand-dark transition-opacity hover:opacity-70 animate-fade-down stagger-3"
+              className="text-sm uppercase tracking-wide text-[#6E5846] transition-opacity hover:opacity-70 animate-fade-down stagger-3"
             >
               {NAV_LINKS[2].label}
             </a>
@@ -120,7 +120,7 @@ export function Nav() {
             <a
               key={link.href}
               href={link.href}
-              className="text-3xl tracking-tight text-brand-dark"
+              className="text-3xl tracking-tight text-[#6E5846]"
               onClick={closeMenu}
             >
               {link.label}
