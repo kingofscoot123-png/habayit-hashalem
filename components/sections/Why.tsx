@@ -100,7 +100,7 @@ export function Why() {
 
   return (
     <section id="why" ref={sectionRef} className="why-radar mishpacha-canvas overflow-visible px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
-      <div className="mx-auto mb-8 max-w-3xl text-center" data-reveal>
+      <div className="content-shield mx-auto mb-8 max-w-3xl px-5 py-4 text-center" data-reveal>
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.why.title} />
         </h2>

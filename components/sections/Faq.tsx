@@ -10,11 +10,11 @@ export function Faq() {
 
   return (
     <section id="faq" className="site-section site-section--band-c mishpacha-canvas px-5 pb-16 sm:px-6 lg:px-16 lg:pb-[100px]">
-      <div className="mx-auto max-w-2xl text-center" data-reveal>
+      <div className="content-shield mx-auto max-w-2xl px-5 py-4 text-center" data-reveal>
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.objections.title} />
         </h2>
-        <p className="mt-4 text-lead text-ink-soft">
+        <p className="mt-4 text-lead text-ink">
           {content.close.titleLines[0]} {content.close.titleLines[1]}
         </p>
       </div>

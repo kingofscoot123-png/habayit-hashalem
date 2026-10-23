@@ -24,14 +24,17 @@ export function Hero() {
       </div>
 
       <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-28 md:px-6 lg:px-8">
-        <div className="hs-hero__copy min-w-0 w-full font-sans">
+        <div className="hs-hero__copy min-w-0 w-full">
           <div className="hs-hero__veil" aria-hidden="true" />
           <p className="hs-hero__kicker animate-fade-up stagger-3">
             {content.person}
-            <span aria-hidden="true"> · </span>
+            <span className="gold-sep" aria-hidden="true">
+              {" "}
+              •{" "}
+            </span>
             מטפל בכיר זוגי ורגשי
           </p>
-          <h1 className="hs-hero__title font-display mx-auto max-w-3xl text-center leading-tight animate-fade-up stagger-4">
+          <h1 className="hs-hero__title font-display animate-fade-up stagger-4">
             חוזרים לקרבה שהייתה
             <br />
             לפני שהשיחות <span>נשברו</span>
@@ -65,7 +68,7 @@ export function Hero() {
             {HAS_MICHAEL_PHOTO ? (
               <img src="/images/michael.jpg" alt="" width={48} height={48} className="hs-hero__photo" />
             ) : null}
-            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address">
+            <a href={content.mapsHref} target="_blank" rel="noopener noreferrer" className="hs-hero__address font-bold">
               {content.address}
             </a>
             {GOOGLE_RATING != null && GOOGLE_REVIEWS_COUNT != null ? (
@@ -86,7 +89,7 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF3EA]/70 to-[#EBE2D3]" />
+      <div className="hs-hero__blend pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[28vh] bg-gradient-to-b from-transparent via-[#FAF3EA]/70 to-[#FAF3EA]" />
     </header>
   );
 }

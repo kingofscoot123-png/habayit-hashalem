@@ -81,7 +81,7 @@ export function Treat() {
           <h2 className="section-title-rule text-h2">
             <AccentLead text={content.treat.title} />
           </h2>
-          <p className="mt-3 text-body text-ink-soft">{content.treat.lead}</p>
+          <p className="mt-3 text-body text-ink">{content.treat.lead}</p>
         </div>
 
         <div className="treat-pin__grid">

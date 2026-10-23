@@ -22,7 +22,7 @@ export function LegalPage({ title, updated, children }: Props) {
           </Link>
         </div>
       </header>
-      <article className="mx-auto max-w-3xl px-6 py-16">
+      <article className="content-shield mx-auto my-10 max-w-3xl px-6 py-16">
         <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">מידע משפטי</p>
         <h1 className="text-h2">{title}</h1>
         <p className="mt-3 text-caption text-ink-soft">עודכן לאחרונה: {updated}</p>

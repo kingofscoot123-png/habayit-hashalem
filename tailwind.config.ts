@@ -1,5 +1,23 @@
 import type { Config } from "tailwindcss";
 
+const hebrewSans = [
+  "var(--font-assistant)",
+  "Assistant",
+  "General Sans",
+  "Satoshi",
+  "Helvetica Neue",
+  "Arial",
+  "sans-serif",
+] as const;
+
+const hebrewDisplay = [
+  "var(--font-heebo)",
+  "Heebo",
+  "Clash Display",
+  "Arial",
+  "sans-serif",
+] as const;
+
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
@@ -15,8 +33,8 @@ const config: Config = {
         brand: {
           dark: "#82152B",
           green: "#9E1B32",
-          light: "#f5f3ef",
-          cream: "#faf3ea",
+          light: "#F5EBE0",
+          cream: "#FAF3EA",
         },
         burgundy: {
           DEFAULT: "#82152B",
@@ -31,25 +49,14 @@ const config: Config = {
         "brand-green": "var(--brand-green)",
       },
       fontFamily: {
-        sans: [
-          "var(--font-assistant)",
-          "var(--font-heebo)",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
-        "helvetica-neue": [
-          "var(--font-assistant)",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
-        playfair: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        oswald: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        montserrat: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        "roboto-slab": ["var(--font-heebo)", "Heebo", "sans-serif"],
-        raleway: ["var(--font-heebo)", "Heebo", "sans-serif"],
-        display: ["var(--font-heebo)", "Heebo", "Arial", "sans-serif"],
+        sans: [...hebrewSans],
+        "helvetica-neue": [...hebrewSans],
+        playfair: [...hebrewDisplay],
+        oswald: [...hebrewDisplay],
+        montserrat: [...hebrewDisplay],
+        "roboto-slab": [...hebrewDisplay],
+        raleway: [...hebrewDisplay],
+        display: [...hebrewDisplay],
       },
       fontSize: {
         display: [
@@ -58,7 +65,7 @@ const config: Config = {
         ],
         h2: [
           "clamp(2rem, 5vw, 3.25rem)",
-          { lineHeight: "1.18", letterSpacing: "-0.03em", fontWeight: "800" },
+          { lineHeight: "1.15", letterSpacing: "-0.03em", fontWeight: "800" },
         ],
         lead: ["1.3rem", { lineHeight: "1.5", fontWeight: "400" }],
         body: ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],
@@ -80,6 +87,15 @@ const config: Config = {
       transitionTimingFunction: {
         out: "cubic-bezier(0.22, 1, 0.36, 1)",
         io: "cubic-bezier(0.65, 0, 0.35, 1)",
+      },
+      animation: {
+        "pulse-slow": "pulse-slow 8s ease-in-out infinite",
+      },
+      keyframes: {
+        "pulse-slow": {
+          "0%, 100%": { opacity: "0.5", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.08)" },
+        },
       },
     },
   },

@@ -30,12 +30,19 @@ export const metadata: Metadata = {
   },
 };
 
+const FONTSHARE =
+  "https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=general-sans@600,500,400&f[]=satoshi@700,500,400&display=swap";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="he" dir="rtl" data-scene="hero" className={`${heebo.variable} ${assistant.variable}`}>
-      <body className={`${assistant.className} font-sans antialiased`}>
+    <html lang="he" dir="rtl" data-scene="hero" className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="stylesheet" href={FONTSHARE} />
+      </head>
+      <body className={`${assistant.className} antialiased`}>
         <SiteBackdrop />
         <div className="relative z-10">
           <Providers>{children}</Providers>
