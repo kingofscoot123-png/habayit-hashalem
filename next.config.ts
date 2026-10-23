@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   images: { unoptimized: true },
-  allowedDevOrigins: ["127.0.0.1"],
+  allowedDevOrigins: ["127.0.0.1", "localhost", "*.trycloudflare.com"],
   ...(isGithubPages ? { output: "export" as const } : {}),
   ...(basePath
     ? {
