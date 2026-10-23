@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Assistant, Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { SiteBackdrop } from "@/components/SiteBackdrop";
@@ -31,6 +31,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 const FONTSHARE =
   "https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@700,500,400&display=swap";
 
@@ -42,7 +48,7 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       data-scene="hero"
-      data-rev="studio-100k"
+      data-rev="studio-phone"
       className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
       style={{
         ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
@@ -53,9 +59,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link rel="stylesheet" href={FONTSHARE} />
       </head>
-      <body
-        className={`${assistant.className} studio-body antialiased bg-[url('/bg-mobile.jpg')] bg-cover bg-fixed bg-center md:bg-[url('/bg-desktop.jpg')]`}
-      >
+      <body className={`${assistant.className} studio-body antialiased`}>
         <SiteBackdrop />
         <div className="relative z-10">
           <Providers>{children}</Providers>
