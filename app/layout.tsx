@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Assistant, Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { SiteBackdrop } from "@/components/SiteBackdrop";
@@ -18,6 +18,12 @@ const assistant = Assistant({
   variable: "--font-assistant",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://habayit-hashalem.vercel.app"),
@@ -42,7 +48,7 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       data-scene="hero"
-      data-rev="modern-gold-stone"
+      data-rev="phone-canvas"
       className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
       style={{
         ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
@@ -54,7 +60,7 @@ export default function RootLayout({
         <link rel="stylesheet" href={FONTSHARE} />
       </head>
       <body
-        className={`${assistant.className} studio-body antialiased bg-[url('/bg-mobile.jpg')] bg-cover bg-fixed bg-center md:bg-[url('/bg-desktop.jpg')]`}
+        className={`${assistant.className} studio-body antialiased`}
       >
         <SiteBackdrop />
         <div className="relative z-10">
