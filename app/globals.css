@@ -205,10 +205,20 @@ p, li, .text-body, .text-lead, .faq-a, .faq-q, .quote-card__text,
   inset: 0;
 }
 
+.site-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 82% 58% at 50% 18%, rgba(255, 248, 230, 0.42), transparent 72%),
+    linear-gradient(180deg, rgba(255, 252, 247, 0.2), rgba(250, 245, 239, 0.08));
+}
+
 .site-ambient__glow {
   position: absolute;
   inset: -12%;
-  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.2), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.32), transparent 70%);
   will-change: opacity, transform;
   transform-origin: 50% 30%;
 }
@@ -891,16 +901,35 @@ a.clinic-address {
   box-shadow: 0 20px 25px -5px rgba(130, 21, 43, 0.1);
 }
 
+.pain-card__media {
+  position: relative;
+  overflow: hidden;
+}
+
+.pain-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 244, 220, 0.2) 0%,
+    transparent 46%,
+    rgba(197, 160, 89, 0.1) 100%
+  );
+}
+
 .pain-card__media img {
   display: block;
   width: 100%;
   height: 250px;
   object-fit: cover;
+  filter: brightness(1.1) contrast(1.04) saturate(1.06);
 }
 
 .pain-card__copy {
   padding: 18px 20px 22px;
-  border-top: 4px solid #82152B;
+  border-top: 1px solid rgba(197, 160, 89, 0.28);
 }
 
 .pain-card__copy h3 {
@@ -1708,6 +1737,13 @@ a.clinic-address {
 
 .media-zoom img {
   transition: transform 1.4s var(--ease-out);
+}
+
+.clinic-card img,
+.quote-card img,
+.about-portrait__frame img,
+.path-card__media img {
+  filter: brightness(1.08) contrast(1.03) saturate(1.04);
 }
 
 .media-zoom:hover img {
@@ -4693,18 +4729,19 @@ footer {
 .faq-item--neo,
 .treat-pin__head,
 .treat-pin__copy,
-.content-shield {
+.content-shield,
+.pain-card {
   position: relative;
   isolation: isolate;
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-top: 4px solid #c5a059 !important;
   border-bottom: 1px solid rgba(110, 88, 70, 0.16) !important;
   border-radius: 1rem;
   box-shadow:
-    0 25px 50px -12px rgba(110, 88, 70, 0.14),
-    0 0 0 1px rgba(197, 160, 89, 0.1) !important;
+    0 25px 50px -12px rgba(197, 160, 89, 0.18),
+    0 0 0 1px rgba(197, 160, 89, 0.14) !important;
 }
 
 .content-shield::before,
@@ -4718,7 +4755,7 @@ footer {
   height: 7rem;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.2), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(197, 160, 89, 0.3), transparent 70%);
   filter: blur(24px);
   animation: pulse-slow 8s ease-in-out infinite;
   will-change: opacity, transform;
