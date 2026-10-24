@@ -4729,8 +4729,7 @@ footer {
 .faq-item--neo,
 .treat-pin__head,
 .treat-pin__copy,
-.content-shield,
-.pain-card {
+.content-shield {
   position: relative;
   isolation: isolate;
   background: rgba(255, 255, 255, 0.97) !important;
@@ -4742,6 +4741,23 @@ footer {
   box-shadow:
     0 25px 50px -12px rgba(197, 160, 89, 0.18),
     0 0 0 1px rgba(197, 160, 89, 0.14) !important;
+}
+
+.pain-card {
+  position: absolute !important;
+  inset: 0 !important;
+  isolation: auto;
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-top: 4px solid #c5a059 !important;
+  border-bottom: 1px solid rgba(110, 88, 70, 0.16) !important;
+  box-shadow:
+    0 25px 50px -12px rgba(197, 160, 89, 0.18),
+    0 0 0 1px rgba(197, 160, 89, 0.14) !important;
+}
+
+.pain-static .pain-card {
+  position: relative !important;
+  inset: auto !important;
 }
 
 .content-shield::before,
