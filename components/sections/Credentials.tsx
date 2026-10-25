@@ -20,10 +20,15 @@ export function Credentials() {
   }, [view]);
 
   return (
-    <section id="credentials" className="px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
-      <h2 className="mb-6 text-center text-h2" data-reveal>
-        <AccentLead text={content.credentials.title} />
-      </h2>
+    <section id="credentials" className="mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <div
+        className="card-glass content-shield mx-auto mb-10 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        data-reveal
+      >
+        <h2 className="section-title-rule text-h2">
+          <AccentLead text={content.credentials.title} />
+        </h2>
+      </div>
       <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
         {items.map((item) => (
           <button
@@ -38,7 +43,7 @@ export function Credentials() {
       </div>
       {canToggle ? (
         <div className="mt-8 text-center">
-          <button type="button" className="btn-ghost rounded-2xl px-6 py-3 text-sm" onClick={() => setOpen((v) => !v)}>
+          <button type="button" className="quote-more btn-burgundy" onClick={() => setOpen((v) => !v)}>
             {open ? content.credentials.less : content.credentials.more}
           </button>
         </div>

@@ -3,6 +3,7 @@ import { Pain } from "@/components/sections/Pain";
 import { Treat } from "@/components/sections/Treat";
 import { Methods } from "@/components/sections/Methods";
 import { About } from "@/components/sections/About";
+import { Credentials } from "@/components/sections/Credentials";
 import { Why } from "@/components/sections/Why";
 import { ImpactStats } from "@/components/sections/ImpactStats";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
@@ -21,6 +22,7 @@ export default function Page() {
       <Treat />
       <Methods />
       <About />
+      <Credentials />
       <Why />
       <ImpactStats />
       <Quotes />

@@ -48,7 +48,7 @@ export default function RootLayout({
       lang="he"
       dir="rtl"
       data-scene="hero"
-      data-rev="quotes-copy"
+      data-rev="certs-quotes"
       className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
       style={{
         ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
