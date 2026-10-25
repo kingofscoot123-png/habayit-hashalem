@@ -13,7 +13,7 @@ export function Posts() {
         </h2>
         <p className="mt-3 text-body text-ink">{content.posts.hint}</p>
       </div>
-      <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-3">
         {content.posts.items.map((item) => (
           <article
             key={item.title}
