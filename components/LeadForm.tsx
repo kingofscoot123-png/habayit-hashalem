@@ -43,7 +43,7 @@ export function LeadForm() {
         <h3 className="lead-hub__title">{content.close.ready}</h3>
         <p className="lead-hub__lead">{content.close.readyLead}</p>
 
-        <div className="lead-steps" aria-label="תהליך יצירת קשר">
+        <div className="lead-steps flex flex-wrap items-center justify-center gap-3" aria-label="תהליך יצירת קשר">
           <span className={`lead-steps__item ${!done ? "is-on" : ""}`}>01 שאלון התאמה</span>
           <span className={`lead-steps__item ${done ? "is-on" : ""}`}>02 פרטים לחזרה</span>
         </div>

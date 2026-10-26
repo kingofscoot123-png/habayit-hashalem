@@ -1,19 +1,19 @@
 import type { Config } from "tailwindcss";
 
 const hebrewSans = [
+  "Satoshi",
   "var(--font-assistant)",
   "Assistant",
   "General Sans",
-  "Satoshi",
   "Helvetica Neue",
   "Arial",
   "sans-serif",
 ] as const;
 
 const hebrewDisplay = [
+  "Clash Display",
   "var(--font-heebo)",
   "Heebo",
-  "Clash Display",
   "Arial",
   "sans-serif",
 ] as const;

@@ -25,7 +25,7 @@ export const content = {
 
   pain: {
     title: "מה קורה בבית",
-    welcome: "ברוכים הבאים — איך נוכל לעזור לכם?",
+    welcome: "ברוכים הבאים. איך נוכל לעזור לכם?",
     cards: [
       {
         title: "השיחה נשברת",
