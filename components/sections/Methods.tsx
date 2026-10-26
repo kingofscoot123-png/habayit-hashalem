@@ -30,6 +30,19 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
   );
 }
 
+function MethodBody({ text }: { text: string }) {
+  const parts = text.split("\n\n").filter(Boolean);
+  return (
+    <div className="method-card__body">
+      {parts.map((part) => (
+        <p key={part.slice(0, 40)} className="methods-copy-soft">
+          <HighlightCopy text={part} />
+        </p>
+      ))}
+    </div>
+  );
+}
+
 export function Methods() {
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -157,9 +170,7 @@ export function Methods() {
           <MethodIcon name={current.name} />
         </span>
         <h3>{current.name}</h3>
-        <p className="methods-copy-soft">
-          <HighlightCopy text={current.body} />
-        </p>
+        <MethodBody text={current.body} />
       </article>
 
       <div className="kit-desk">
@@ -177,9 +188,7 @@ export function Methods() {
                 <MethodIcon name={item.name} />
               </span>
               <h3>{item.name}</h3>
-              <p className="methods-copy-soft">
-                <HighlightCopy text={item.body} />
-              </p>
+              <MethodBody text={item.body} />
             </article>
           ))}
         </div>
@@ -207,9 +216,7 @@ export function Methods() {
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
-                <p className="methods-copy-soft">
-                  <HighlightCopy text={item.body} />
-                </p>
+                <MethodBody text={item.body} />
               </article>
             );
           })}
@@ -229,9 +236,7 @@ export function Methods() {
               <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
-            <p className="methods-copy-soft">
-              <HighlightCopy text={item.body} />
-            </p>
+            <MethodBody text={item.body} />
           </article>
         ))}
       </div>

@@ -1035,24 +1035,27 @@ a.clinic-address {
   color: #18181B;
 }
 
-.kit-card p {
+.method-card__body p + p {
+  margin-top: 10px;
+}
+
+.kit-card .method-card__body {
   max-height: 0;
   margin: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.25s ease;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
 }
 
-.kit-card.is-open p,
-.kit-card.is-hot p {
-  max-height: 1000px;
+.kit-card.is-open .method-card__body,
+.kit-card.is-hot .method-card__body {
+  max-height: 2000px;
   opacity: 1;
-  margin-top: 6px;
   overflow: visible;
 }
 
-.method-card--open p,
-.method-card--pinned p {
+.method-card--open .method-card__body,
+.method-card--pinned .method-card__body {
   max-height: none;
   opacity: 1;
   overflow: visible;
