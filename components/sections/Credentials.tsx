@@ -1,14 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { content } from "@/content";
 
+type CertItem = (typeof content.credentials.items)[number];
+
 export function Credentials() {
-  const [open, setOpen] = useState(false);
-  const [view, setView] = useState<(typeof content.credentials.items)[number] | null>(null);
-  const items = open ? content.credentials.items : content.credentials.items.slice(0, content.credentials.previewCount);
-  const canToggle = content.credentials.items.length > content.credentials.previewCount;
+  const [view, setView] = useState<CertItem | null>(null);
+  const groups = useMemo(() => {
+    const map = new Map<string, CertItem[]>();
+    for (const item of content.credentials.items) {
+      const list = map.get(item.group) ?? [];
+      list.push(item);
+      map.set(item.group, list);
+    }
+    return Array.from(map.entries());
+  }, []);
 
   useEffect(() => {
     if (!view) return;
@@ -28,26 +36,27 @@ export function Credentials() {
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.credentials.title} />
         </h2>
+        <p className="mt-3 text-body text-ink">{content.credentials.lead}</p>
       </div>
-      <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-        {items.map((item) => (
-          <button
-            key={item.src}
-            type="button"
-            className="cert-photo rounded-shell p-2"
-            onClick={() => setView(item)}
-          >
-            <img src={item.src} alt={item.alt} />
-          </button>
+      <div className="cred-groups mx-auto max-w-5xl">
+        {groups.map(([group, items]) => (
+          <div key={group} className="cred-group">
+            <h3 className="cred-group__title">{group}</h3>
+            <div className="cred-group__grid">
+              {items.map((item) => (
+                <button
+                  key={item.src}
+                  type="button"
+                  className="cert-photo rounded-shell p-2"
+                  onClick={() => setView(item)}
+                >
+                  <img src={item.src} alt={item.alt} />
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
-      {canToggle ? (
-        <div className="mt-8 text-center">
-          <button type="button" className="quote-more btn-burgundy" onClick={() => setOpen((v) => !v)}>
-            {open ? content.credentials.less : content.credentials.more}
-          </button>
-        </div>
-      ) : null}
 
       {view ? (
         <div className="method-modal is-on" role="dialog" aria-modal="true" aria-label={view.alt}>

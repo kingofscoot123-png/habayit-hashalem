@@ -98,16 +98,6 @@ export function Quotes() {
             {content.quotes.more}
           </button>
         </div>
-        <div className="quote-certs mt-12">
-          <p className="quote-certs__title">{content.quotes.coupleCertsTitle}</p>
-          <div className="quote-certs__grid">
-            {content.quotes.coupleCerts.map((item) => (
-              <figure key={item.src} className="quote-certs__card">
-                <img src={item.src} alt={item.alt} loading="lazy" />
-              </figure>
-            ))}
-          </div>
-        </div>
       </div>
 
       {modal ? (
@@ -141,16 +131,6 @@ export function Quotes() {
             >
               {content.quotes.googleLabel}
             </a>
-            <div className="quote-certs mt-8">
-              <p className="quote-certs__title">{content.quotes.coupleCertsTitle}</p>
-              <div className="quote-certs__grid">
-                {content.quotes.coupleCerts.map((item) => (
-                  <figure key={`modal-${item.src}`} className="quote-certs__card">
-                    <img src={item.src} alt={item.alt} loading="lazy" />
-                  </figure>
-                ))}
-              </div>
-            </div>
             <button type="button" className="btn-ghost mt-4 rounded-2xl px-5 py-2.5 text-sm" onClick={() => setModal(false)}>
               {content.quotes.modalClose}
             </button>

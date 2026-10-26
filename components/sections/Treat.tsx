@@ -106,6 +106,13 @@ export function Treat() {
                     >
                       <span className="treat-step__label">{content.treat.labels[key]}</span>
                       <p>{item[key]}</p>
+                      {key === "how" && "points" in item && item.points ? (
+                        <ul className="treat-pin__points">
+                          {item.points.map((point) => (
+                            <li key={point}>{point}</li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </li>
                   ))}
                 </ol>

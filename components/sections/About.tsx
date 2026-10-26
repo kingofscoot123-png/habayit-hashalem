@@ -59,13 +59,9 @@ export function About() {
                     </span>
                   ))}
                 </div>
-                <div className="about-certs-grid mt-5">
-                  {content.credentials.items.map((item) => (
-                    <figure key={item.src} className="about-cert-card rounded-2xl">
-                      <img src={item.src} alt={item.alt} loading="lazy" />
-                    </figure>
-                  ))}
-                </div>
+                <a href="#credentials" className="quote-more btn-burgundy mt-5 inline-flex">
+                  {content.credentials.more}
+                </a>
               </div>
             ) : null}
           </div>
