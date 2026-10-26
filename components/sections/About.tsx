@@ -16,7 +16,7 @@ export function About() {
 
         <div className="card-glass content-shield rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8">
           <div data-reveal>
-            <p className="about-badge mb-3 text-xs font-semibold uppercase tracking-widest">{content.who.title}</p>
+            <p className="about-badge mb-3 text-sm font-bold uppercase tracking-widest">{content.who.title}</p>
             <h2 className="section-title-rule text-h2">
               <AccentLead text={content.who.name} />
             </h2>

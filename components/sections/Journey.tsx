@@ -5,7 +5,7 @@ export function Journey() {
   return (
     <section id="process" className="px-0 py-16 sm:py-20 lg:px-16 lg:py-[140px]">
       <div className="mx-auto mb-8 max-w-3xl px-5 text-center sm:px-6 lg:mb-12">
-        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">
+        <p className="mb-3 text-sm font-bold uppercase tracking-widest text-accent">
           {content.journey.kicker}
         </p>
         <h2 className="text-h2">{content.journey.title}</h2>

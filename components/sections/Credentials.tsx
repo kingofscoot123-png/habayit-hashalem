@@ -63,7 +63,7 @@ export function Credentials() {
           <button type="button" className="method-modal__backdrop" aria-label="סגירה" onClick={() => setView(null)} />
           <div className="cert-modal__panel">
             <img src={view.src} alt={view.alt} />
-            <button type="button" className="btn-ghost mt-5 rounded-2xl px-5 py-2.5 text-sm" onClick={() => setView(null)}>
+            <button type="button" className="btn-ghost mt-5 rounded-2xl px-5 py-2.5 text-base font-semibold" onClick={() => setView(null)}>
               סגירה
             </button>
           </div>

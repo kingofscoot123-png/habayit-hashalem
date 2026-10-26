@@ -79,7 +79,7 @@ export function Hero() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-pill hs-hero__address my-1 inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-xs font-semibold text-[#82152B] shadow-md backdrop-blur-md"
+              className="hero-pill hs-hero__address my-1 inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md backdrop-blur-md"
             >
               {content.address}
             </a>
@@ -94,7 +94,7 @@ export function Hero() {
                 {TRUST_MARKS.map((mark) => (
                   <span
                     key={mark}
-                    className="hero-pill hs-hero__cred my-1 inline-block rounded-xl border border-[#A88840] bg-[#C5A059] px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-[#2A2118] shadow-lg"
+                    className="hero-pill hs-hero__cred my-1 inline-block rounded-xl border border-[#A88840] bg-[#C5A059] px-4 py-2 text-sm font-extrabold tracking-[0.1em] text-[#2A2118] shadow-lg"
                   >
                     {mark}
                   </span>
