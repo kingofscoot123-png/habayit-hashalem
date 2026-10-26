@@ -33,7 +33,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "הבית השלם · מיכאל מרום",
     description: "טיפול זוגי ורגשי בראש העין.",
-    images: [{ url: "images/hero-desktop.jpg", width: 1600, height: 900 }],
+    images: [{ url: "images/treatment-couple.jpg", width: 1600, height: 900 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "הבית השלם · מיכאל מרום",
+    description: "טיפול זוגי ורגשי בראש העין.",
+    images: ["images/treatment-couple.jpg"],
   },
 };
 

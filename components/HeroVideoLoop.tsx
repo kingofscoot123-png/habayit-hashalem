@@ -85,11 +85,10 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
   return (
     <div className="hs-hero__media-inner relative h-full w-full overflow-hidden">
       <picture>
-        <source media="(min-width: 768px)" srcSet={asset("/images/hero-desktop.jpg")} />
         <img
-          src={asset("/images/hero-mobile.jpg")}
+          src={asset("/images/treatment-couple.jpg")}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[62%_74%] md:object-[50%_74%]"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_60%]"
           decoding="async"
         />
       </picture>
