@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
 
 export function About() {
-  const [open, setOpen] = useState(false);
-
   return (
     <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
@@ -47,23 +44,9 @@ export function About() {
           </div>
 
           <div className="mt-6" data-reveal>
-            <button type="button" className="btn-burgundy rounded-2xl px-6 py-3 text-sm" onClick={() => setOpen((v) => !v)}>
-              {open ? content.who.less : content.who.more}
-            </button>
-            {open ? (
-              <div className="about-secondary-creds mt-5">
-                <div className="about-creds-more" aria-label="הסמכות משניות">
-                  {content.who.secondaryCreds.map((cred) => (
-                    <span key={cred} className="about-cred about-cred--soft">
-                      {cred}
-                    </span>
-                  ))}
-                </div>
-                <a href="#credentials" className="quote-more btn-burgundy mt-5 inline-flex">
-                  {content.credentials.more}
-                </a>
-              </div>
-            ) : null}
+            <a href="#credentials" className="quote-more btn-burgundy inline-flex">
+              {content.credentials.more}
+            </a>
           </div>
 
           <div className="clinic-card mt-10 rounded-2xl px-6 py-5" data-reveal>

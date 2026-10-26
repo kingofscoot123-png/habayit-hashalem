@@ -2574,6 +2574,7 @@ a.clinic-address {
 
   .method-acc {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
     max-width: 72rem;
     gap: 12px;
   }
@@ -3818,9 +3819,13 @@ a.clinic-address {
   display: grid;
   gap: 10px;
   max-width: 52rem;
+  align-items: start;
 }
 
 .method-acc__item {
+  align-self: start;
+  overflow: visible;
+  height: auto;
   border-radius: 1rem;
   border: 1px solid rgba(130, 21, 43, 0.12);
   border-top: 4px solid #82152b;
@@ -3867,10 +3872,34 @@ a.clinic-address {
   background: rgba(130, 21, 43, 0.08);
 }
 
+.method-acc__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.method-acc__item.is-open .method-acc__panel {
+  grid-template-rows: 1fr;
+}
+
+.method-acc__clip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.method-acc__item.is-open .method-acc__clip {
+  overflow: visible;
+}
+
 .method-acc__body {
+  margin: 0;
   padding: 0 16px 18px;
   font-size: 0.98rem;
   line-height: 1.7;
+  white-space: normal;
+  overflow: visible;
+  max-height: none;
+  height: auto;
 }
 
 .cred-groups {
@@ -4066,7 +4095,7 @@ a.clinic-address {
 
 .kit-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
 }
 
