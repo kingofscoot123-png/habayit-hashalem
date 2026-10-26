@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
+import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const icons: Record<string, string> = {
   "שיטת NLP רפואי": "M12 3v18M4 12h16",
@@ -26,20 +31,100 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
 }
 
 export function Methods() {
-  const [open, setOpen] = useState<ReadonlySet<number>>(() => new Set([0]));
+  const trackRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const pauseRef = useRef(false);
+  const indexRef = useRef(0);
+  const { reduced } = useMotionPrefs();
+  const [active, setActive] = useState(0);
   const items = content.methods.items;
+  const current = items[active];
+  const left = items.slice(0, 4);
+  const right = items.slice(4);
 
-  const toggle = (i: number) => {
-    setOpen((current) => {
-      const next = new Set(current);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
-      return next;
-    });
+  const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
+    const track = trackRef.current;
+    const card = track?.querySelector<HTMLElement>(`[data-method-card="${i}"]`);
+    if (!track || !card) return;
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const delta = cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2;
+    track.scrollBy({ left: delta, behavior });
+  };
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-method-card]"));
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (pauseRef.current) return;
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const i = Number((visible.target as HTMLElement).dataset.methodCard);
+        if (!Number.isNaN(i)) {
+          indexRef.current = i;
+          setActive(i);
+        }
+      },
+      { root: track, threshold: 0.55 },
+    );
+
+    cards.forEach((card) => io.observe(card));
+    return () => io.disconnect();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (reduced) return;
+    const section = sectionRef.current;
+    const pin = pinRef.current;
+    if (!section || !pin) return;
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        id: "methods-pin",
+        trigger: section,
+        start: "top top+=64",
+        end: () => `+=${Math.round(window.innerHeight * (1.6 + items.length * 0.38))}`,
+        pin,
+        scrub: 0.7,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
+          if (i === indexRef.current) return;
+          indexRef.current = i;
+          setActive(i);
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, [reduced, items.length]);
+
+  const goTo = (i: number) => {
+    pauseRef.current = true;
+    indexRef.current = i;
+    setActive(i);
+    scrollToCard(i);
+    const st = ScrollTrigger.getById("methods-pin");
+    if (st) {
+      const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+    window.setTimeout(() => {
+      pauseRef.current = false;
+    }, 6000);
   };
 
   return (
-    <section id="path" className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+      <div ref={pinRef} className="kit-section__pin">
       <div
         className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
         data-reveal
@@ -52,37 +137,109 @@ export function Methods() {
         </p>
       </div>
 
-      <div className="method-acc mx-auto">
-        {items.map((item, i) => {
-          const isOpen = open.has(i);
-          return (
-            <article key={item.name} className={`method-acc__item ${isOpen ? "is-open" : ""}`}>
-              <button
-                type="button"
-                className="method-acc__btn"
-                aria-expanded={isOpen}
-                aria-controls={`method-panel-${i}`}
-                onClick={() => toggle(i)}
+      <div className="kit-core kit-core--mobile" aria-hidden="true">
+        <div className="kit-core__glow" />
+        <div className="kit-core__orb" data-kit={active}>
+          <MethodIcon name={current.name} size={36} />
+        </div>
+        <p className="kit-core__name">{current.name}</p>
+      </div>
+      <article className="method-card method-card--open method-card--pinned is-hot">
+        <span className="method-card__tag">{String(active + 1).padStart(2, "0")}</span>
+        <span className="method-card__icon" aria-hidden="true">
+          <MethodIcon name={current.name} />
+        </span>
+        <h3>{current.name}</h3>
+        <p className="methods-copy-soft">
+          <HighlightCopy text={current.body} />
+        </p>
+      </article>
+
+      <div className="kit-desk">
+        <div className="kit-desk__col">
+          {left.map((item, i) => (
+            <article
+              key={item.name}
+              className={`method-card kit-card ${active === i ? "is-hot" : ""}`}
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => setActive(i)}
+              onClick={() => setActive(i)}
+            >
+              <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
+              <span className="method-card__icon">
+                <MethodIcon name={item.name} />
+              </span>
+              <h3>{item.name}</h3>
+              <p className="methods-copy-soft">
+                <HighlightCopy text={item.body} />
+              </p>
+            </article>
+          ))}
+        </div>
+        <div className="kit-core kit-core--desk" aria-hidden="true">
+          <div className="kit-core__glow" />
+          <div className="kit-core__orb" data-kit={active}>
+            <MethodIcon name={current.name} size={42} />
+          </div>
+          <p className="kit-core__kicker">{content.methods.core}</p>
+          <p className="kit-core__name">{current.name}</p>
+        </div>
+        <div className="kit-desk__col">
+          {right.map((item, i) => {
+            const idx = i + 4;
+            return (
+              <article
+                key={item.name}
+                className={`method-card kit-card ${active === idx ? "is-hot" : ""}`}
+                onMouseEnter={() => setActive(idx)}
+                onFocus={() => setActive(idx)}
+                onClick={() => setActive(idx)}
               >
-                <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
-                <span className="method-card__icon" aria-hidden="true">
+                <span className="method-card__tag">{String(idx + 1).padStart(2, "0")}</span>
+                <span className="method-card__icon">
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
-                <span className="method-acc__chev" aria-hidden="true">
-                  {isOpen ? "−" : "+"}
-                </span>
-              </button>
-              <div className="method-acc__panel" id={`method-panel-${i}`} role="region">
-                <div className="method-acc__clip">
-                  <p className="method-acc__body methods-copy-soft">
-                    <HighlightCopy text={item.body} />
-                  </p>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+                <p className="methods-copy-soft">
+                  <HighlightCopy text={item.body} />
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div ref={trackRef} className="method-grid method-grid--snap mx-auto max-w-5xl">
+        {items.map((item, i) => (
+          <article
+            key={item.name}
+            className={`method-card method-card--open ${active === i ? "is-hot" : ""}`}
+            data-method-card={i}
+          >
+            <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
+            <span className="method-card__icon" aria-hidden="true">
+              <MethodIcon name={item.name} />
+            </span>
+            <h3>{item.name}</h3>
+            <p className="methods-copy-soft">
+              <HighlightCopy text={item.body} />
+            </p>
+          </article>
+        ))}
+      </div>
+      <div className="method-dots" role="tablist" aria-label={content.methods.title}>
+        {items.map((item, i) => (
+          <button
+            key={item.name}
+            type="button"
+            role="tab"
+            aria-label={item.name}
+            aria-selected={i === active}
+            className={`method-dots__dot ${i === active ? "is-on" : ""}`}
+            onClick={() => goTo(i)}
+          />
+        ))}
+      </div>
       </div>
     </section>
   );
