@@ -26,11 +26,16 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
 }
 
 export function Methods() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState<ReadonlySet<number>>(() => new Set([0]));
   const items = content.methods.items;
 
   const toggle = (i: number) => {
-    setOpen((current) => (current === i ? -1 : i));
+    setOpen((current) => {
+      const next = new Set(current);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
   };
 
   return (
@@ -49,13 +54,14 @@ export function Methods() {
 
       <div className="method-acc mx-auto">
         {items.map((item, i) => {
-          const isOpen = open === i;
+          const isOpen = open.has(i);
           return (
             <article key={item.name} className={`method-acc__item ${isOpen ? "is-open" : ""}`}>
               <button
                 type="button"
                 className="method-acc__btn"
                 aria-expanded={isOpen}
+                aria-controls={`method-panel-${i}`}
                 onClick={() => toggle(i)}
               >
                 <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
@@ -67,11 +73,13 @@ export function Methods() {
                   {isOpen ? "−" : "+"}
                 </span>
               </button>
-              {isOpen ? (
-                <p className="method-acc__body methods-copy-soft">
-                  <HighlightCopy text={item.body} />
-                </p>
-              ) : null}
+              <div className="method-acc__panel" id={`method-panel-${i}`} role="region">
+                <div className="method-acc__clip">
+                  <p className="method-acc__body methods-copy-soft">
+                    <HighlightCopy text={item.body} />
+                  </p>
+                </div>
+              </div>
             </article>
           );
         })}

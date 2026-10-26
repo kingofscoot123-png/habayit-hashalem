@@ -118,7 +118,7 @@ export const content = {
   },
 
   credentials: {
-    title: "הסמכות",
+    title: "הסמכות ותעודות",
     previewCount: 6,
     more: "לכל התעודות",
     less: "הצג פחות",
