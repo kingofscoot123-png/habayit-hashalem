@@ -17,13 +17,13 @@ export function LegalPage({ title, updated, children }: Props) {
           <Link href="/" aria-label={content.brand}>
             <Logo />
           </Link>
-          <Link href="/" className="text-sm text-ink-soft transition hover:text-accent">
+          <Link href="/" className="text-base font-semibold text-ink-soft transition hover:text-accent">
             חזרה לאתר
           </Link>
         </div>
       </header>
       <article className="content-shield mx-auto my-10 max-w-3xl px-6 py-16">
-        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">מידע משפטי</p>
+        <p className="mb-3 text-sm font-bold uppercase tracking-widest text-accent">מידע משפטי</p>
         <h1 className="text-h2">{title}</h1>
         <p className="mt-3 text-caption text-ink-soft">עודכן לאחרונה: {updated}</p>
         <div className="legal-copy mt-10 space-y-6 text-body leading-relaxed text-ink-soft">{children}</div>

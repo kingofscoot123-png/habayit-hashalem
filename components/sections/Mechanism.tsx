@@ -58,7 +58,7 @@ export function Mechanism() {
     <section id="process" ref={sectionRef} className="relative">
       <div className="flex min-h-0 flex-col justify-center px-5 py-16 sm:px-6 lg:min-h-[100svh] lg:px-16 lg:py-20">
         <div className="mx-auto mb-6 max-w-3xl text-center lg:mb-8">
-          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-accent">
+          <p className="mb-3 text-sm font-bold uppercase tracking-widest text-accent">
             {content.mechanism.kicker}
           </p>
           <h2 className="text-h2">{content.mechanism.title}</h2>

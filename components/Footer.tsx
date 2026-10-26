@@ -17,7 +17,7 @@ export function Footer() {
         >
           {content.legal.clinic}
         </a>
-        <nav aria-label="מידע משפטי" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+        <nav aria-label="מידע משפטי" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-base font-semibold">
           <Link href="/privacy/" className="text-ink-soft transition hover:text-accent">
             {content.legal.privacy}
           </Link>

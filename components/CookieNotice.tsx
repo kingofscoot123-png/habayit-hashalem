@@ -23,7 +23,7 @@ export function CookieNotice() {
   return (
     <div className="cookie-bar" role="dialog" aria-label={content.legal.cookies}>
       <div className="mx-auto flex max-w-5xl flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-relaxed text-ink-soft">
+        <p className="text-base font-medium leading-relaxed text-ink-soft">
           {content.legal.cookieBanner}{" "}
           <Link href="/cookies/" className="text-accent underline underline-offset-4">
             {content.legal.cookies}
@@ -31,7 +31,7 @@ export function CookieNotice() {
         </p>
         <button
           type="button"
-          className="btn-gold shrink-0 rounded-button px-5 py-2.5 text-sm font-bold"
+          className="btn-gold shrink-0 rounded-button px-5 py-2.5 text-base font-bold"
           onClick={() => {
             window.localStorage.setItem(KEY, "1");
             setOpen(false);

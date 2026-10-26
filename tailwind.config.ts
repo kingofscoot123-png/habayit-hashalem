@@ -65,16 +65,16 @@ const config: Config = {
       },
       fontSize: {
         display: [
-          "clamp(2.4rem, 7vw, 4.2rem)",
+          "clamp(2.55rem, 7vw, 4.4rem)",
           { lineHeight: "1.12", letterSpacing: "-0.03em", fontWeight: "800" },
         ],
         h2: [
-          "clamp(2rem, 5vw, 3.25rem)",
+          "clamp(2.15rem, 5.2vw, 3.45rem)",
           { lineHeight: "1.15", letterSpacing: "-0.03em", fontWeight: "800" },
         ],
-        lead: ["1.3rem", { lineHeight: "1.5", fontWeight: "400" }],
-        body: ["1.125rem", { lineHeight: "1.7", fontWeight: "400" }],
-        caption: ["0.875rem", { lineHeight: "1.4", fontWeight: "400" }],
+        lead: ["1.4rem", { lineHeight: "1.55", fontWeight: "600" }],
+        body: ["1.2rem", { lineHeight: "1.75", fontWeight: "500" }],
+        caption: ["1.05rem", { lineHeight: "1.45", fontWeight: "600" }],
       },
       maxWidth: {
         measure: "68ch",

@@ -131,7 +131,7 @@ export function Quotes() {
             >
               {content.quotes.googleLabel}
             </a>
-            <button type="button" className="btn-ghost mt-4 rounded-2xl px-5 py-2.5 text-sm" onClick={() => setModal(false)}>
+            <button type="button" className="btn-ghost mt-4 rounded-2xl px-5 py-2.5 text-base font-semibold" onClick={() => setModal(false)}>
               {content.quotes.modalClose}
             </button>
           </div>
