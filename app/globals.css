@@ -1035,6 +1035,29 @@ a.clinic-address {
   color: #18181B;
 }
 
+.kit-card p {
+  max-height: 0;
+  margin: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.25s ease;
+}
+
+.kit-card.is-open p,
+.kit-card.is-hot p {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 6px;
+  overflow: visible;
+}
+
+.method-card--open p,
+.method-card--pinned p {
+  max-height: none;
+  opacity: 1;
+  overflow: visible;
+}
+
 .method-card__tag {
   display: inline-flex;
   margin-bottom: 10px;
@@ -3975,7 +3998,7 @@ a.clinic-address {
 
 .kit-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
 }
 

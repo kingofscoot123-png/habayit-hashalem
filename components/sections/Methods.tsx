@@ -38,6 +38,7 @@ export function Methods() {
   const indexRef = useRef(0);
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(0);
   const items = content.methods.items;
   const current = items[active];
   const left = items.slice(0, 4);
@@ -107,10 +108,16 @@ export function Methods() {
     return () => ctx.revert();
   }, [reduced, items.length]);
 
+  const reveal = (i: number) => {
+    setActive(i);
+    setOpen((current) => (current === i ? -1 : i));
+  };
+
   const goTo = (i: number) => {
     pauseRef.current = true;
     indexRef.current = i;
     setActive(i);
+    setOpen(i);
     scrollToCard(i);
     const st = ScrollTrigger.getById("methods-pin");
     if (st) {
@@ -160,10 +167,10 @@ export function Methods() {
           {left.map((item, i) => (
             <article
               key={item.name}
-              className={`method-card kit-card ${active === i ? "is-hot" : ""}`}
+              className={`method-card kit-card ${active === i ? "is-hot" : ""} ${open === i ? "is-open" : ""}`}
               onMouseEnter={() => setActive(i)}
               onFocus={() => setActive(i)}
-              onClick={() => setActive(i)}
+              onClick={() => reveal(i)}
             >
               <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
               <span className="method-card__icon">
@@ -190,10 +197,10 @@ export function Methods() {
             return (
               <article
                 key={item.name}
-                className={`method-card kit-card ${active === idx ? "is-hot" : ""}`}
+                className={`method-card kit-card ${active === idx ? "is-hot" : ""} ${open === idx ? "is-open" : ""}`}
                 onMouseEnter={() => setActive(idx)}
                 onFocus={() => setActive(idx)}
-                onClick={() => setActive(idx)}
+                onClick={() => reveal(idx)}
               >
                 <span className="method-card__tag">{String(idx + 1).padStart(2, "0")}</span>
                 <span className="method-card__icon">
@@ -213,8 +220,9 @@ export function Methods() {
         {items.map((item, i) => (
           <article
             key={item.name}
-            className={`method-card method-card--open ${active === i ? "is-hot" : ""}`}
+            className={`method-card method-card--open ${active === i ? "is-hot" : ""} ${open === i ? "is-open" : ""}`}
             data-method-card={i}
+            onClick={() => reveal(i)}
           >
             <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
             <span className="method-card__icon" aria-hidden="true">
