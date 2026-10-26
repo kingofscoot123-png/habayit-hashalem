@@ -27,24 +27,24 @@ export function Hero() {
         <HeroVideoLoop src={HERO_VIDEO} />
       </div>
 
-      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center px-5 pb-24 pt-20 md:px-6 md:pb-28 md:pt-0 lg:px-8">
-        <div className="hs-hero__copy min-w-0 w-full">
+      <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-start px-5 pb-24 pt-[5.75rem] md:px-6 md:pb-28 md:pt-[7.25rem] lg:px-8">
+        <div className="hs-hero__copy flex min-w-0 w-full max-w-3xl flex-col items-center gap-4 text-center">
           <div className="hs-hero__veil" aria-hidden="true" />
-          <p className="hs-hero__kicker animate-fade-up stagger-3 font-bold">
-            <span className="kicker-name">{content.person}</span>
-            <span className="gold-sep" aria-hidden="true">
+          <p className="hs-hero__kicker animate-fade-up stagger-3 m-0 w-full max-w-xl font-bold leading-snug">
+            <span className="kicker-name block sm:inline">{content.person}</span>
+            <span className="gold-sep hidden sm:inline" aria-hidden="true">
               {" "}
               •{" "}
             </span>
-            מטפל בכיר זוגי ורגשי
+            <span className="block text-base font-semibold sm:inline sm:text-inherit">מטפל בכיר זוגי ורגשי</span>
           </p>
-          <h1 className="hs-hero__title font-display animate-fade-up stagger-4">
+          <h1 className="hs-hero__title font-display animate-fade-up stagger-4 m-0 w-full">
             חוזרים לקרבה שהייתה
             <br />
             לפני שהשיחות <span>נשברו</span>
           </h1>
 
-          <div className="hs-hero__actions animate-fade-up stagger-5">
+          <div className="hs-hero__actions animate-fade-up stagger-5 mt-0 w-full">
             <a
               href={content.whatsappHref}
               target="_blank"
@@ -71,7 +71,7 @@ export function Hero() {
             </a>
           </div>
 
-          <div className="hs-hero__trust animate-fade-up stagger-5">
+          <div className="hs-hero__trust animate-fade-up stagger-5 mt-0 w-full gap-3">
             {HAS_MICHAEL_PHOTO ? (
               <img src="/images/michael.jpg" alt="" width={48} height={48} className="hs-hero__photo" />
             ) : null}
@@ -79,7 +79,7 @@ export function Hero() {
               href={content.mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-pill hs-hero__address my-1 inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md backdrop-blur-md"
+              className="hero-pill hs-hero__address inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md backdrop-blur-md"
             >
               {content.address}
             </a>
@@ -89,17 +89,12 @@ export function Hero() {
               </span>
             ) : null}
 
-            <div className="hs-hero__creds">
-              <div className="hs-hero__creds-row">
-                {TRUST_MARKS.map((mark) => (
-                  <span
-                    key={mark}
-                    className="hero-pill hs-hero__cred my-1 inline-block rounded-xl border border-[#A88840] bg-[#C5A059] px-4 py-2 text-sm font-extrabold tracking-[0.1em] text-[#2A2118] shadow-lg"
-                  >
-                    {mark}
-                  </span>
-                ))}
-              </div>
+            <div className="hs-hero__badges" aria-label="שיטות טיפול">
+              {TRUST_MARKS.map((mark) => (
+                <span key={mark} className="hs-hero__cred-badge">
+                  {mark}
+                </span>
+              ))}
             </div>
           </div>
         </div>
