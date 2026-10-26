@@ -85,6 +85,7 @@ export function Treat() {
         </div>
 
         <div className="treat-pin__grid">
+          <div className="treat-pin__main">
           <div className="treat-pin__copy" aria-live="polite">
             {items.map((item, i) => (
               <article
@@ -118,21 +119,22 @@ export function Treat() {
                 </ol>
               </article>
             ))}
+          </div>
 
-            <div className="treat-pin__dots" role="tablist" aria-label={content.treat.title}>
-              {items.map((item, i) => (
-                <button
-                  key={item.n}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === stage}
-                  className={`treat-pin__dot ${i === stage ? "is-on" : ""}`}
-                  onClick={() => goTo(i)}
-                >
-                  {item.n}
-                </button>
-              ))}
-            </div>
+          <div className="treat-pin__dots" role="tablist" aria-label={content.treat.title}>
+            {items.map((item, i) => (
+              <button
+                key={item.n}
+                type="button"
+                role="tab"
+                aria-selected={i === stage}
+                className={`treat-pin__dot ${i === stage ? "is-on" : ""}`}
+                onClick={() => goTo(i)}
+              >
+                {item.n}
+              </button>
+            ))}
+          </div>
           </div>
 
           <TreatHouse stage={stage} />

@@ -3518,7 +3518,7 @@ a.clinic-address {
   top: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: min(calc(100svh - 72px), 820px);
   padding: 20px 20px 24px;
 }
@@ -3636,9 +3636,18 @@ a.clinic-address {
   filter: drop-shadow(0 12px 28px rgba(130, 21, 43, 0.14));
 }
 
+.treat-pin__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .treat-pin__copy {
   position: relative;
   padding: 16px 18px 12px;
+  max-height: min(58vh, 560px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -3895,11 +3904,6 @@ a.clinic-address {
   color: #18181b;
 }
 
-.treat-pin {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 .method-dots {
   display: flex;
   justify-content: center;
@@ -3939,16 +3943,20 @@ a.clinic-address {
     display: none;
   }
 
+  .treat-pin__copy {
+    max-height: min(42vh, 320px);
+  }
+
   .treat-pin__hint {
     display: none;
   }
 
   .treat-house {
-    min-height: 148px;
+    min-height: 112px;
   }
 
   .treat-house__svg {
-    width: min(52vw, 188px);
+    width: min(42vw, 150px);
   }
 
   .treat-pin .treat-step {
@@ -4011,7 +4019,7 @@ a.clinic-address {
   .treat-pin__grid {
     display: grid;
     grid-template-columns: minmax(0, 0.92fr) minmax(280px, 1.08fr);
-    align-items: center;
+    align-items: start;
     gap: 24px;
   }
 
