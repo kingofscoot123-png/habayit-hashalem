@@ -122,7 +122,7 @@ export const content = {
     previewCount: 6,
     more: "לכל התעודות",
     less: "הצג פחות",
-    lead: "כל התעודות במקום אחד, לפי תחום. בלי כפילויות",
+    lead: "כל התעודות במקום אחד, לפי תחום",
     items: [
       { src: asset("/images/cert-04.jpg"), alt: "תעודת הכשרת יועצים זוגיים", group: "ייעוץ זוגי והדרכת נישואין" },
       { src: asset("/images/cert-10.jpg"), alt: "תעודת הדרכת נישואין", group: "ייעוץ זוגי והדרכת נישואין" },
