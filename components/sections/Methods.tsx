@@ -30,6 +30,14 @@ function MethodIcon({ name, size = 20 }: { name: string; size?: number }) {
   );
 }
 
+function MethodSummary({ text }: { text: string }) {
+  return (
+    <p className="method-card__summary methods-copy-soft">
+      <HighlightCopy text={text} />
+    </p>
+  );
+}
+
 function MethodBody({ text }: { text: string }) {
   const parts = text.split("\n\n").filter(Boolean);
   return (
@@ -170,6 +178,7 @@ export function Methods() {
           <MethodIcon name={current.name} />
         </span>
         <h3>{current.name}</h3>
+        {"summary" in current && current.summary ? <MethodSummary text={current.summary} /> : null}
         <MethodBody text={current.body} />
       </article>
 
@@ -188,6 +197,7 @@ export function Methods() {
                 <MethodIcon name={item.name} />
               </span>
               <h3>{item.name}</h3>
+              {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
               <MethodBody text={item.body} />
             </article>
           ))}
@@ -216,6 +226,7 @@ export function Methods() {
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
+                {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
                 <MethodBody text={item.body} />
               </article>
             );
@@ -236,6 +247,7 @@ export function Methods() {
               <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
+            {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
             <MethodBody text={item.body} />
           </article>
         ))}
