@@ -12,7 +12,7 @@ export default function TermsPage() {
     <LegalPage title={content.legal.terms} updated="3 באוקטובר 2026">
       <p>
         השימוש באתר «הבית השלם» מהווה הסכמה לתנאים אלה. האתר מציג מידע על הקליניקה של {content.person}{" "}
-        בראש העין. הוא אינו תחליף לאבחון, לייעוץ רפואי או לשיחת היכרות.
+        באזור המרכז. הוא אינו תחליף לאבחון, לייעוץ רפואי או לשיחת היכרות.
       </p>
       <h2 className="pt-2 text-xl font-bold text-ink">השירות</h2>
       <p>
