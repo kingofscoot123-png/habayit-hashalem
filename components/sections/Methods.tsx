@@ -42,8 +42,8 @@ function MethodBody({ text }: { text: string }) {
   const parts = text.split("\n\n").filter(Boolean);
   return (
     <div className="method-card__body">
-      {parts.map((part) => (
-        <p key={part.slice(0, 40)} className="methods-copy-soft">
+      {parts.map((part, idx) => (
+        <p key={idx} className="methods-copy-soft">
           <HighlightCopy text={part} />
         </p>
       ))}
@@ -172,13 +172,16 @@ export function Methods() {
         </div>
         <p className="kit-core__name">{current.name}</p>
       </div>
-      <article className="method-card method-card--open method-card--pinned is-hot">
+      <article
+        key={`method-pinned-${active}`}
+        className="method-card method-card--open method-card--pinned is-hot"
+      >
         <span className="method-card__tag">{String(active + 1).padStart(2, "0")}</span>
         <span className="method-card__icon" aria-hidden="true">
           <MethodIcon name={current.name} />
         </span>
         <h3>{current.name}</h3>
-        {"summary" in current && current.summary ? <MethodSummary text={current.summary} /> : null}
+        <MethodSummary text={current.summary} />
         <MethodBody text={current.body} />
       </article>
 
@@ -197,18 +200,22 @@ export function Methods() {
                 <MethodIcon name={item.name} />
               </span>
               <h3>{item.name}</h3>
-              {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
+              <MethodSummary text={item.summary} />
               <MethodBody text={item.body} />
             </article>
           ))}
         </div>
-        <div className="kit-core kit-core--desk" aria-hidden="true">
+        <div className="kit-core kit-core--desk">
           <div className="kit-core__glow" />
           <div className="kit-core__orb" data-kit={active}>
             <MethodIcon name={current.name} size={42} />
           </div>
           <p className="kit-core__kicker">{content.methods.core}</p>
           <p className="kit-core__name">{current.name}</p>
+          <div className="kit-core__detail">
+            <MethodSummary text={current.summary} />
+            <MethodBody text={current.body} />
+          </div>
         </div>
         <div className="kit-desk__col">
           {right.map((item, i) => {
@@ -226,7 +233,7 @@ export function Methods() {
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
-                {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
+                <MethodSummary text={item.summary} />
                 <MethodBody text={item.body} />
               </article>
             );
@@ -247,7 +254,7 @@ export function Methods() {
               <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
-            {"summary" in item && item.summary ? <MethodSummary text={item.summary} /> : null}
+            <MethodSummary text={item.summary} />
             <MethodBody text={item.body} />
           </article>
         ))}
