@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -51,10 +51,63 @@ function MethodBody({ text }: { text: string }) {
   );
 }
 
+/** Keep page pin scrub from stealing wheel/touch while inner copy still scrolls. */
+function useMethodPaneScroll(containerRef: RefObject<HTMLElement | null>, activeIndex: number) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    el.scrollTop = 0;
+
+    const canScroll = () => el.scrollHeight > el.clientHeight + 2;
+
+    const onWheel = (e: WheelEvent) => {
+      if (!canScroll()) return;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    let touchY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0]?.clientY ?? 0;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!canScroll()) return;
+      const y = e.touches[0]?.clientY ?? touchY;
+      const delta = touchY - y;
+      touchY = y;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      if ((delta < 0 && !atTop) || (delta > 0 && !atBottom)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [containerRef, activeIndex]);
+}
+
 export function Methods() {
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const pinnedScrollRef = useRef<HTMLDivElement>(null);
+  const deskDetailScrollRef = useRef<HTMLDivElement>(null);
   const pauseRef = useRef(false);
   const indexRef = useRef(0);
   const { reduced } = useMotionPrefs();
@@ -64,6 +117,9 @@ export function Methods() {
   const current = items[active];
   const left = items.slice(0, 4);
   const right = items.slice(4);
+
+  useMethodPaneScroll(pinnedScrollRef, active);
+  useMethodPaneScroll(deskDetailScrollRef, active);
 
   const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
@@ -112,7 +168,7 @@ export function Methods() {
         id: "methods-pin",
         trigger: section,
         start: "top top+=64",
-        end: () => `+=${Math.round(window.innerHeight * (1.6 + items.length * 0.38))}`,
+        end: () => `+=${Math.round(window.innerHeight * (1.85 + items.length * 0.48))}`,
         pin,
         scrub: 0.7,
         anticipatePin: 1,
@@ -181,8 +237,10 @@ export function Methods() {
           <MethodIcon name={current.name} />
         </span>
         <h3>{current.name}</h3>
-        <MethodSummary text={current.summary} />
-        <MethodBody text={current.body} />
+        <div ref={pinnedScrollRef} className="method-card__scroll">
+          <MethodSummary text={current.summary} />
+          <MethodBody text={current.body} />
+        </div>
       </article>
 
       <div className="kit-desk">
@@ -212,7 +270,7 @@ export function Methods() {
           </div>
           <p className="kit-core__kicker">{content.methods.core}</p>
           <p className="kit-core__name">{current.name}</p>
-          <div className="kit-core__detail">
+          <div ref={deskDetailScrollRef} className="kit-core__detail method-card__scroll">
             <MethodSummary text={current.summary} />
             <MethodBody text={current.body} />
           </div>
@@ -254,8 +312,10 @@ export function Methods() {
               <MethodIcon name={item.name} />
             </span>
             <h3>{item.name}</h3>
-            <MethodSummary text={item.summary} />
-            <MethodBody text={item.body} />
+            <div className="method-card__scroll method-card__scroll--snap">
+              <MethodSummary text={item.summary} />
+              <MethodBody text={item.body} />
+            </div>
           </article>
         ))}
       </div>
