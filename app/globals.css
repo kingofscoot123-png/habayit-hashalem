@@ -1018,11 +1018,16 @@ a.clinic-address {
 }
 
 .method-card__summary {
-  margin: 0 0 8px;
-  font-size: 1.02rem;
-  font-weight: 600;
-  line-height: 1.6;
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.65;
   color: #18181B;
+}
+
+.method-card__body p {
+  font-size: 1.1rem;
+  line-height: 1.72;
 }
 
 .method-card p {
@@ -1037,16 +1042,8 @@ a.clinic-address {
 }
 
 .kit-card .method-card__body {
-  max-height: 0;
+  max-height: none;
   margin: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
-}
-
-.kit-card.is-open .method-card__body,
-.kit-card.is-hot .method-card__body {
-  max-height: 2000px;
   opacity: 1;
   overflow: visible;
 }
@@ -3975,9 +3972,10 @@ a.clinic-address {
   }
 
   .method-grid--snap .method-card {
-    flex: 0 0 min(84vw, 340px);
+    flex: 0 0 min(88vw, 360px);
     scroll-snap-align: center;
-    min-height: 188px;
+    min-height: 0;
+    align-self: stretch;
   }
 }
 
@@ -4137,6 +4135,22 @@ a.clinic-address {
   font-size: 1.18rem;
   font-weight: 800;
   color: #82152B;
+}
+
+.kit-core__detail {
+  margin-top: 14px;
+  width: 100%;
+  max-width: 240px;
+  text-align: start;
+}
+
+.kit-core__detail .method-card__summary {
+  font-size: 1rem;
+}
+
+.kit-core__detail .method-card__body p {
+  font-size: 0.98rem;
+  line-height: 1.65;
 }
 
 .kit-card {
