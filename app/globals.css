@@ -1002,6 +1002,127 @@ a.clinic-address {
   color: var(--ink-soft);
 }
 
+.method-accordion-section {
+  overflow: visible;
+}
+
+.method-accordion {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .method-accordion {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .method-accordion {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+.method-accordion__card {
+  height: 100%;
+  cursor: default;
+}
+
+.method-accordion__trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.method-accordion__title {
+  margin: 10px 0 6px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #82152B;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.method-accordion__teaser {
+  margin: 0 0 12px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.65;
+  color: #18181B;
+}
+
+.method-accordion__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 160, 89, 0.55);
+  background: rgba(255, 255, 255, 0.88);
+  color: #82152B;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 8px 18px -12px rgba(130, 21, 43, 0.35);
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.method-accordion__card:hover .method-accordion__cta,
+.method-accordion__card.is-open .method-accordion__cta {
+  border-color: rgba(130, 21, 43, 0.4);
+  background: rgba(130, 21, 43, 0.08);
+}
+
+.method-accordion__chevron {
+  transition: transform 0.28s ease;
+}
+
+.method-accordion__chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.method-accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  margin-top: 0;
+  transition:
+    grid-template-rows 0.35s ease,
+    opacity 0.25s ease,
+    margin-top 0.35s ease;
+}
+
+.method-accordion__panel.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 12px;
+}
+
+.method-accordion__panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.method-accordion__panel.is-open .method-accordion__panel-inner {
+  overflow: visible;
+}
+
+.method-accordion__panel .method-card__body p {
+  font-size: 1.08rem;
+  line-height: 1.72;
+  color: #18181B;
+}
+
 .method-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
