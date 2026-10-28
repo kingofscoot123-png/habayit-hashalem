@@ -600,6 +600,7 @@ section:not(.hs-hero) .font-display {
 .method-card__scroll {
   width: 100%;
   min-height: 0;
+  max-height: 60vh;
   overflow-y: auto;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
@@ -4123,16 +4124,18 @@ a.clinic-address {
 
   .method-grid--snap .method-card__scroll {
     flex: 1 1 auto;
-    max-height: min(58svh, calc(100svh - 14rem));
+    max-height: 60vh;
   }
 }
 
 @media (min-width: 1024px) {
   .kit-desk__col .kit-card {
-    max-height: min(46vh, 400px);
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    touch-action: pan-y;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .kit-desk__col .kit-card .method-card__scroll {
+    max-height: 60vh;
   }
 }
 
@@ -4297,9 +4300,9 @@ a.clinic-address {
 .kit-core__detail {
   margin-top: 14px;
   width: 100%;
-  max-width: 240px;
+  max-width: 260px;
   text-align: start;
-  max-height: min(52vh, 420px);
+  max-height: 60vh;
 }
 
 .kit-core__detail .method-card__summary {
@@ -4880,13 +4883,13 @@ a.clinic-address {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-height: min(68svh, calc(100svh - 11.5rem));
+    max-height: min(72svh, calc(100svh - 10rem));
     min-height: 0;
   }
 
   .method-card--pinned .method-card__scroll {
     flex: 1 1 auto;
-    max-height: min(52svh, calc(100svh - 17rem));
+    max-height: 60vh;
     padding-bottom: 6px;
   }
 
