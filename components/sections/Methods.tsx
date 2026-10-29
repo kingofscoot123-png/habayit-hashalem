@@ -50,7 +50,7 @@ function MethodBody({ text }: { text: string }) {
           const rest = part.slice(label.length).trim();
           return (
             <div key={idx} className="method-block">
-              <p className="method-block__label">{label.replace(":", "")}</p>
+              <h4 className="method-block__label">{label.replace(":", "")}</h4>
               <p className="methods-copy-soft method-block__text">
                 <HighlightCopy text={rest} />
               </p>
