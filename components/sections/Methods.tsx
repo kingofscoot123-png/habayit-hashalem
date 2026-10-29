@@ -60,13 +60,43 @@ export function Methods() {
   const pauseRef = useRef(false);
   const indexRef = useRef(0);
   const pinActiveRef = useRef(false);
+  const clampingRef = useRef(false);
+  const releaseDownRef = useRef(0);
+  const releaseUpRef = useRef(0);
+  const RELEASE_PX = 180;
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(0);
+  const [paneHint, setPaneHint] = useState<"more" | "next" | "done">("more");
   const items = content.methods.items;
   const current = items[active];
   const left = items.slice(0, 4);
   const right = items.slice(4);
+
+  const readPane = () => {
+    const el = pinnedScrollRef.current;
+    if (!el) return { el: null as HTMLDivElement | null, atTop: true, atBottom: true, hasOverflow: false };
+    const hasOverflow = el.scrollHeight > el.clientHeight + 2;
+    const atTop = el.scrollTop <= 1;
+    const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
+    return { el, atTop, atBottom, hasOverflow };
+  };
+
+  const refreshPaneHint = () => {
+    const { atBottom, hasOverflow } = readPane();
+    if (!hasOverflow || atBottom) setPaneHint(active >= items.length - 1 ? "done" : "next");
+    else setPaneHint("more");
+  };
+
+  const lockPinToCurrent = (self: ScrollTrigger) => {
+    if (clampingRef.current) return;
+    clampingRef.current = true;
+    const locked = (indexRef.current + 0.42) / items.length;
+    self.scroll(self.start + locked * (self.end - self.start));
+    requestAnimationFrame(() => {
+      clampingRef.current = false;
+    });
+  };
 
   const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
@@ -103,38 +133,59 @@ export function Methods() {
     return () => io.disconnect();
   }, []);
 
-  // Reset inner scroll when the active method changes.
+  // Reset inner scroll + release budgets when the active method changes.
   useEffect(() => {
     const pane = pinnedScrollRef.current;
     if (pane) pane.scrollTop = 0;
     const desk = deskDetailScrollRef.current;
     if (desk) desk.scrollTop = 0;
+    releaseDownRef.current = 0;
+    releaseUpRef.current = 0;
+    requestAnimationFrame(refreshPaneHint);
   }, [active]);
 
   /**
-   * While the mobile pin is active, route wheel/touch into the card text first.
-   * Only after the explanation hits top/bottom does page scrub advance methods.
+   * Prefer reading the card text. Absorb extra scroll at the edges so a small
+   * flick after reading does not jump methods; only a deliberate continue does.
    */
   useEffect(() => {
     const pin = pinRef.current;
     if (!pin) return;
     if (!window.matchMedia("(max-width: 767px)").matches) return;
 
-    const pane = () => pinnedScrollRef.current;
+    const applyDelta = (delta: number) => {
+      if (!pinActiveRef.current || delta === 0) return false;
+      const { el, atTop, atBottom, hasOverflow } = readPane();
+      if (!el) return false;
 
-    const canScrollPane = (el: HTMLElement) => el.scrollHeight > el.clientHeight + 2;
+      if (delta > 0) {
+        releaseUpRef.current = 0;
+        if (hasOverflow && !atBottom) {
+          el.scrollTop += delta;
+          releaseDownRef.current = 0;
+          refreshPaneHint();
+          return true;
+        }
+        releaseDownRef.current += delta;
+        refreshPaneHint();
+        return releaseDownRef.current < RELEASE_PX;
+      }
+
+      releaseDownRef.current = 0;
+      if (hasOverflow && !atTop) {
+        el.scrollTop += delta;
+        releaseUpRef.current = 0;
+        refreshPaneHint();
+        return true;
+      }
+      releaseUpRef.current += -delta;
+      refreshPaneHint();
+      return releaseUpRef.current < RELEASE_PX;
+    };
 
     const onWheel = (e: WheelEvent) => {
       if (!pinActiveRef.current) return;
-      const el = pane();
-      if (!el || !canScrollPane(el)) return;
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
-      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
-        e.preventDefault();
-        el.scrollTop += e.deltaY;
-      }
+      if (applyDelta(e.deltaY)) e.preventDefault();
     };
 
     let touchY = 0;
@@ -143,30 +194,26 @@ export function Methods() {
     };
     const onTouchMove = (e: TouchEvent) => {
       if (!pinActiveRef.current) return;
-      const el = pane();
-      if (!el || !canScrollPane(el)) return;
       const y = e.touches[0]?.clientY ?? touchY;
       const delta = touchY - y;
       touchY = y;
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
-      if ((delta > 0 && !atBottom) || (delta < 0 && !atTop)) {
-        e.preventDefault();
-        el.scrollTop += delta;
-      }
+      if (applyDelta(delta)) e.preventDefault();
     };
+
+    const onPaneScroll = () => refreshPaneHint();
+    pinnedScrollRef.current?.addEventListener("scroll", onPaneScroll, { passive: true });
 
     pin.addEventListener("wheel", onWheel, { passive: false });
     pin.addEventListener("touchstart", onTouchStart, { passive: true });
     pin.addEventListener("touchmove", onTouchMove, { passive: false });
 
     return () => {
+      pinnedScrollRef.current?.removeEventListener("scroll", onPaneScroll);
       pin.removeEventListener("wheel", onWheel);
       pin.removeEventListener("touchstart", onTouchStart);
       pin.removeEventListener("touchmove", onTouchMove);
     };
-  }, []);
+  }, [active, items.length]);
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -180,21 +227,46 @@ export function Methods() {
         id: "methods-pin",
         trigger: section,
         start: "top top+=64",
-        end: () => `+=${Math.round(window.innerHeight * (2.1 + items.length * 0.55))}`,
+        end: () => `+=${Math.round(window.innerHeight * (2.2 + items.length * 0.58))}`,
         pin,
-        scrub: 0.7,
+        scrub: 0.85,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onToggle: (self) => {
           pinActiveRef.current = self.isActive;
+          if (!self.isActive) {
+            releaseDownRef.current = 0;
+            releaseUpRef.current = 0;
+          }
         },
         onUpdate: (self) => {
           pinActiveRef.current = self.isActive;
-          if (pauseRef.current) return;
-          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
-          if (i === indexRef.current) return;
-          indexRef.current = i;
-          setActive(i);
+          if (pauseRef.current || clampingRef.current) return;
+
+          const target = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
+          const currentIdx = indexRef.current;
+          if (target === currentIdx) return;
+
+          const { atTop, atBottom, hasOverflow } = readPane();
+
+          if (target > currentIdx) {
+            const finishedReading = !hasOverflow || atBottom;
+            if (!finishedReading || releaseDownRef.current < RELEASE_PX) {
+              lockPinToCurrent(self);
+              return;
+            }
+          } else {
+            const finishedReading = !hasOverflow || atTop;
+            if (!finishedReading || releaseUpRef.current < RELEASE_PX) {
+              lockPinToCurrent(self);
+              return;
+            }
+          }
+
+          releaseDownRef.current = 0;
+          releaseUpRef.current = 0;
+          indexRef.current = target;
+          setActive(target);
         },
       });
     }, section);
@@ -212,6 +284,8 @@ export function Methods() {
 
   const goTo = (i: number) => {
     pauseRef.current = true;
+    releaseDownRef.current = RELEASE_PX;
+    releaseUpRef.current = RELEASE_PX;
     indexRef.current = i;
     setActive(i);
     setOpen(i);
@@ -255,13 +329,25 @@ export function Methods() {
             <MethodIcon name={current.name} />
           </span>
           <h3>{current.name}</h3>
-          <div
-            ref={pinnedScrollRef}
-            className="method-card__scroll max-h-[50vh] overflow-y-auto"
-            data-method-scroll
-          >
-            <MethodSummary text={current.summary} />
-            <MethodBody text={current.body} />
+          <div className="method-card__scroll-shell">
+            <div
+              ref={pinnedScrollRef}
+              className="method-card__scroll max-h-[50vh] overflow-y-auto"
+              data-method-scroll
+            >
+              <MethodSummary text={current.summary} />
+              <MethodBody text={current.body} />
+            </div>
+            {paneHint === "more" ? (
+              <p className="method-card__scroll-hint" aria-hidden="true">
+                גללו בתוך הכרטיס להמשך ההסבר
+              </p>
+            ) : null}
+            {paneHint === "next" ? (
+              <p className="method-card__scroll-hint method-card__scroll-hint--next" aria-hidden="true">
+                המשיכו לגלול לשיטה הבאה
+              </p>
+            ) : null}
           </div>
         </article>
 

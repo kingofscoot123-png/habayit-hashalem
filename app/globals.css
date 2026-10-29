@@ -597,6 +597,12 @@ section:not(.hs-hero) .font-display {
   display: none;
 }
 
+.method-card__scroll-shell {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+}
+
 .method-card__scroll {
   width: 100%;
   min-height: 0;
@@ -608,6 +614,18 @@ section:not(.hs-hero) .font-display {
   scrollbar-gutter: stable;
   padding-inline-end: 4px;
   padding-bottom: 8px;
+}
+
+.method-card__scroll-hint {
+  margin: 8px 0 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #82152B;
+  text-align: center;
+}
+
+.method-card__scroll-hint--next {
+  color: #C5A059;
 }
 
 .method-card__scroll::-webkit-scrollbar {
