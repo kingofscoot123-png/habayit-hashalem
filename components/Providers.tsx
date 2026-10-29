@@ -44,7 +44,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
             duration: desktop ? 0.6 : 0.45,
             delay: Number(el.dataset.delay || 0),
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: el,
+              start: "top 96%",
+              once: true,
+              invalidateOnRefresh: true,
+            },
+            onComplete: () => el.classList.add("is-revealed"),
           },
         );
       });
@@ -61,10 +68,32 @@ export function Providers({ children }: { children: React.ReactNode }) {
             duration: desktop ? 0.5 : 0.4,
             stagger: 0.06,
             ease: "power2.out",
-            scrollTrigger: { trigger: wrap, start: "top 88%", once: true },
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: wrap,
+              start: "top 94%",
+              once: true,
+              invalidateOnRefresh: true,
+            },
+            onComplete: () => {
+              kids.forEach((kid) => kid.classList.add("is-revealed"));
+              wrap.classList.add("is-revealed");
+            },
           },
         );
       });
+
+      // Pins + Lenis can leave reveals stuck invisible; force a late refresh and failsafe.
+      window.setTimeout(() => ScrollTrigger.refresh(), 900);
+      window.setTimeout(() => {
+        document.querySelectorAll<HTMLElement>("[data-reveal], [data-stagger] > *").forEach((el) => {
+          if (getComputedStyle(el).opacity === "0") {
+            gsap.set(el, { clearProps: "opacity,transform" });
+            el.classList.add("is-revealed");
+          }
+        });
+        ScrollTrigger.refresh();
+      }, 2800);
 
       gsap.utils.toArray<HTMLElement>("[data-parallax]").forEach((el) => {
         const dist = Number(el.dataset.parallax || -36);
