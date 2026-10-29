@@ -38,15 +38,31 @@ function MethodSummary({ text }: { text: string }) {
   );
 }
 
+const METHOD_LABELS = ["איך זה עובד:", "במפגש", "למה זה מתאים:"] as const;
+
 function MethodBody({ text }: { text: string }) {
   const parts = text.split("\n\n").filter(Boolean);
   return (
     <div className="method-card__body">
-      {parts.map((part, idx) => (
-        <p key={idx} className="methods-copy-soft">
-          <HighlightCopy text={part} />
-        </p>
-      ))}
+      {parts.map((part, idx) => {
+        const label = METHOD_LABELS.find((item) => part.startsWith(item));
+        if (label) {
+          const rest = part.slice(label.length).trim();
+          return (
+            <div key={idx} className="method-block">
+              <p className="method-block__label">{label.replace(":", "")}</p>
+              <p className="methods-copy-soft method-block__text">
+                <HighlightCopy text={rest} />
+              </p>
+            </div>
+          );
+        }
+        return (
+          <p key={idx} className="methods-copy-soft">
+            <HighlightCopy text={part} />
+          </p>
+        );
+      })}
     </div>
   );
 }
@@ -269,23 +285,31 @@ export function Methods() {
           <p className="kit-core__name">{current.name}</p>
         </div>
 
-        <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned is-hot">
-          <span className="method-card__tag">{String(active + 1).padStart(2, "0")}</span>
-          <span className="method-card__icon" aria-hidden="true">
-            <MethodIcon name={current.name} />
-          </span>
-          <h3>{current.name}</h3>
+        <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned method-card--luxury is-hot">
+          <div className="method-card__top">
+            <div className="method-card__identity">
+              <p className="method-card__eyebrow">{content.methods.core}</p>
+              <h3>{current.name}</h3>
+            </div>
+            <div className="method-card__meta">
+              <span className="method-card__tag">{String(active + 1).padStart(2, "0")}</span>
+              <span className="method-card__icon" aria-hidden="true">
+                <MethodIcon name={current.name} />
+              </span>
+            </div>
+          </div>
 
           <div className="method-nav" role="group" aria-label="מעבר בין שיטות">
             <button type="button" className="method-nav__btn" onClick={() => setMethod(active - 1)}>
-              הקודם
+              <span className="method-nav__dir">הקודם</span>
               <span className="method-nav__sub">{prevItem.name}</span>
             </button>
             <p className="method-nav__count">
-              {active + 1} / {items.length}
+              <span>{active + 1}</span>
+              <span className="method-nav__of">/{items.length}</span>
             </p>
             <button type="button" className="method-nav__btn method-nav__btn--next" onClick={() => setMethod(active + 1)}>
-              הבא
+              <span className="method-nav__dir">הבא</span>
               <span className="method-nav__sub">{nextItem.name}</span>
             </button>
           </div>
