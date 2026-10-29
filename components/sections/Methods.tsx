@@ -3,7 +3,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
@@ -38,7 +37,12 @@ function MethodSummary({ text }: { text: string }) {
   );
 }
 
-const METHOD_LABELS = ["איך זה עובד:", "במפגש", "למה זה מתאים:"] as const;
+const METHOD_LABELS = [
+  "איך זה עובד:",
+  "במפגש",
+  "איך הטיפול משנה את המצב:",
+  "למה זה מתאים:",
+] as const;
 
 function MethodBody({ text }: { text: string }) {
   const parts = text.split("\n\n").filter(Boolean);
@@ -72,16 +76,12 @@ export function Methods() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const pinnedScrollRef = useRef<HTMLDivElement>(null);
-  const deskDetailScrollRef = useRef<HTMLDivElement>(null);
   const indexRef = useRef(0);
   const pinActiveRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
-  const [open, setOpen] = useState(0);
   const items = content.methods.items;
   const current = items[active];
-  const left = items.slice(0, 4);
-  const right = items.slice(4);
   const canPrev = active > 0;
   const canNext = active < items.length - 1;
   const prevItem = canPrev ? items[active - 1] : null;
@@ -92,7 +92,6 @@ export function Methods() {
     if (next === indexRef.current) return;
     indexRef.current = next;
     setActive(next);
-    setOpen(next);
   };
 
   const goPrev = () => {
@@ -142,8 +141,6 @@ export function Methods() {
   useEffect(() => {
     const pane = pinnedScrollRef.current;
     if (pane) pane.scrollTop = 0;
-    const desk = deskDetailScrollRef.current;
-    if (desk) desk.scrollTop = 0;
   }, [active]);
 
   /**
@@ -153,7 +150,6 @@ export function Methods() {
   useEffect(() => {
     const pin = pinRef.current;
     if (!pin) return;
-    if (!window.matchMedia("(max-width: 767px)").matches) return;
 
     const paneState = () => {
       const el = pinnedScrollRef.current;
@@ -228,16 +224,29 @@ export function Methods() {
       else setMethod(indexRef.current - 1);
     };
 
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!pinActiveRef.current) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        setMethod(indexRef.current + 1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        setMethod(indexRef.current - 1);
+      }
+    };
+
     pin.addEventListener("wheel", onWheel, { passive: false });
     pin.addEventListener("touchstart", onTouchStart, { passive: true });
     pin.addEventListener("touchmove", onTouchMove, { passive: false });
     pin.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
       pin.removeEventListener("wheel", onWheel);
       pin.removeEventListener("touchstart", onTouchStart);
       pin.removeEventListener("touchmove", onTouchMove);
       pin.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKeyDown);
     };
   }, [items.length]);
 
@@ -246,15 +255,14 @@ export function Methods() {
     const section = sectionRef.current;
     const pin = pinRef.current;
     if (!section || !pin) return;
-    if (!window.matchMedia("(max-width: 767px)").matches) return;
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         id: "methods-pin",
         trigger: section,
-        start: "top top+=64",
+        start: "top top+=72",
         // Short sticky hold for the visual effect — methods do not scrub with progress.
-        end: () => `+=${Math.round(window.innerHeight * 1.15)}`,
+        end: () => `+=${Math.round(window.innerHeight * 1.2)}`,
         pin,
         scrub: false,
         anticipatePin: 1,
@@ -271,38 +279,14 @@ export function Methods() {
     };
   }, [reduced]);
 
-  const reveal = (i: number) => {
-    setMethod(i);
-  };
-
   const goTo = (i: number) => {
     setMethod(i);
     scrollToCard(i);
   };
 
   return (
-    <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-0 sm:px-6 lg:px-16" aria-label={content.methods.title}>
       <div ref={pinRef} className="kit-section__pin">
-        <div
-          className="card-glass content-shield method-section-head mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
-          data-reveal
-        >
-          <h2 className="section-title-rule text-h2">
-            <AccentLead text={content.methods.title} />
-          </h2>
-          <p className="mt-3 text-caption methods-copy-soft">
-            <HighlightCopy text={content.methods.hint} />
-          </p>
-        </div>
-
-        <div className="kit-core kit-core--mobile" aria-hidden="true">
-          <div className="kit-core__glow" />
-          <div className="kit-core__orb" data-kit={active}>
-            <MethodIcon name={current.name} size={36} />
-          </div>
-          <p className="kit-core__name">{current.name}</p>
-        </div>
-
         <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned method-card--luxury is-hot">
           <div className="method-card__top">
             <div className="method-card__identity">
@@ -354,99 +338,28 @@ export function Methods() {
               <MethodBody text={current.body} />
             </div>
           </div>
-        </article>
 
-        <div className="kit-desk">
-          <div className="kit-desk__col">
-            {left.map((item, i) => (
-              <article
+          <div className="method-dots" role="tablist" aria-label={content.methods.title}>
+            {items.map((item, i) => (
+              <button
                 key={item.name}
-                className={`method-card kit-card ${active === i ? "is-hot" : ""} ${open === i ? "is-open" : ""}`}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-                onClick={() => reveal(i)}
-              >
-                <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
-                <span className="method-card__icon">
-                  <MethodIcon name={item.name} />
-                </span>
-                <h3>{item.name}</h3>
-                <div className="method-card__scroll max-h-[50vh] overflow-y-auto">
-                  <MethodSummary text={item.summary} />
-                  <MethodBody text={item.body} />
-                </div>
-              </article>
+                type="button"
+                role="tab"
+                aria-label={item.name}
+                aria-selected={i === active}
+                className={`method-dots__dot ${i === active ? "is-on" : ""}`}
+                onClick={() => goTo(i)}
+              />
             ))}
           </div>
-          <div className="kit-core kit-core--desk">
-            <div className="kit-core__glow" />
-            <div className="kit-core__orb" data-kit={active}>
-              <MethodIcon name={current.name} size={42} />
-            </div>
-            <p className="kit-core__kicker">{content.methods.core}</p>
-            <p className="kit-core__name">{current.name}</p>
-            <div ref={deskDetailScrollRef} className="kit-core__detail method-card__scroll max-h-[50vh] overflow-y-auto">
-              <MethodSummary text={current.summary} />
-              <MethodBody text={current.body} />
-            </div>
-          </div>
-          <div className="kit-desk__col">
-            {right.map((item, i) => {
-              const idx = i + 4;
-              return (
-                <article
-                  key={item.name}
-                  className={`method-card kit-card ${active === idx ? "is-hot" : ""} ${open === idx ? "is-open" : ""}`}
-                  onMouseEnter={() => setActive(idx)}
-                  onFocus={() => setActive(idx)}
-                  onClick={() => reveal(idx)}
-                >
-                  <span className="method-card__tag">{String(idx + 1).padStart(2, "0")}</span>
-                  <span className="method-card__icon">
-                    <MethodIcon name={item.name} />
-                  </span>
-                  <h3>{item.name}</h3>
-                  <div className="method-card__scroll max-h-[50vh] overflow-y-auto">
-                    <MethodSummary text={item.summary} />
-                    <MethodBody text={item.body} />
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
+        </article>
 
-        <div ref={trackRef} className="method-grid method-grid--snap mx-auto max-w-5xl">
+        {/* Hidden track keeps optional sync hooks; UI uses the single luxury card like mobile. */}
+        <div ref={trackRef} className="method-grid method-grid--snap method-grid--hidden" aria-hidden="true">
           {items.map((item, i) => (
-            <article
-              key={item.name}
-              className={`method-card method-card--open ${active === i ? "is-hot" : ""} ${open === i ? "is-open" : ""}`}
-              data-method-card={i}
-              onClick={() => reveal(i)}
-            >
-              <span className="method-card__tag">{String(i + 1).padStart(2, "0")}</span>
-              <span className="method-card__icon" aria-hidden="true">
-                <MethodIcon name={item.name} />
-              </span>
+            <article key={item.name} data-method-card={i} className="method-card">
               <h3>{item.name}</h3>
-              <div className="method-card__scroll method-card__scroll--snap max-h-[50vh] overflow-y-auto">
-                <MethodSummary text={item.summary} />
-                <MethodBody text={item.body} />
-              </div>
             </article>
-          ))}
-        </div>
-        <div className="method-dots" role="tablist" aria-label={content.methods.title}>
-          {items.map((item, i) => (
-            <button
-              key={item.name}
-              type="button"
-              role="tab"
-              aria-label={item.name}
-              aria-selected={i === active}
-              className={`method-dots__dot ${i === active ? "is-on" : ""}`}
-              onClick={() => goTo(i)}
-            />
           ))}
         </div>
       </div>
