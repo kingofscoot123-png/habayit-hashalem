@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -51,57 +51,6 @@ function MethodBody({ text }: { text: string }) {
   );
 }
 
-/** Prefer inner card scroll over page pin scrub while copy still scrolls. */
-function useMethodPaneScroll(containerRef: RefObject<HTMLElement | null>, activeIndex: number) {
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    el.scrollTop = 0;
-
-    const canScroll = () => el.scrollHeight > el.clientHeight + 2;
-
-    const onWheel = (e: WheelEvent) => {
-      if (!canScroll()) return;
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
-      if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    let touchY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      touchY = e.touches[0]?.clientY ?? 0;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      if (!canScroll()) return;
-      const y = e.touches[0]?.clientY ?? touchY;
-      const delta = touchY - y;
-      touchY = y;
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const atTop = scrollTop <= 0;
-      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
-      if ((delta < 0 && !atTop) || (delta > 0 && !atBottom)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    el.addEventListener("wheel", onWheel, { passive: false });
-    el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
-
-    return () => {
-      el.removeEventListener("wheel", onWheel);
-      el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
-    };
-  }, [containerRef, activeIndex]);
-}
-
 export function Methods() {
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -110,6 +59,7 @@ export function Methods() {
   const deskDetailScrollRef = useRef<HTMLDivElement>(null);
   const pauseRef = useRef(false);
   const indexRef = useRef(0);
+  const pinActiveRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(0);
@@ -117,9 +67,6 @@ export function Methods() {
   const current = items[active];
   const left = items.slice(0, 4);
   const right = items.slice(4);
-
-  useMethodPaneScroll(pinnedScrollRef, active);
-  useMethodPaneScroll(deskDetailScrollRef, active);
 
   const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
     const track = trackRef.current;
@@ -156,6 +103,71 @@ export function Methods() {
     return () => io.disconnect();
   }, []);
 
+  // Reset inner scroll when the active method changes.
+  useEffect(() => {
+    const pane = pinnedScrollRef.current;
+    if (pane) pane.scrollTop = 0;
+    const desk = deskDetailScrollRef.current;
+    if (desk) desk.scrollTop = 0;
+  }, [active]);
+
+  /**
+   * While the mobile pin is active, route wheel/touch into the card text first.
+   * Only after the explanation hits top/bottom does page scrub advance methods.
+   */
+  useEffect(() => {
+    const pin = pinRef.current;
+    if (!pin) return;
+    if (!window.matchMedia("(max-width: 767px)").matches) return;
+
+    const pane = () => pinnedScrollRef.current;
+
+    const canScrollPane = (el: HTMLElement) => el.scrollHeight > el.clientHeight + 2;
+
+    const onWheel = (e: WheelEvent) => {
+      if (!pinActiveRef.current) return;
+      const el = pane();
+      if (!el || !canScrollPane(el)) return;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+        e.preventDefault();
+        el.scrollTop += e.deltaY;
+      }
+    };
+
+    let touchY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0]?.clientY ?? 0;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!pinActiveRef.current) return;
+      const el = pane();
+      if (!el || !canScrollPane(el)) return;
+      const y = e.touches[0]?.clientY ?? touchY;
+      const delta = touchY - y;
+      touchY = y;
+      const { scrollTop, scrollHeight, clientHeight } = el;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      if ((delta > 0 && !atBottom) || (delta < 0 && !atTop)) {
+        e.preventDefault();
+        el.scrollTop += delta;
+      }
+    };
+
+    pin.addEventListener("wheel", onWheel, { passive: false });
+    pin.addEventListener("touchstart", onTouchStart, { passive: true });
+    pin.addEventListener("touchmove", onTouchMove, { passive: false });
+
+    return () => {
+      pin.removeEventListener("wheel", onWheel);
+      pin.removeEventListener("touchstart", onTouchStart);
+      pin.removeEventListener("touchmove", onTouchMove);
+    };
+  }, []);
+
   useLayoutEffect(() => {
     if (reduced) return;
     const section = sectionRef.current;
@@ -168,12 +180,17 @@ export function Methods() {
         id: "methods-pin",
         trigger: section,
         start: "top top+=64",
-        end: () => `+=${Math.round(window.innerHeight * (1.85 + items.length * 0.48))}`,
+        end: () => `+=${Math.round(window.innerHeight * (2.1 + items.length * 0.55))}`,
         pin,
         scrub: 0.7,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onToggle: (self) => {
+          pinActiveRef.current = self.isActive;
+        },
         onUpdate: (self) => {
+          pinActiveRef.current = self.isActive;
+          if (pauseRef.current) return;
           const i = Math.min(items.length - 1, Math.floor(self.progress * items.length + 0.0001));
           if (i === indexRef.current) return;
           indexRef.current = i;
@@ -182,7 +199,10 @@ export function Methods() {
       });
     }, section);
 
-    return () => ctx.revert();
+    return () => {
+      pinActiveRef.current = false;
+      ctx.revert();
+    };
   }, [reduced, items.length]);
 
   const reveal = (i: number) => {
@@ -210,7 +230,7 @@ export function Methods() {
     <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div ref={pinRef} className="kit-section__pin">
         <div
-          className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+          className="card-glass content-shield method-section-head mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
           data-reveal
         >
           <h2 className="section-title-rule text-h2">
@@ -235,7 +255,11 @@ export function Methods() {
             <MethodIcon name={current.name} />
           </span>
           <h3>{current.name}</h3>
-          <div ref={pinnedScrollRef} className="method-card__scroll max-h-[60vh] overflow-y-auto">
+          <div
+            ref={pinnedScrollRef}
+            className="method-card__scroll max-h-[50vh] overflow-y-auto"
+            data-method-scroll
+          >
             <MethodSummary text={current.summary} />
             <MethodBody text={current.body} />
           </div>
@@ -256,7 +280,7 @@ export function Methods() {
                   <MethodIcon name={item.name} />
                 </span>
                 <h3>{item.name}</h3>
-                <div className="method-card__scroll max-h-[60vh] overflow-y-auto">
+                <div className="method-card__scroll max-h-[50vh] overflow-y-auto">
                   <MethodSummary text={item.summary} />
                   <MethodBody text={item.body} />
                 </div>
@@ -270,7 +294,7 @@ export function Methods() {
             </div>
             <p className="kit-core__kicker">{content.methods.core}</p>
             <p className="kit-core__name">{current.name}</p>
-            <div ref={deskDetailScrollRef} className="kit-core__detail method-card__scroll max-h-[60vh] overflow-y-auto">
+            <div ref={deskDetailScrollRef} className="kit-core__detail method-card__scroll max-h-[50vh] overflow-y-auto">
               <MethodSummary text={current.summary} />
               <MethodBody text={current.body} />
             </div>
@@ -291,7 +315,7 @@ export function Methods() {
                     <MethodIcon name={item.name} />
                   </span>
                   <h3>{item.name}</h3>
-                  <div className="method-card__scroll max-h-[60vh] overflow-y-auto">
+                  <div className="method-card__scroll max-h-[50vh] overflow-y-auto">
                     <MethodSummary text={item.summary} />
                     <MethodBody text={item.body} />
                   </div>
@@ -314,7 +338,7 @@ export function Methods() {
                 <MethodIcon name={item.name} />
               </span>
               <h3>{item.name}</h3>
-              <div className="method-card__scroll method-card__scroll--snap max-h-[60vh] overflow-y-auto">
+              <div className="method-card__scroll method-card__scroll--snap max-h-[50vh] overflow-y-auto">
                 <MethodSummary text={item.summary} />
                 <MethodBody text={item.body} />
               </div>
