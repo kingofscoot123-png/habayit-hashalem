@@ -603,6 +603,55 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-card--pinned {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 42rem);
+  margin-inline: auto;
+  height: calc(100svh - 7.5rem);
+  max-height: calc(100svh - 7.5rem);
+  min-height: 0;
+  padding: 18px 18px 14px;
+  margin-bottom: 10px;
+}
+
+.method-card--pinned h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #82152B;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.method-card--pinned .method-card__tag {
+  margin-bottom: 0;
+  border-color: rgba(197, 160, 89, 0.55);
+  background: rgba(197, 160, 89, 0.12);
+  color: #82152B;
+  box-shadow: none;
+}
+
+.method-card--pinned .method-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: #82152B;
+  background: rgba(197, 160, 89, 0.14);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+}
+
+.method-card--pinned .method-card__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  padding-bottom: 10px;
+}
+
+.method-grid--hidden {
+  display: none !important;
+}
+
+.kit-core--mobile {
   display: none;
 }
 
@@ -610,6 +659,9 @@ section:not(.hs-hero) .font-display {
   position: relative;
   width: 100%;
   min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .method-card__scroll {
@@ -626,9 +678,11 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-nav {
-  display: none;
+  display: flex;
+  flex-shrink: 0;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 0;
+  margin-bottom: 12px;
   gap: 10px;
   align-items: stretch;
 }
@@ -4380,7 +4434,6 @@ a.clinic-address {
   }
 
   .method-grid--snap,
-  .method-dots,
   .kit-core--mobile,
   .why-snap,
   .why-snap-dots,
@@ -4389,7 +4442,20 @@ a.clinic-address {
   }
 
   .kit-desk {
-    display: grid;
+    display: none;
+  }
+
+  .method-card--pinned {
+    width: min(100%, 46rem);
+    height: calc(100svh - 8.5rem);
+    max-height: calc(100svh - 8.5rem);
+    padding: 22px 24px 16px;
+  }
+
+  .method-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
   }
 
   .why-radar__picks {
@@ -4737,7 +4803,7 @@ a.clinic-address {
 
 @media (min-width: 1024px) {
   .kit-desk {
-    display: grid;
+    display: none;
   }
 
   .why-radar__picks {
@@ -5091,12 +5157,9 @@ a.clinic-address {
   }
 
   .method-card--pinned {
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: calc(100svh - 5.75rem);
     max-height: calc(100svh - 5.75rem);
-    min-height: 0;
     padding: 16px 16px 12px;
     margin-bottom: 8px;
   }
@@ -5142,9 +5205,6 @@ a.clinic-address {
   }
 
   .method-nav {
-    display: flex;
-    flex-shrink: 0;
-    margin-top: 0;
     margin-bottom: 10px;
   }
 
