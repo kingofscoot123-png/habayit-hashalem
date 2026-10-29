@@ -600,12 +600,14 @@ section:not(.hs-hero) .font-display {
 .method-card__scroll {
   width: 100%;
   min-height: 0;
-  max-height: 60vh;
+  max-height: 50vh;
   overflow-y: auto;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   scrollbar-gutter: stable;
+  padding-inline-end: 4px;
+  padding-bottom: 8px;
 }
 
 .method-card__scroll::-webkit-scrollbar {
@@ -4124,7 +4126,7 @@ a.clinic-address {
 
   .method-grid--snap .method-card__scroll {
     flex: 1 1 auto;
-    max-height: 60vh;
+    max-height: 50vh;
   }
 }
 
@@ -4135,7 +4137,7 @@ a.clinic-address {
   }
 
   .kit-desk__col .kit-card .method-card__scroll {
-    max-height: 60vh;
+    max-height: 50vh;
   }
 }
 
@@ -4302,7 +4304,7 @@ a.clinic-address {
   width: 100%;
   max-width: 260px;
   text-align: start;
-  max-height: 60vh;
+  max-height: 50vh;
 }
 
 .kit-core__detail .method-card__summary {
@@ -4879,22 +4881,51 @@ a.clinic-address {
     display: none;
   }
 
-  .method-card--pinned {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-height: min(72svh, calc(100svh - 10rem));
-    min-height: 0;
+  .method-section-head {
+    margin-bottom: 10px !important;
+    padding: 12px 14px !important;
   }
 
-  .method-card--pinned .method-card__scroll {
-    flex: 1 1 auto;
-    max-height: 60vh;
-    padding-bottom: 6px;
+  .method-section-head .text-caption {
+    display: none;
+  }
+
+  .method-section-head .text-h2 {
+    font-size: clamp(1.35rem, 5.5vw, 1.7rem);
   }
 
   .kit-core--mobile {
     pointer-events: none;
+    margin-bottom: 8px;
+  }
+
+  .kit-core--mobile .kit-core__orb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .kit-core--mobile .kit-core__glow {
+    width: 110px;
+    height: 110px;
+  }
+
+  .kit-core--mobile .kit-core__name {
+    font-size: 1rem;
+  }
+
+  .method-card--pinned {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: min(78svh, calc(100svh - 7.5rem));
+    min-height: 0;
+    padding-bottom: 14px;
+  }
+
+  .method-card--pinned .method-card__scroll {
+    flex: 1 1 auto;
+    max-height: 50vh;
+    padding-bottom: 10px;
   }
 
   .why-radar__copy {
@@ -4906,6 +4937,7 @@ a.clinic-address {
 
   .kit-section__pin {
     min-height: calc(100svh - 72px);
+    overscroll-behavior-y: contain;
   }
 }
 
