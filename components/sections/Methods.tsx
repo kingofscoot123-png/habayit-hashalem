@@ -82,14 +82,27 @@ export function Methods() {
   const current = items[active];
   const left = items.slice(0, 4);
   const right = items.slice(4);
-  const prevItem = items[(active - 1 + items.length) % items.length];
-  const nextItem = items[(active + 1) % items.length];
+  const canPrev = active > 0;
+  const canNext = active < items.length - 1;
+  const prevItem = canPrev ? items[active - 1] : null;
+  const nextItem = canNext ? items[active + 1] : null;
 
   const setMethod = (i: number) => {
-    const next = ((i % items.length) + items.length) % items.length;
+    const next = Math.max(0, Math.min(items.length - 1, i));
+    if (next === indexRef.current) return;
     indexRef.current = next;
     setActive(next);
     setOpen(next);
+  };
+
+  const goPrev = () => {
+    if (!canPrev) return;
+    setMethod(active - 1);
+  };
+
+  const goNext = () => {
+    if (!canNext) return;
+    setMethod(active + 1);
   };
 
   const scrollToCard = (i: number, behavior: ScrollBehavior = "smooth") => {
@@ -166,11 +179,13 @@ export function Methods() {
 
     let touchY = 0;
     let startX = 0;
+    let startY = 0;
     let axis: "x" | "y" | null = null;
 
     const onTouchStart = (e: TouchEvent) => {
       touchY = e.touches[0]?.clientY ?? 0;
       startX = e.touches[0]?.clientX ?? 0;
+      startY = touchY;
       axis = null;
     };
 
@@ -179,11 +194,13 @@ export function Methods() {
       const y = e.touches[0]?.clientY ?? touchY;
       const x = e.touches[0]?.clientX ?? startX;
       const dy = touchY - y;
-      const dx = x - startX;
+      const dxFromStart = x - startX;
+      const dyFromStart = y - startY;
 
       if (!axis) {
-        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-        axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        if (Math.abs(dxFromStart) < 10 && Math.abs(dyFromStart) < 10) return;
+        // Prefer vertical reading unless the gesture is clearly horizontal.
+        axis = Math.abs(dxFromStart) > Math.abs(dyFromStart) * 1.25 ? "x" : "y";
       }
 
       if (axis === "x") {
@@ -204,10 +221,11 @@ export function Methods() {
       if (!pinActiveRef.current || axis !== "x") return;
       const endX = e.changedTouches[0]?.clientX ?? startX;
       const dx = endX - startX;
-      if (Math.abs(dx) < 48) return;
-      // Finger right → previous, finger left → next (comfortable with RTL nav).
-      if (dx > 0) setMethod(indexRef.current - 1);
-      else setMethod(indexRef.current + 1);
+      if (Math.abs(dx) < 56) return;
+      // Sequential only (no wrap): finger left → next, finger right → previous.
+      // Matches RTL buttons: הבא on the left, הקודם on the right.
+      if (dx < 0) setMethod(indexRef.current + 1);
+      else setMethod(indexRef.current - 1);
     };
 
     pin.addEventListener("wheel", onWheel, { passive: false });
@@ -300,17 +318,29 @@ export function Methods() {
           </div>
 
           <div className="method-nav" role="group" aria-label="מעבר בין שיטות">
-            <button type="button" className="method-nav__btn" onClick={() => setMethod(active - 1)}>
+            <button
+              type="button"
+              className="method-nav__btn"
+              onClick={goPrev}
+              disabled={!canPrev}
+              aria-disabled={!canPrev}
+            >
               <span className="method-nav__dir">הקודם</span>
-              <span className="method-nav__sub">{prevItem.name}</span>
+              <span className="method-nav__sub">{prevItem ? prevItem.name : "תחילת הרשימה"}</span>
             </button>
             <p className="method-nav__count">
               <span>{active + 1}</span>
               <span className="method-nav__of">/{items.length}</span>
             </p>
-            <button type="button" className="method-nav__btn method-nav__btn--next" onClick={() => setMethod(active + 1)}>
+            <button
+              type="button"
+              className="method-nav__btn method-nav__btn--next"
+              onClick={goNext}
+              disabled={!canNext}
+              aria-disabled={!canNext}
+            >
               <span className="method-nav__dir">הבא</span>
-              <span className="method-nav__sub">{nextItem.name}</span>
+              <span className="method-nav__sub">{nextItem ? nextItem.name : "סוף הרשימה"}</span>
             </button>
           </div>
 
