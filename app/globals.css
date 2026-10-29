@@ -5327,7 +5327,9 @@ a.clinic-address {
   }
 
   .kit-section__pin {
-    min-height: calc(100svh - 72px);
+    height: calc(100svh - 4rem);
+    min-height: calc(100svh - 4rem);
+    max-height: calc(100svh - 4rem);
     overscroll-behavior-y: contain;
   }
 }
