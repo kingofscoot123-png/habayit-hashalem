@@ -164,18 +164,20 @@ body {
 body {
   font-family: Satoshi, var(--font-assistant), Assistant, "General Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
-  font-size: 1.2rem;
-  line-height: 1.85;
+  font-size: 1.22rem;
+  line-height: 1.9;
   color: #18181B;
   background-color: #FAF3EA;
   background-image: linear-gradient(to bottom, #FAF3EA, #F5EBE0, #FAF3EA);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 p, li, .text-body, .text-lead, .faq-a, .faq-q, .quote-card__text,
 .pain-card__copy p, .method-card p, .why-depth p, .why-card p,
 .about-copy-soft, .methods-copy-soft, .lead-hub__lead, .assess__result {
   color: #18181B;
-  line-height: 1.85;
+  line-height: 1.9;
 }
 
 p + p,
@@ -748,9 +750,9 @@ section:not(.hs-hero) .font-display {
   border: 1px solid rgba(197, 160, 89, 0.35);
   background: rgba(197, 160, 89, 0.08);
   color: #18181B;
-  font-size: 1.06rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  line-height: 1.85;
+  line-height: 1.9;
 }
 
 .method-card--pinned {
@@ -792,19 +794,20 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-block__label {
-  margin: 0 0 8px;
-  font-size: 0.84rem;
+  margin: 0 0 10px;
+  font-size: 1.08rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
   color: #82152B;
-  font-family: "Clash Display", var(--font-display), sans-serif;
+  font-family: var(--font-heebo), Heebo, "Helvetica Neue", Arial, sans-serif;
 }
 
 .method-block__text {
   margin: 0;
-  font-size: 1.08rem;
+  font-size: 1.12rem;
   font-weight: 500;
-  line-height: 1.9;
+  line-height: 1.95;
   color: #18181B;
 }
 
@@ -1367,14 +1370,14 @@ a.clinic-address {
 }
 
 .method-card__body p {
-  font-size: 1.1rem;
-  line-height: 1.9;
+  font-size: 1.12rem;
+  line-height: 1.95;
 }
 
-.method-card p {
-  font-size: 1.08rem;
+.method-card p:not(.method-block__label) {
+  font-size: 1.1rem;
   font-weight: 500;
-  line-height: 1.85;
+  line-height: 1.9;
   color: #18181B;
 }
 
@@ -5397,14 +5400,25 @@ body.studio-body li,
 .pain-card p,
 .why-depth p,
 .why-card p,
-.method-card p,
+.method-card p:not(.method-block__label),
 .faq-a,
 .about-copy-soft,
 .treat-pin p {
   color: #18181b !important;
   font-weight: 500 !important;
-  line-height: 1.85 !important;
+  line-height: 1.9 !important;
   font-family: var(--font-assistant), Assistant, Satoshi, "Helvetica Neue", Arial, sans-serif;
+}
+
+body.studio-body .method-block__label,
+.method-card .method-block__label,
+.method-block__label {
+  color: #82152B !important;
+  font-family: var(--font-heebo), Heebo, "Helvetica Neue", Arial, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1.08rem !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.03em;
 }
 
 body.studio-body .impact-bar p,
