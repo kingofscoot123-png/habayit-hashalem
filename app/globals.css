@@ -4041,12 +4041,23 @@ a.clinic-address {
 
 .treat-pin__copy {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 280px;
   padding: 16px 18px 12px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
   border-top: 4px solid #82152B;
+}
+
+.treat-pin__scroll {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
 }
 
 .treat-pin__card {
@@ -4254,13 +4265,19 @@ a.clinic-address {
 
 @media (max-width: 767px) {
   .treat-pin {
+    height: calc(100svh - 64px);
     min-height: calc(100svh - 64px);
-    padding: 10px 16px 16px;
+    max-height: calc(100svh - 64px);
+    padding: 10px 16px 12px;
     justify-content: flex-start;
+    gap: 8px;
+    overflow: hidden;
   }
 
   .treat-pin__head {
-    margin-bottom: 8px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    padding: 10px 14px;
   }
 
   .treat-pin__head p {
@@ -4271,23 +4288,59 @@ a.clinic-address {
     display: none;
   }
 
+  .treat-pin__grid {
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 10px;
+  }
+
   .treat-house {
-    min-height: 96px;
+    min-height: 72px;
+    flex-shrink: 0;
   }
 
   .treat-house__svg {
-    width: min(38vw, 132px);
+    width: min(34vw, 118px);
+  }
+
+  .treat-pin__copy {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .treat-pin__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    padding-bottom: 8px;
+    scrollbar-gutter: stable;
+  }
+
+  .treat-pin__dots {
+    flex-shrink: 0;
+    margin-top: 8px;
   }
 
   .treat-pin .treat-step {
-    padding: 8px 10px;
+    padding: 10px 12px;
   }
 
   .treat-pin .treat-step p {
-    margin-top: 3px;
-    font-size: 0.92rem;
+    margin-top: 4px;
+    font-size: 0.95rem;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.55;
+  }
+
+  .treat-pin .treat-step--result p {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
   }
 
   .treat-pin__title {
@@ -5055,8 +5108,11 @@ a.clinic-address {
   }
 
   .treat-pin {
+    height: calc(100svh - 64px);
     min-height: calc(100svh - 64px);
+    max-height: calc(100svh - 64px);
     padding-top: 8px;
+    overflow: hidden;
   }
 
   .why-radar__pin {
