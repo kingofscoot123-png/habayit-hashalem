@@ -3,7 +3,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
 import { useMotionPrefs } from "@/lib/useMotionPrefs";
@@ -286,28 +285,8 @@ export function Methods() {
   };
 
   return (
-    <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-0 sm:px-6 lg:px-16" aria-label={content.methods.title}>
       <div ref={pinRef} className="kit-section__pin">
-        <div
-          className="card-glass content-shield method-section-head mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
-          data-reveal
-        >
-          <h2 className="section-title-rule text-h2">
-            <AccentLead text={content.methods.title} />
-          </h2>
-          <p className="mt-3 text-caption methods-copy-soft">
-            <HighlightCopy text={content.methods.hint} />
-          </p>
-        </div>
-
-        <div className="kit-core kit-core--mobile" aria-hidden="true">
-          <div className="kit-core__glow" />
-          <div className="kit-core__orb" data-kit={active}>
-            <MethodIcon name={current.name} size={36} />
-          </div>
-          <p className="kit-core__name">{current.name}</p>
-        </div>
-
         <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned method-card--luxury is-hot">
           <div className="method-card__top">
             <div className="method-card__identity">
@@ -359,6 +338,20 @@ export function Methods() {
               <MethodBody text={current.body} />
             </div>
           </div>
+
+          <div className="method-dots" role="tablist" aria-label={content.methods.title}>
+            {items.map((item, i) => (
+              <button
+                key={item.name}
+                type="button"
+                role="tab"
+                aria-label={item.name}
+                aria-selected={i === active}
+                className={`method-dots__dot ${i === active ? "is-on" : ""}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
         </article>
 
         {/* Hidden track keeps optional sync hooks; UI uses the single luxury card like mobile. */}
@@ -367,19 +360,6 @@ export function Methods() {
             <article key={item.name} data-method-card={i} className="method-card">
               <h3>{item.name}</h3>
             </article>
-          ))}
-        </div>
-        <div className="method-dots" role="tablist" aria-label={content.methods.title}>
-          {items.map((item, i) => (
-            <button
-              key={item.name}
-              type="button"
-              role="tab"
-              aria-label={item.name}
-              aria-selected={i === active}
-              className={`method-dots__dot ${i === active ? "is-on" : ""}`}
-              onClick={() => goTo(i)}
-            />
           ))}
         </div>
       </div>

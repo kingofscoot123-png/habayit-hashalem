@@ -602,16 +602,36 @@ section:not(.hs-hero) .font-display {
   color: #18181b;
 }
 
+.kit-section__pin {
+  height: calc(100svh - 4.5rem);
+  min-height: calc(100svh - 4.5rem);
+  max-height: calc(100svh - 4.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  overflow: hidden;
+  overscroll-behavior-y: contain;
+}
+
 .method-card--pinned {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   width: min(100%, 42rem);
   margin-inline: auto;
-  height: calc(100svh - 7.5rem);
-  max-height: calc(100svh - 7.5rem);
+  height: 100%;
+  max-height: 100%;
   min-height: 0;
-  padding: 18px 18px 14px;
-  margin-bottom: 10px;
+  padding: 16px 18px 10px;
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.method-card--pinned .method-dots {
+  flex-shrink: 0;
+  margin-top: 6px;
+  margin-bottom: 2px;
 }
 
 .method-card--pinned h3 {
@@ -651,7 +671,12 @@ section:not(.hs-hero) .font-display {
   display: none !important;
 }
 
+.kit-core.kit-core--mobile,
 .kit-core--mobile {
+  display: none !important;
+}
+
+.method-section-head {
   display: none;
 }
 
@@ -4441,21 +4466,24 @@ a.clinic-address {
     display: none;
   }
 
-  .kit-desk {
-    display: none;
+  .kit-desk,
+  .kit-core.kit-core--mobile,
+  .kit-core--mobile,
+  .method-section-head {
+    display: none !important;
   }
 
   .method-card--pinned {
     width: min(100%, 46rem);
-    height: calc(100svh - 8.5rem);
-    max-height: calc(100svh - 8.5rem);
     padding: 22px 24px 16px;
   }
 
   .method-dots {
     display: flex;
     justify-content: center;
-    margin-top: 8px;
+    flex-shrink: 0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .why-radar__picks {
@@ -4596,6 +4624,11 @@ a.clinic-address {
   box-shadow:
     0 16px 32px -18px rgba(130, 21, 43, 0.28),
     0 0 28px rgba(130, 21, 43, 0.16);
+}
+
+.method-card--pinned.is-hot,
+.method-card--pinned.method-card.is-hot {
+  transform: none;
 }
 
 @keyframes kitGlowPulse {
@@ -5156,12 +5189,18 @@ a.clinic-address {
     display: none;
   }
 
+  .kit-section__pin {
+    height: calc(100svh - 4rem);
+    min-height: calc(100svh - 4rem);
+    max-height: calc(100svh - 4rem);
+  }
+
   .method-card--pinned {
     width: 100%;
-    height: calc(100svh - 5.75rem);
-    max-height: calc(100svh - 5.75rem);
-    padding: 16px 16px 12px;
-    margin-bottom: 8px;
+    height: 100%;
+    max-height: 100%;
+    padding: 16px 16px 10px;
+    margin-bottom: 0;
   }
 
   .method-card--pinned h3 {
@@ -5229,7 +5268,9 @@ a.clinic-address {
   }
 
   .kit-section__pin {
-    min-height: calc(100svh - 72px);
+    height: calc(100svh - 4rem);
+    min-height: calc(100svh - 4rem);
+    max-height: calc(100svh - 4rem);
     overscroll-behavior-y: contain;
   }
 }
