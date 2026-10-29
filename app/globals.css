@@ -165,7 +165,7 @@ body {
   font-family: Satoshi, var(--font-assistant), Assistant, "General Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   font-size: 1.2rem;
-  line-height: 1.75;
+  line-height: 1.85;
   color: #18181B;
   background-color: #FAF3EA;
   background-image: linear-gradient(to bottom, #FAF3EA, #F5EBE0, #FAF3EA);
@@ -175,6 +175,13 @@ p, li, .text-body, .text-lead, .faq-a, .faq-q, .quote-card__text,
 .pain-card__copy p, .method-card p, .why-depth p, .why-card p,
 .about-copy-soft, .methods-copy-soft, .lead-hub__lead, .assess__result {
   color: #18181B;
+  line-height: 1.85;
+}
+
+p + p,
+.methods-copy-soft + .methods-copy-soft,
+.about-copy-soft + .about-copy-soft {
+  margin-top: 0.85em;
 }
 
 .gold-sep {
@@ -643,11 +650,17 @@ section:not(.hs-hero) .font-display {
   box-shadow:
     0 10px 22px -16px rgba(130, 21, 43, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
 }
 
-.method-nav__btn:active {
+.method-nav__btn:active:not(:disabled) {
   transform: translateY(1px);
+}
+
+.method-nav__btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+  box-shadow: none;
 }
 
 .method-nav__btn--next {
@@ -729,15 +742,30 @@ section:not(.hs-hero) .font-display {
 
 .method-card--luxury .method-card__summary {
   position: relative;
-  margin: 0 0 16px;
-  padding: 14px 14px 14px 16px;
+  margin: 0 0 20px;
+  padding: 16px 16px 16px 18px;
   border-radius: 14px;
   border: 1px solid rgba(197, 160, 89, 0.35);
   background: rgba(197, 160, 89, 0.08);
   color: #18181B;
-  font-size: 1.05rem;
+  font-size: 1.06rem;
   font-weight: 600;
-  line-height: 1.7;
+  line-height: 1.85;
+}
+
+.method-card--pinned {
+  animation: methodCardIn 0.35s ease;
+}
+
+@keyframes methodCardIn {
+  from {
+    opacity: 0.55;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .method-card--luxury .method-card__summary::before {
@@ -752,8 +780,8 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-block {
-  margin-top: 14px;
-  padding-top: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
   border-top: 1px solid rgba(197, 160, 89, 0.22);
 }
 
@@ -764,8 +792,8 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-block__label {
-  margin: 0 0 6px;
-  font-size: 0.82rem;
+  margin: 0 0 8px;
+  font-size: 0.84rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   color: #82152B;
@@ -774,9 +802,9 @@ section:not(.hs-hero) .font-display {
 
 .method-block__text {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 500;
-  line-height: 1.75;
+  line-height: 1.9;
   color: #18181B;
 }
 
@@ -1340,18 +1368,18 @@ a.clinic-address {
 
 .method-card__body p {
   font-size: 1.1rem;
-  line-height: 1.72;
+  line-height: 1.9;
 }
 
 .method-card p {
   font-size: 1.08rem;
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.85;
   color: #18181B;
 }
 
 .method-card__body p + p {
-  margin-top: 10px;
+  margin-top: 14px;
 }
 
 .kit-card .method-card__body {
@@ -5375,6 +5403,7 @@ body.studio-body li,
 .treat-pin p {
   color: #18181b !important;
   font-weight: 500 !important;
+  line-height: 1.85 !important;
   font-family: var(--font-assistant), Assistant, Satoshi, "Helvetica Neue", Arial, sans-serif;
 }
 

@@ -72,9 +72,9 @@ const config: Config = {
           "clamp(2.15rem, 5.2vw, 3.45rem)",
           { lineHeight: "1.15", letterSpacing: "-0.03em", fontWeight: "800" },
         ],
-        lead: ["1.4rem", { lineHeight: "1.55", fontWeight: "600" }],
-        body: ["1.2rem", { lineHeight: "1.75", fontWeight: "500" }],
-        caption: ["1.05rem", { lineHeight: "1.45", fontWeight: "600" }],
+        lead: ["1.4rem", { lineHeight: "1.7", fontWeight: "600" }],
+        body: ["1.2rem", { lineHeight: "1.85", fontWeight: "500" }],
+        caption: ["1.05rem", { lineHeight: "1.55", fontWeight: "600" }],
       },
       maxWidth: {
         measure: "68ch",
