@@ -58,16 +58,18 @@ export function Treat() {
   }, [detailOpen]);
 
   /**
-   * Sticky pin stays. While pinned, vertical scroll first finishes reading the card.
-   * Only after the card is fully read (or has no overflow) does page scroll advance stages.
+   * Sticky pin stays. While pinned, vertical scroll first finishes reading the card
+   * ("מה קורה עכשיו" → "איך הטיפול משנה את זה" → life result) before stages advance.
    * Modal open freezes stage changes and absorbs wheel/touch so sticky resume stays seamless.
    */
   useEffect(() => {
     const pin = pinRef.current;
     if (!pin || reduced) return;
 
+    const paneEl = () => copyScrollRef.current;
+
     const paneState = () => {
-      const el = copyScrollRef.current;
+      const el = paneEl();
       if (!el) return { el: null as HTMLDivElement | null, atTop: true, atBottom: true, hasOverflow: false };
       const hasOverflow = el.scrollHeight > el.clientHeight + 2;
       return {
@@ -78,16 +80,26 @@ export function Treat() {
       };
     };
 
+    const preferInnerScroll = () => {
+      if (detailOpenRef.current || pinActiveRef.current) return true;
+      const el = paneEl();
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 72;
+    };
+
     const onWheel = (e: WheelEvent) => {
       if (detailOpenRef.current) {
         e.preventDefault();
+        e.stopPropagation();
         return;
       }
-      if (!pinActiveRef.current) return;
+      if (!preferInnerScroll()) return;
       const { el, atTop, atBottom, hasOverflow } = paneState();
       if (!el || !hasOverflow) return;
       if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
         e.preventDefault();
+        e.stopPropagation();
         el.scrollTop += e.deltaY;
       }
     };
@@ -105,9 +117,10 @@ export function Treat() {
     const onTouchMove = (e: TouchEvent) => {
       if (detailOpenRef.current) {
         e.preventDefault();
+        e.stopPropagation();
         return;
       }
-      if (!pinActiveRef.current) return;
+      if (!preferInnerScroll()) return;
       const y = e.touches[0]?.clientY ?? touchY;
       const dy = touchY - y;
       const { el, atTop, atBottom, hasOverflow } = paneState();
@@ -118,6 +131,7 @@ export function Treat() {
       if ((pullingUp && !atBottom) || (pullingDown && !atTop)) {
         locking = true;
         e.preventDefault();
+        e.stopPropagation();
         el.scrollTop += dy;
         touchY = y;
       } else if (locking && Math.abs(y - startY) > 8) {
@@ -202,7 +216,15 @@ export function Treat() {
 
         <div className="treat-pin__grid">
           <div className="treat-pin__copy" aria-live="polite">
-            <div ref={copyScrollRef} className="treat-pin__scroll" data-treat-scroll>
+            <div
+              ref={copyScrollRef}
+              className="treat-pin__scroll"
+              data-treat-scroll
+              data-lenis-prevent
+              data-lenis-prevent-wheel
+              tabIndex={0}
+              aria-label={`${current.title}: תוכן מלא לגלילה`}
+            >
               {items.map((item, i) => (
                 <article
                   key={item.n}

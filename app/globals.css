@@ -4331,13 +4331,15 @@ a.clinic-address {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  min-height: 280px;
+  min-height: 0;
+  max-height: min(72vh, calc(100svh - 10.5rem));
   padding: 16px 18px 12px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
   border-top: 4px solid #82152B;
+  overflow: hidden;
 }
 
 .treat-pin__scroll {
@@ -4345,6 +4347,33 @@ a.clinic-address {
   width: 100%;
   min-height: 0;
   flex: 1 1 auto;
+  max-height: min(65vh, calc(100svh - 14rem));
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 4px 8px 16px 2px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.treat-pin__scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-track {
+  background: rgba(130, 21, 43, 0.06);
+  border-radius: 999px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-thumb {
+  background: rgba(130, 21, 43, 0.38);
+  border-radius: 999px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 21, 43, 0.55);
 }
 
 .treat-pin__card {
@@ -4593,18 +4622,19 @@ a.clinic-address {
   .treat-pin__copy {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: none;
+    max-height: min(70vh, calc(100svh - 9.5rem));
+    overflow: hidden;
   }
 
   .treat-pin__scroll {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: none;
+    max-height: min(65vh, calc(100svh - 12.5rem));
     overflow-y: auto;
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
-    padding-bottom: 8px;
+    padding: 2px 6px 14px 2px;
     scrollbar-gutter: stable;
   }
 
