@@ -10,7 +10,7 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const flow = ["now", "how"] as const;
+const flow = ["now", "how", "result"] as const;
 
 type PaneSnap = {
   el: HTMLDivElement | null;
