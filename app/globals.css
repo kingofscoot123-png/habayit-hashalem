@@ -602,7 +602,124 @@ section:not(.hs-hero) .font-display {
   color: #18181b;
 }
 
+.kit-section__pin {
+  height: calc(100svh - 4.5rem);
+  min-height: calc(100svh - 4.5rem);
+  max-height: calc(100svh - 4.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  overflow: hidden;
+  overscroll-behavior-y: contain;
+}
+
 .method-card--pinned {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(100%, 42rem);
+  margin-inline: auto;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  padding: 16px 18px 10px;
+  margin-bottom: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.method-card--pinned .method-dots {
+  flex-shrink: 0;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.method-card--pinned h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #82152B;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.method-card--pinned .method-card__tag {
+  margin-bottom: 0;
+  border-color: rgba(197, 160, 89, 0.55);
+  background: rgba(197, 160, 89, 0.12);
+  color: #82152B;
+  box-shadow: none;
+}
+
+.method-card--pinned .method-card__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: #82152B;
+  background: rgba(197, 160, 89, 0.14);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+}
+
+.method-card--pinned .method-card__scroll-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(70vh, calc(100svh - 15.5rem));
+  overflow: hidden;
+}
+
+.method-card--pinned .method-card__scroll,
+.method-card__scroll--pinned {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 4px 8px 18px 4px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar {
+  width: 7px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-track {
+  background: rgba(130, 21, 43, 0.06);
+  border-radius: 999px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-thumb {
+  background: rgba(130, 21, 43, 0.38);
+  border-radius: 999px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 21, 43, 0.55);
+}
+
+.method-card--pinned .method-card__body,
+.method-card--pinned .method-block {
+  padding-inline: 2px;
+}
+
+.method-card--pinned .method-block + .method-block {
+  margin-top: 14px;
+}
+
+.method-grid--hidden {
+  display: none !important;
+}
+
+.kit-core.kit-core--mobile,
+.kit-core--mobile {
+  display: none !important;
+}
+
+.method-section-head {
   display: none;
 }
 
@@ -610,6 +727,9 @@ section:not(.hs-hero) .font-display {
   position: relative;
   width: 100%;
   min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .method-card__scroll {
@@ -626,9 +746,11 @@ section:not(.hs-hero) .font-display {
 }
 
 .method-nav {
-  display: none;
+  display: flex;
+  flex-shrink: 0;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 0;
+  margin-bottom: 12px;
   gap: 10px;
   align-items: stretch;
 }
@@ -1497,6 +1619,214 @@ a.clinic-address {
   opacity: 1;
   transform: none;
   filter: blur(0);
+}
+
+.treat-step--openable .treat-step__hit {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
+}
+
+.treat-step--openable .treat-step__hit:hover,
+.treat-step--openable .treat-step__hit:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(197, 160, 89, 0.45);
+}
+
+.treat-step__hint {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #C5A059;
+}
+
+.treat-detail-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(197, 160, 89, 0.55);
+  background:
+    linear-gradient(165deg, rgba(255, 252, 247, 0.98), rgba(250, 245, 239, 0.9));
+  color: #82152B;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow:
+    0 12px 24px -18px rgba(130, 21, 43, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.treat-detail-cta:hover,
+.treat-detail-cta:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  border-color: rgba(130, 21, 43, 0.45);
+  box-shadow:
+    0 16px 28px -18px rgba(130, 21, 43, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.treat-detail-cta:active {
+  transform: translateY(0);
+}
+
+.treat-detail-modal {
+  z-index: 120;
+}
+
+.treat-detail-modal__backdrop {
+  background: rgba(24, 24, 27, 0.6) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.treat-detail-modal__panel {
+  width: min(100%, 34rem);
+  max-height: min(86svh, 720px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px 24px 26px;
+  border-radius: 22px;
+  border: 1px solid rgba(197, 160, 89, 0.42) !important;
+  border-top: 4px solid #C5A059 !important;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.99), rgba(255, 255, 255, 0.96)) !important;
+  box-shadow:
+    0 28px 60px -24px rgba(24, 24, 27, 0.55),
+    0 0 0 1px rgba(197, 160, 89, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  color: #18181B;
+  text-align: start;
+}
+
+.treat-detail-modal__close {
+  position: absolute;
+  top: 12px;
+  inset-inline-start: 12px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #82152B;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -14px rgba(130, 21, 43, 0.55);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.treat-detail-modal__close:hover,
+.treat-detail-modal__close:focus-visible {
+  outline: none;
+  transform: scale(1.04);
+  border-color: rgba(130, 21, 43, 0.4);
+  background: #fff;
+}
+
+.treat-detail-modal__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding-inline-end: 44px;
+  color: #C5A059;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.treat-detail-modal__eyebrow span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 2.1rem;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  background: rgba(197, 160, 89, 0.12);
+  color: #82152B;
+  letter-spacing: 0.06em;
+}
+
+.treat-detail-modal__title {
+  margin: 0 0 18px;
+  color: #82152B !important;
+  font-size: clamp(1.35rem, 3.2vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.25;
+  font-family: "Clash Display", var(--font-heebo), Heebo, Arial, sans-serif;
+}
+
+.treat-detail-modal__blocks {
+  display: grid;
+  gap: 14px;
+}
+
+.treat-detail-modal__block {
+  padding: 14px 14px 15px;
+  border-radius: 16px;
+  border: 1px solid rgba(197, 160, 89, 0.28);
+  background: rgba(197, 160, 89, 0.07);
+}
+
+.treat-detail-modal__block--result {
+  border-color: rgba(130, 21, 43, 0.22);
+  background: rgba(130, 21, 43, 0.06);
+}
+
+.treat-detail-modal__block h4 {
+  margin: 0 0 8px;
+  color: #82152B !important;
+  font-size: 1.02rem;
+  font-weight: 800;
+  font-family: var(--font-heebo), Heebo, "Helvetica Neue", Arial, sans-serif;
+}
+
+.treat-detail-modal__block p {
+  margin: 0;
+  color: #18181B !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+  line-height: 1.8 !important;
+}
+
+@media (max-width: 767px) {
+  .treat-detail-modal {
+    padding: 14px;
+    align-items: end;
+  }
+
+  .treat-detail-modal__panel {
+    width: 100%;
+    max-height: min(88svh, 760px);
+    padding: 22px 18px 20px;
+    border-radius: 20px 20px 16px 16px;
+  }
+
+  .treat-detail-cta {
+    font-size: 0.9rem;
+    padding: 11px 14px;
+  }
 }
 
 .faq-item {
@@ -3911,6 +4241,163 @@ a.clinic-address {
   }
 }
 
+/* Clean stacked "במה אני מטפל" cards — per-card inner scroll, no page scroll-jack */
+.treat-stack {
+  position: relative;
+  overflow-x: clip;
+}
+
+.treat-stack__inner {
+  width: min(100%, 56rem);
+  margin-inline: auto;
+}
+
+.treat-stack__head {
+  max-width: 40rem;
+  margin: 0 auto 2.75rem;
+  text-align: center;
+}
+
+.treat-stack__rule {
+  display: block;
+  width: 4rem;
+  height: 3px;
+  margin: 0.85rem auto 1rem;
+  border-radius: 999px;
+  background: #c5a059;
+}
+
+.treat-stack__lead {
+  margin: 0;
+  color: #18181b;
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.treat-stack__list {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.treat-stack__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.35rem 1.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.15rem;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  box-shadow: 0 18px 40px rgba(24, 24, 27, 0.08);
+}
+
+.treat-stack__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(24, 24, 27, 0.08);
+}
+
+.treat-stack__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(130, 21, 43, 0.1);
+  color: #82152b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.treat-stack__n {
+  flex-shrink: 0;
+  color: #c5a059;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.treat-stack__title {
+  margin: 0 0 1rem;
+  color: #18181b;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.25;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.treat-stack__scroll {
+  max-height: 50vh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding-inline-end: 0.35rem;
+  display: grid;
+  gap: 1rem;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.treat-stack__scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.treat-stack__scroll::-webkit-scrollbar-track {
+  background: rgba(130, 21, 43, 0.06);
+  border-radius: 999px;
+}
+
+.treat-stack__scroll::-webkit-scrollbar-thumb {
+  background: rgba(130, 21, 43, 0.38);
+  border-radius: 999px;
+}
+
+.treat-stack__block {
+  padding: 1rem 1.05rem;
+  border-radius: 0.85rem;
+  background: #faf6f0;
+  border-inline-start: 4px solid #82152b;
+}
+
+.treat-stack__block--how {
+  border-inline-start-color: #c5a059;
+}
+
+.treat-stack__block h4 {
+  margin: 0 0 0.55rem;
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #82152b;
+}
+
+.treat-stack__block--how h4 {
+  color: #a67c2d;
+}
+
+.treat-stack__block p {
+  margin: 0;
+  color: #18181b;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  font-weight: 500;
+  line-height: 1.75;
+}
+
+@media (min-width: 768px) {
+  .treat-stack__card {
+    padding: 1.75rem 1.85rem 1.9rem;
+  }
+}
+
 .treat-pin-section {
   position: relative;
   overflow-x: clip;
@@ -4041,12 +4528,138 @@ a.clinic-address {
 
 .treat-pin__copy {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  max-height: min(72vh, calc(100svh - 10.5rem));
   padding: 16px 18px 12px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 1rem;
   border-top: 4px solid #82152B;
+  overflow: hidden;
+}
+
+.treat-pin__rule {
+  display: block;
+  width: 4rem;
+  height: 3px;
+  margin: 0.75rem auto 0;
+  border-radius: 999px;
+  background: #c5a059;
+}
+
+.treat-pin__nav {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: 10px;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.treat-pin__nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 9px 11px;
+  border-radius: 14px;
+  border: 1px solid rgba(197, 160, 89, 0.55);
+  background: rgba(255, 253, 248, 0.88);
+  color: #82152b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.treat-pin__nav-btn:hover:not(:disabled) {
+  background: rgba(255, 253, 248, 1);
+  border-color: rgba(197, 160, 89, 0.85);
+}
+
+.treat-pin__nav-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.treat-pin__nav-btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.treat-pin__nav-btn--next {
+  align-items: flex-end;
+  text-align: end;
+}
+
+.treat-pin__nav-dir {
+  letter-spacing: 0.04em;
+}
+
+.treat-pin__nav-sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #18181b;
+  opacity: 0.7;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.treat-pin__nav-count {
+  margin: 0;
+  align-self: center;
+  min-width: 3.2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #82152b;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.treat-pin__nav-of {
+  color: #c5a059;
+  font-weight: 700;
+}
+
+.treat-pin__scroll {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  /* Short enough that "מה קורה עכשיו" + "איך הטיפול משנה את זה" need a clean inner read */
+  max-height: min(44vh, calc(100svh - 18rem));
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 4px 8px 20px 2px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.treat-pin__scroll::-webkit-scrollbar {
+  width: 7px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-track {
+  background: rgba(130, 21, 43, 0.06);
+  border-radius: 999px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-thumb {
+  background: rgba(130, 21, 43, 0.38);
+  border-radius: 999px;
+}
+
+.treat-pin__scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 21, 43, 0.55);
 }
 
 .treat-pin__card {
@@ -4072,8 +4685,23 @@ a.clinic-address {
 .treat-pin__meta {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin-bottom: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(24, 24, 27, 0.08);
+}
+
+.treat-pin__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(130, 21, 43, 0.1);
+  color: #82152b;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .treat-pin__n {
@@ -4093,12 +4721,6 @@ a.clinic-address {
   box-shadow: 0 0 18px rgba(130, 21, 43, 0.12);
 }
 
-.treat-pin__tag {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--hs-mint-deep);
-}
-
 .treat-pin__title {
   font-size: clamp(1.5rem, 3.2vw, 2.05rem);
   margin-bottom: 14px;
@@ -4107,6 +4729,21 @@ a.clinic-address {
 .treat-pin__flow {
   display: grid;
   gap: 10px;
+}
+
+.treat-pin .treat-step--panel {
+  padding: 1rem 1.05rem;
+  border-radius: 0.85rem;
+  background: #faf6f0;
+  border-inline-start: 4px solid #82152b;
+}
+
+.treat-pin .treat-step--panel.treat-step--how {
+  border-inline-start-color: #c5a059;
+}
+
+.treat-pin .treat-step--panel.treat-step--how .treat-step__label {
+  color: #a67c2d;
 }
 
 .treat-pin__dots {
@@ -4252,42 +4889,89 @@ a.clinic-address {
   box-shadow: 0 0 12px rgba(130, 21, 43, 0.55);
 }
 
+/* Mobile sticky Treat — same pin effect; inner pane is the reading surface */
 @media (max-width: 767px) {
   .treat-pin {
-    min-height: calc(100svh - 64px);
-    padding: 10px 16px 16px;
+    min-height: 100svh;
+    max-height: 100svh;
+    padding: 0.85rem 0.9rem 1.1rem;
     justify-content: flex-start;
+    gap: 0.65rem;
+    overflow: hidden;
   }
 
   .treat-pin__head {
-    margin-bottom: 8px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    padding: 10px 12px;
+    max-width: 40rem;
   }
 
   .treat-pin__head p {
-    display: none;
+    display: block;
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .treat-pin__hint {
     display: none;
   }
 
+  .treat-pin__grid {
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 0.55rem;
+  }
+
   .treat-house {
-    min-height: 96px;
+    min-height: 64px;
+    flex-shrink: 0;
   }
 
   .treat-house__svg {
-    width: min(38vw, 132px);
+    width: min(32vw, 108px);
+  }
+
+  .treat-pin__copy {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+    padding: 12px 12px 10px;
+  }
+
+  .treat-pin__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: min(48vh, calc(100svh - 14rem));
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    padding: 2px 6px 18px 2px;
+    scrollbar-gutter: stable;
+  }
+
+  .treat-pin__dots {
+    flex-shrink: 0;
+    margin-top: 8px;
   }
 
   .treat-pin .treat-step {
-    padding: 8px 10px;
+    padding: 10px 12px;
   }
 
   .treat-pin .treat-step p {
-    margin-top: 3px;
-    font-size: 0.92rem;
+    margin-top: 4px;
+    font-size: 0.95rem;
     font-weight: 500;
-    line-height: 1.4;
+    line-height: 1.55;
+  }
+
+  .treat-pin .treat-step--result p {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
   }
 
   .treat-pin__title {
@@ -4380,7 +5064,6 @@ a.clinic-address {
   }
 
   .method-grid--snap,
-  .method-dots,
   .kit-core--mobile,
   .why-snap,
   .why-snap-dots,
@@ -4388,8 +5071,24 @@ a.clinic-address {
     display: none;
   }
 
-  .kit-desk {
-    display: grid;
+  .kit-desk,
+  .kit-core.kit-core--mobile,
+  .kit-core--mobile,
+  .method-section-head {
+    display: none !important;
+  }
+
+  .method-card--pinned {
+    width: min(100%, 46rem);
+    padding: 22px 24px 16px;
+  }
+
+  .method-dots {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .why-radar__picks {
@@ -4530,6 +5229,11 @@ a.clinic-address {
   box-shadow:
     0 16px 32px -18px rgba(130, 21, 43, 0.28),
     0 0 28px rgba(130, 21, 43, 0.16);
+}
+
+.method-card--pinned.is-hot,
+.method-card--pinned.method-card.is-hot {
+  transform: none;
 }
 
 @keyframes kitGlowPulse {
@@ -4737,7 +5441,7 @@ a.clinic-address {
 
 @media (min-width: 1024px) {
   .kit-desk {
-    display: grid;
+    display: none;
   }
 
   .why-radar__picks {
@@ -5055,8 +5759,11 @@ a.clinic-address {
   }
 
   .treat-pin {
+    height: calc(100svh - 64px);
     min-height: calc(100svh - 64px);
+    max-height: calc(100svh - 64px);
     padding-top: 8px;
+    overflow: hidden;
   }
 
   .why-radar__pin {
@@ -5090,15 +5797,18 @@ a.clinic-address {
     display: none;
   }
 
+  .kit-section__pin {
+    height: calc(100svh - 4rem);
+    min-height: calc(100svh - 4rem);
+    max-height: calc(100svh - 4rem);
+  }
+
   .method-card--pinned {
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    height: calc(100svh - 5.75rem);
-    max-height: calc(100svh - 5.75rem);
-    min-height: 0;
-    padding: 16px 16px 12px;
-    margin-bottom: 8px;
+    height: 100%;
+    max-height: 100%;
+    padding: 16px 16px 10px;
+    margin-bottom: 0;
   }
 
   .method-card--pinned h3 {
@@ -5130,15 +5840,24 @@ a.clinic-address {
   .method-card__scroll-shell {
     flex: 1 1 auto;
     min-height: 0;
+    max-height: min(68vh, calc(100svh - 14.5rem));
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
-  .method-card--pinned .method-card__scroll {
+  .method-card--pinned .method-card__scroll-shell {
+    max-height: min(68vh, calc(100svh - 14.5rem));
+  }
+
+  .method-card--pinned .method-card__scroll,
+  .method-card__scroll--pinned {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: none;
-    padding-bottom: 10px;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto !important;
+    padding: 4px 6px 16px 2px;
   }
 
   .method-nav {
@@ -5169,7 +5888,9 @@ a.clinic-address {
   }
 
   .kit-section__pin {
-    min-height: calc(100svh - 72px);
+    height: calc(100svh - 4rem);
+    min-height: calc(100svh - 4rem);
+    max-height: calc(100svh - 4rem);
     overscroll-behavior-y: contain;
   }
 }
