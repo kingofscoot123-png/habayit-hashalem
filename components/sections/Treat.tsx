@@ -11,6 +11,7 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 gsap.registerPlugin(ScrollTrigger);
 
 const flow = ["now", "how"] as const;
+const DESKTOP_MQ = "(min-width: 768px)";
 
 export function Treat() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -35,12 +36,13 @@ export function Treat() {
   }, [stage]);
 
   /**
-   * Sticky pin stays. Vertical scroll first finishes reading the active card
-   * ("מה קורה עכשיו" → "איך הטיפול משנה את זה") before stages advance.
+   * Desktop only: while pinned, vertical scroll finishes reading the active card
+   * before stages advance. Mobile uses natural stacked cards (no pin / no trap).
    */
   useEffect(() => {
     const pin = pinRef.current;
     if (!pin || reduced) return;
+    if (!window.matchMedia(DESKTOP_MQ).matches) return;
 
     const paneEl = () => copyScrollRef.current;
 
@@ -65,6 +67,7 @@ export function Treat() {
     };
 
     const onWheel = (e: globalThis.WheelEvent) => {
+      if (!window.matchMedia(DESKTOP_MQ).matches) return;
       if (!preferInnerScroll()) return;
       const { el, atTop, atBottom, hasOverflow } = paneState();
       if (!el || !hasOverflow) return;
@@ -86,6 +89,7 @@ export function Treat() {
     };
 
     const onTouchMove = (e: globalThis.TouchEvent) => {
+      if (!window.matchMedia(DESKTOP_MQ).matches) return;
       if (!preferInnerScroll()) return;
       const y = e.touches[0]?.clientY ?? touchY;
       const dy = touchY - y;
@@ -123,46 +127,65 @@ export function Treat() {
     const pin = pinRef.current;
     if (!section || !pin || reduced) return;
 
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
-    const endDistance = mobile
-      ? Math.round(window.innerHeight * Math.max(3.6, items.length * 1.35))
-      : Math.max(1800, Math.round(window.innerHeight * items.length * 1.35));
+    const desktopMq = window.matchMedia(DESKTOP_MQ);
+    let ctx: gsap.Context | null = null;
 
-    const ctx = gsap.context(() => {
-      const st = ScrollTrigger.create({
-        trigger: section,
-        start: mobile ? "top top" : "top top+=72",
-        end: `+=${endDistance}`,
-        pin,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onToggle: (self) => {
-          pinActiveRef.current = self.isActive;
-        },
-        onUpdate: (self) => {
-          const raw = self.progress * items.length;
-          const i = Math.min(items.length - 1, Math.floor(raw + 0.001));
-          if (i !== stageRef.current) setStep(i);
-        },
-      });
-      stRef.current = st;
-    }, section);
+    const killPin = () => {
+      pinActiveRef.current = false;
+      stRef.current = null;
+      ctx?.revert();
+      ctx = null;
+    };
+
+    const setupDesktopPin = () => {
+      killPin();
+      if (!desktopMq.matches) return;
+
+      const endDistance = Math.max(1800, Math.round(window.innerHeight * items.length * 1.35));
+      ctx = gsap.context(() => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top top+=72",
+          end: `+=${endDistance}`,
+          pin,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onToggle: (self) => {
+            pinActiveRef.current = self.isActive;
+          },
+          onUpdate: (self) => {
+            const raw = self.progress * items.length;
+            const i = Math.min(items.length - 1, Math.floor(raw + 0.001));
+            if (i !== stageRef.current) setStep(i);
+          },
+        });
+        stRef.current = st;
+      }, section);
+      ScrollTrigger.refresh();
+    };
+
+    setupDesktopPin();
+    const onChange = () => setupDesktopPin();
+    desktopMq.addEventListener("change", onChange);
 
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
     document.fonts.ready.then(refresh);
 
     return () => {
-      pinActiveRef.current = false;
+      desktopMq.removeEventListener("change", onChange);
       window.removeEventListener("load", refresh);
-      stRef.current = null;
-      ctx.revert();
+      killPin();
     };
   }, [reduced, items.length]);
 
   const goTo = (i: number) => {
     setStep(i);
+    if (!window.matchMedia(DESKTOP_MQ).matches) {
+      document.getElementById(`treat-card-${items[i]?.n}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     if (reduced) return;
     const st = stRef.current;
     if (!st) return;
@@ -170,7 +193,6 @@ export function Treat() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  /** Keep sticky page progress from stealing gestures while reading the card text. */
   const stopScrollJack = (e: WheelEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>) => {
     e.stopPropagation();
   };
@@ -186,7 +208,47 @@ export function Treat() {
           <p className="mt-3 text-body text-ink">{content.treat.lead}</p>
         </div>
 
-        <div className="treat-pin__grid">
+        {/* Mobile: natural stacked cards — no sticky pin / no scroll-trap */}
+        <div className="treat-mobile-stack">
+          {items.map((item) => (
+            <article key={item.n} id={`treat-card-${item.n}`} className="treat-mobile-stack__card">
+              <div className="treat-pin__meta">
+                <span className="treat-pin__tag">{item.tag}</span>
+                <span className="treat-pin__n">{item.n}</span>
+              </div>
+              <h3 className="treat-pin__title">{item.title}</h3>
+              <div
+                className="treat-mobile-stack__scroll max-h-[70vh] overflow-y-auto"
+                data-treat-scroll
+                data-lenis-prevent
+                data-lenis-prevent-touch
+                tabIndex={0}
+                aria-label={`${item.title}: תוכן מלא לגלילה`}
+                onTouchMove={stopScrollJack}
+                onWheel={stopScrollJack}
+              >
+                <ol className="treat-pin__flow">
+                  {flow.map((key) => (
+                    <li key={key} className={`treat-step treat-step--${key} treat-step--panel`}>
+                      <span className="treat-step__label">{content.treat.labels[key]}</span>
+                      <p>{item[key]}</p>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </article>
+          ))}
+          <div className="treat-pin__dots treat-pin__dots--mobile" role="tablist" aria-label={content.treat.title}>
+            {items.map((item, i) => (
+              <button key={item.n} type="button" role="tab" className="treat-pin__dot" onClick={() => goTo(i)}>
+                {item.n}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: sticky staged cards */}
+        <div className="treat-pin__grid treat-pin__grid--desktop">
           <div className="treat-pin__copy" aria-live="polite">
             <div
               ref={copyScrollRef}
@@ -210,7 +272,6 @@ export function Treat() {
                     <span className="treat-pin__n">{item.n}</span>
                   </div>
                   <h3 className="treat-pin__title">{item.title}</h3>
-
                   <ol className="treat-pin__flow">
                     {flow.map((key, si) => (
                       <li
@@ -246,7 +307,7 @@ export function Treat() {
           <TreatHouse stage={stage} />
         </div>
 
-        <p className="treat-pin__hint">{current.title}</p>
+        <p className="treat-pin__hint treat-pin__hint--desktop">{current.title}</p>
       </div>
     </section>
   );

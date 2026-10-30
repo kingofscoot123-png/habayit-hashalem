@@ -4812,35 +4812,101 @@ a.clinic-address {
   box-shadow: 0 0 12px rgba(130, 21, 43, 0.55);
 }
 
+/* Mobile: natural stacked cards — no sticky pin / no scroll-trap */
+.treat-mobile-stack {
+  display: none;
+  gap: 1.15rem;
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
 @media (max-width: 767px) {
+  .treat-mobile-stack {
+    display: grid;
+  }
+
+  .treat-pin__grid--desktop,
+  .treat-pin__hint--desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .treat-mobile-stack {
+    display: none !important;
+  }
+}
+
+.treat-mobile-stack__card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem 1.1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1.1rem;
+  border: 1px solid rgba(197, 160, 89, 0.3);
+  border-top: 4px solid #82152b;
+  box-shadow: 0 14px 32px rgba(24, 24, 27, 0.08);
+}
+
+.treat-mobile-stack__scroll {
+  min-height: 0;
+  max-height: 70vh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding-inline-end: 0.25rem;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.treat-pin__dots--mobile {
+  position: sticky;
+  bottom: 12px;
+  z-index: 5;
+  margin-top: 4px;
+  padding: 8px;
+  background: rgba(255, 253, 248, 0.92);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+@media (max-width: 767px) {
+  .treat-pin-section {
+    overflow: visible;
+  }
+
   .treat-pin {
-    height: calc(100svh - 64px);
-    min-height: calc(100svh - 64px);
-    max-height: calc(100svh - 64px);
-    padding: 10px 16px 12px;
+    position: relative;
+    top: auto;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 1.25rem 1rem 2rem;
     justify-content: flex-start;
-    gap: 8px;
-    overflow: hidden;
+    gap: 1rem;
+    overflow: visible;
   }
 
   .treat-pin__head {
     flex-shrink: 0;
-    margin-bottom: 0;
-    padding: 10px 14px;
+    margin-bottom: 0.35rem;
+    padding: 12px 14px;
+    max-width: 40rem;
   }
 
   .treat-pin__head p {
-    display: none;
+    display: block;
   }
 
   .treat-pin__hint {
     display: none;
-  }
-
-  .treat-pin__grid {
-    flex: 1 1 auto;
-    min-height: 0;
-    gap: 10px;
   }
 
   .treat-house {
