@@ -144,15 +144,16 @@ export function Methods() {
   }, [active]);
 
   /**
-   * Sticky visual stays. Vertical scroll ONLY reads the card.
+   * Sticky visual stays. Vertical scroll reads the card first.
    * Methods change via buttons / dots / horizontal swipe — never via page scrub.
    */
   useEffect(() => {
     const pin = pinRef.current;
+    const paneEl = () => pinnedScrollRef.current;
     if (!pin) return;
 
     const paneState = () => {
-      const el = pinnedScrollRef.current;
+      const el = paneEl();
       if (!el) return { el: null as HTMLDivElement | null, atTop: true, atBottom: true, hasOverflow: false };
       const hasOverflow = el.scrollHeight > el.clientHeight + 2;
       return {
@@ -163,12 +164,21 @@ export function Methods() {
       };
     };
 
+    const preferInnerScroll = () => {
+      if (pinActiveRef.current) return true;
+      const el = paneEl();
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 72;
+    };
+
     const onWheel = (e: WheelEvent) => {
-      if (!pinActiveRef.current) return;
+      if (!preferInnerScroll()) return;
       const { el, atTop, atBottom, hasOverflow } = paneState();
       if (!el || !hasOverflow) return;
       if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
         e.preventDefault();
+        e.stopPropagation();
         el.scrollTop += e.deltaY;
       }
     };
@@ -177,16 +187,18 @@ export function Methods() {
     let startX = 0;
     let startY = 0;
     let axis: "x" | "y" | null = null;
+    let lockingY = false;
 
     const onTouchStart = (e: TouchEvent) => {
       touchY = e.touches[0]?.clientY ?? 0;
       startX = e.touches[0]?.clientX ?? 0;
       startY = touchY;
       axis = null;
+      lockingY = false;
     };
 
     const onTouchMove = (e: TouchEvent) => {
-      if (!pinActiveRef.current) return;
+      if (!preferInnerScroll()) return;
       const y = e.touches[0]?.clientY ?? touchY;
       const x = e.touches[0]?.clientX ?? startX;
       const dy = touchY - y;
@@ -200,15 +212,21 @@ export function Methods() {
       }
 
       if (axis === "x") {
-        e.preventDefault();
+        if (pinActiveRef.current) e.preventDefault();
         return;
       }
 
       const { el, atTop, atBottom, hasOverflow } = paneState();
       if (!el || !hasOverflow) return;
       if ((dy > 0 && !atBottom) || (dy < 0 && !atTop)) {
+        lockingY = true;
         e.preventDefault();
+        e.stopPropagation();
         el.scrollTop += dy;
+        touchY = y;
+      } else if (lockingY && Math.abs(y - startY) > 8) {
+        // Finish the reading gesture before the page can steal the scroll.
+        e.preventDefault();
         touchY = y;
       }
     };
@@ -261,8 +279,8 @@ export function Methods() {
         id: "methods-pin",
         trigger: section,
         start: "top top+=72",
-        // Short sticky hold for the visual effect — methods do not scrub with progress.
-        end: () => `+=${Math.round(window.innerHeight * 1.2)}`,
+        // Sticky visual hold — methods still do not scrub with progress.
+        end: () => `+=${Math.round(window.innerHeight * 2.1)}`,
         pin,
         scrub: false,
         anticipatePin: 1,
@@ -331,8 +349,12 @@ export function Methods() {
           <div className="method-card__scroll-shell">
             <div
               ref={pinnedScrollRef}
-              className="method-card__scroll overflow-y-auto"
+              className="method-card__scroll method-card__scroll--pinned overflow-y-auto"
               data-method-scroll
+              data-lenis-prevent
+              data-lenis-prevent-wheel
+              tabIndex={0}
+              aria-label={`${current.name}: תוכן מלא לגלילה`}
             >
               <MethodSummary text={current.summary} />
               <MethodBody text={current.body} />

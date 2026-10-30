@@ -660,11 +660,54 @@ section:not(.hs-hero) .font-display {
   border: 1px solid rgba(197, 160, 89, 0.35);
 }
 
-.method-card--pinned .method-card__scroll {
+.method-card--pinned .method-card__scroll-shell {
   flex: 1 1 auto;
   min-height: 0;
-  max-height: none;
-  padding-bottom: 10px;
+  max-height: min(70vh, calc(100svh - 15.5rem));
+  overflow: hidden;
+}
+
+.method-card--pinned .method-card__scroll,
+.method-card__scroll--pinned {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto !important;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  padding: 4px 8px 18px 4px;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar {
+  width: 7px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-track {
+  background: rgba(130, 21, 43, 0.06);
+  border-radius: 999px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-thumb {
+  background: rgba(130, 21, 43, 0.38);
+  border-radius: 999px;
+}
+
+.method-card__scroll--pinned::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 21, 43, 0.55);
+}
+
+.method-card--pinned .method-card__body,
+.method-card--pinned .method-block {
+  padding-inline: 2px;
+}
+
+.method-card--pinned .method-block + .method-block {
+  margin-top: 14px;
 }
 
 .method-grid--hidden {
@@ -5496,15 +5539,24 @@ a.clinic-address {
   .method-card__scroll-shell {
     flex: 1 1 auto;
     min-height: 0;
+    max-height: min(68vh, calc(100svh - 14.5rem));
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
-  .method-card--pinned .method-card__scroll {
+  .method-card--pinned .method-card__scroll-shell {
+    max-height: min(68vh, calc(100svh - 14.5rem));
+  }
+
+  .method-card--pinned .method-card__scroll,
+  .method-card__scroll--pinned {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: none;
-    padding-bottom: 10px;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto !important;
+    padding: 4px 6px 16px 2px;
   }
 
   .method-nav {
