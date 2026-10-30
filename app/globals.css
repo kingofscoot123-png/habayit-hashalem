@@ -4782,6 +4782,15 @@ a.clinic-address {
   animation-delay: calc(0.06s + var(--d, 0) * 0.08s);
 }
 
+.treat-pin__card.is-on .treat-step--result {
+  animation:
+    fade-up 0.75s var(--ease-palomar) both,
+    treatResultShimmer 7s ease-in-out infinite;
+  animation-delay:
+    calc(0.06s + var(--d, 0) * 0.08s),
+    0.85s;
+}
+
 .treat-pin__hint {
   margin-top: 10px;
   text-align: center;
@@ -4924,11 +4933,18 @@ a.clinic-address {
   .treat-pin__grid {
     flex: 1 1 auto;
     min-height: 0;
-    gap: 0;
+    gap: 0.4rem;
   }
 
   .treat-house {
-    display: none;
+    display: grid;
+    order: -1;
+    min-height: 88px;
+    flex-shrink: 0;
+  }
+
+  .treat-house__svg {
+    width: min(42vw, 148px);
   }
 
   .treat-pin__copy {
@@ -4955,7 +4971,7 @@ a.clinic-address {
   .treat-pin__scroll {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: min(72vh, calc(100svh - 7.5rem));
+    max-height: min(58vh, calc(100svh - 12.5rem));
     overflow-y: auto;
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
