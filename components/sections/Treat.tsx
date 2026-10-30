@@ -205,7 +205,7 @@ export function Treat() {
             <AccentLead text={content.treat.title} />
           </h2>
           <span className="treat-pin__rule" aria-hidden="true" />
-          <p className="mt-3 text-body text-ink">{content.treat.lead}</p>
+          <p className="treat-pin__lead mt-3 text-body text-ink">{content.treat.lead}</p>
         </div>
 
         <div className="treat-pin__grid">

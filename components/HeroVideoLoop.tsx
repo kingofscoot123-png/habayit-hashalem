@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { asset } from "@/lib/asset";
 
 type HeroVideoLoopProps = {
   src: string;
@@ -83,15 +82,8 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
   const videoClass = `hs-hero__video absolute inset-0 h-full w-full object-cover transition-opacity duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${className}`;
 
   return (
-    <div className="hs-hero__media-inner relative h-full w-full overflow-hidden">
-      <picture>
-        <img
-          src={asset("/images/treatment-couple.jpg")}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[50%_60%]"
-          decoding="async"
-        />
-      </picture>
+    <div className="hs-hero__media-inner relative h-full w-full overflow-hidden bg-[#1a0f12]">
+      {/* Video only — no couple still as poster/fallback */}
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
@@ -108,6 +100,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         src={src}
         muted
         playsInline
+        autoPlay
         loop
         preload="auto"
       />
