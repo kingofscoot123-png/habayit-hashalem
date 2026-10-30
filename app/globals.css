@@ -1635,13 +1635,6 @@ a.clinic-address {
   transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
 }
 
-.treat-step--openable .treat-step__hit p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-}
-
 .treat-step--openable .treat-step__hit:hover,
 .treat-step--openable .treat-step__hit:focus-visible {
   outline: none;
@@ -1794,16 +1787,6 @@ a.clinic-address {
   border-radius: 16px;
   border: 1px solid rgba(197, 160, 89, 0.28);
   background: rgba(197, 160, 89, 0.07);
-}
-
-.treat-detail-modal__block--how {
-  border-color: rgba(197, 160, 89, 0.42);
-  background: rgba(197, 160, 89, 0.1);
-}
-
-.treat-detail-modal__block--now {
-  border-color: rgba(130, 21, 43, 0.22);
-  background: rgba(130, 21, 43, 0.06);
 }
 
 .treat-detail-modal__block--result {
@@ -4568,17 +4551,94 @@ a.clinic-address {
   background: #c5a059;
 }
 
+.treat-pin__nav {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: 10px;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.treat-pin__nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 9px 11px;
+  border-radius: 14px;
+  border: 1px solid rgba(197, 160, 89, 0.55);
+  background: rgba(255, 253, 248, 0.88);
+  color: #82152b;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.treat-pin__nav-btn:hover:not(:disabled) {
+  background: rgba(255, 253, 248, 1);
+  border-color: rgba(197, 160, 89, 0.85);
+}
+
+.treat-pin__nav-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.treat-pin__nav-btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+}
+
+.treat-pin__nav-btn--next {
+  align-items: flex-end;
+  text-align: end;
+}
+
+.treat-pin__nav-dir {
+  letter-spacing: 0.04em;
+}
+
+.treat-pin__nav-sub {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #18181b;
+  opacity: 0.7;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.treat-pin__nav-count {
+  margin: 0;
+  align-self: center;
+  min-width: 3.2rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #82152b;
+  font-family: "Clash Display", var(--font-display), sans-serif;
+}
+
+.treat-pin__nav-of {
+  color: #c5a059;
+  font-weight: 700;
+}
+
 .treat-pin__scroll {
   position: relative;
   width: 100%;
   min-height: 0;
   flex: 1 1 auto;
-  max-height: min(58vh, calc(100svh - 12rem));
+  /* Short enough that "מה קורה עכשיו" + "איך הטיפול משנה את זה" need a clean inner read */
+  max-height: min(44vh, calc(100svh - 18rem));
   overflow-y: auto;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
-  padding: 4px 8px 18px 2px;
+  padding: 4px 8px 20px 2px;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: rgba(130, 21, 43, 0.38) rgba(130, 21, 43, 0.06);
@@ -4848,7 +4908,9 @@ a.clinic-address {
   }
 
   .treat-pin__head p {
-    display: none;
+    display: block;
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .treat-pin__hint {
@@ -4858,16 +4920,16 @@ a.clinic-address {
   .treat-pin__grid {
     flex: 1 1 auto;
     min-height: 0;
-    gap: 0.4rem;
+    gap: 0.55rem;
   }
 
   .treat-house {
-    min-height: 52px;
+    min-height: 64px;
     flex-shrink: 0;
   }
 
   .treat-house__svg {
-    width: min(28vw, 96px);
+    width: min(32vw, 108px);
   }
 
   .treat-pin__copy {
@@ -4875,23 +4937,19 @@ a.clinic-address {
     min-height: 0;
     max-height: none;
     overflow: hidden;
-    padding: 14px 14px 12px;
+    padding: 12px 12px 10px;
   }
 
   .treat-pin__scroll {
     flex: 1 1 auto;
     min-height: 0;
-    max-height: min(68vh, calc(100svh - 8.5rem));
+    max-height: min(48vh, calc(100svh - 14rem));
     overflow-y: auto;
     overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     padding: 2px 6px 18px 2px;
     scrollbar-gutter: stable;
-  }
-
-  .treat-step--openable .treat-step__hit p {
-    -webkit-line-clamp: 5;
   }
 
   .treat-pin__dots {
