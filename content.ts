@@ -352,6 +352,8 @@ export const content = {
       how: "איך הטיפול משנה את זה",
       result: "התוצאה לחיים",
     },
+    detailCta: "לחץ להצגת ההסבר המלא והתוצאה לחיים",
+    detailClose: "סגירה",
     prev: "הנושא הקודם",
     next: "הנושא הבא",
     items: [

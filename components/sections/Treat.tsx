@@ -16,11 +16,14 @@ export function Treat() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const copyScrollRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
   const stRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef(0);
   const pinActiveRef = useRef(false);
+  const detailOpenRef = useRef(false);
   const { reduced } = useMotionPrefs();
   const [stage, setStage] = useState(0);
+  const [detailOpen, setDetailOpen] = useState(false);
   const items = content.treat.items;
   const current = items[stage];
 
@@ -29,14 +32,35 @@ export function Treat() {
     setStage(i);
   };
 
+  const openDetail = () => setDetailOpen(true);
+  const closeDetail = () => setDetailOpen(false);
+
+  useEffect(() => {
+    detailOpenRef.current = detailOpen;
+  }, [detailOpen]);
+
   useEffect(() => {
     const pane = copyScrollRef.current;
     if (pane) pane.scrollTop = 0;
   }, [stage]);
 
+  useEffect(() => {
+    if (!detailOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDetail();
+    };
+    document.addEventListener("keydown", onKey);
+    const t = window.setTimeout(() => closeBtnRef.current?.focus(), 40);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      window.clearTimeout(t);
+    };
+  }, [detailOpen]);
+
   /**
    * Sticky pin stays. While pinned, vertical scroll first finishes reading the card.
    * Only after the card is fully read (or has no overflow) does page scroll advance stages.
+   * Modal open freezes stage changes and absorbs wheel/touch so sticky resume stays seamless.
    */
   useEffect(() => {
     const pin = pinRef.current;
@@ -55,6 +79,10 @@ export function Treat() {
     };
 
     const onWheel = (e: WheelEvent) => {
+      if (detailOpenRef.current) {
+        e.preventDefault();
+        return;
+      }
       if (!pinActiveRef.current) return;
       const { el, atTop, atBottom, hasOverflow } = paneState();
       if (!el || !hasOverflow) return;
@@ -75,6 +103,10 @@ export function Treat() {
     };
 
     const onTouchMove = (e: TouchEvent) => {
+      if (detailOpenRef.current) {
+        e.preventDefault();
+        return;
+      }
       if (!pinActiveRef.current) return;
       const y = e.touches[0]?.clientY ?? touchY;
       const dy = touchY - y;
@@ -89,7 +121,6 @@ export function Treat() {
         el.scrollTop += dy;
         touchY = y;
       } else if (locking && Math.abs(y - startY) > 8) {
-        // Keep consuming the gesture until finger lifts so the page doesn't jump stages mid-read.
         e.preventDefault();
         touchY = y;
       }
@@ -112,7 +143,6 @@ export function Treat() {
     if (!section || !pin || reduced) return;
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
-    // Longer dwell per topic so sticky reading stays calm; inner scroll covers long copy.
     const endDistance = mobile
       ? Math.round(window.innerHeight * Math.max(4.8, items.length * 1.25))
       : Math.max(2200, Math.round(window.innerHeight * 4.2));
@@ -130,7 +160,7 @@ export function Treat() {
           pinActiveRef.current = self.isActive;
         },
         onUpdate: (self) => {
-          // Hold each stage a bit longer in the middle of its progress slice.
+          if (detailOpenRef.current) return;
           const raw = self.progress * items.length;
           const i = Math.min(items.length - 1, Math.floor(raw + 0.001));
           if (i !== stageRef.current) setStep(i);
@@ -185,17 +215,42 @@ export function Treat() {
                   </div>
                   <h3 className="treat-pin__title">{item.title}</h3>
                   <ol className="treat-pin__flow">
-                    {flow.map((key, si) => (
-                      <li
-                        key={key}
-                        className={`treat-step treat-step--${key}`}
-                        style={i === stage ? ({ ["--d" as string]: si } as CSSProperties) : undefined}
-                      >
-                        <span className="treat-step__label">{content.treat.labels[key]}</span>
-                        <p>{item[key]}</p>
-                      </li>
-                    ))}
+                    {flow.map((key, si) => {
+                      const interactive = key === "how" || key === "result";
+                      return (
+                        <li
+                          key={key}
+                          className={`treat-step treat-step--${key} ${interactive ? "treat-step--openable" : ""}`}
+                          style={i === stage ? ({ ["--d" as string]: si } as CSSProperties) : undefined}
+                        >
+                          {interactive ? (
+                            <button
+                              type="button"
+                              className="treat-step__hit"
+                              onClick={openDetail}
+                              aria-haspopup="dialog"
+                              aria-expanded={detailOpen && i === stage}
+                            >
+                              <span className="treat-step__label">{content.treat.labels[key]}</span>
+                              <p>{item[key]}</p>
+                              <span className="treat-step__hint">לחצו להרחבה</span>
+                            </button>
+                          ) : (
+                            <>
+                              <span className="treat-step__label">{content.treat.labels[key]}</span>
+                              <p>{item[key]}</p>
+                            </>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ol>
+
+                  {i === stage ? (
+                    <button type="button" className="treat-detail-cta" onClick={openDetail} aria-haspopup="dialog">
+                      {content.treat.detailCta}
+                    </button>
+                  ) : null}
                 </article>
               ))}
             </div>
@@ -221,6 +276,52 @@ export function Treat() {
 
         <p className="treat-pin__hint">{current.title}</p>
       </div>
+
+      {detailOpen ? (
+        <div
+          className="method-modal treat-detail-modal is-on"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="treat-detail-title"
+        >
+          <button
+            type="button"
+            className="method-modal__backdrop treat-detail-modal__backdrop"
+            aria-label={content.treat.detailClose}
+            onClick={closeDetail}
+          />
+          <div className="treat-detail-modal__panel method-modal__panel">
+            <button
+              ref={closeBtnRef}
+              type="button"
+              className="treat-detail-modal__close"
+              aria-label={content.treat.detailClose}
+              onClick={closeDetail}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+
+            <p className="treat-detail-modal__eyebrow">
+              <span>{current.n}</span>
+              <span>{current.tag}</span>
+            </p>
+            <h3 id="treat-detail-title" className="treat-detail-modal__title">
+              {current.title}
+            </h3>
+
+            <div className="treat-detail-modal__blocks">
+              <section className="treat-detail-modal__block treat-detail-modal__block--how">
+                <h4>{content.treat.labels.how}</h4>
+                <p>{current.how}</p>
+              </section>
+              <section className="treat-detail-modal__block treat-detail-modal__block--result">
+                <h4>{content.treat.labels.result}</h4>
+                <p>{current.result}</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
