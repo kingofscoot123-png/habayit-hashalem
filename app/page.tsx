@@ -20,6 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
+      {/* Full-viewport breath so במה אני מטפל never bleeds into ארגז הכלים */}
+      <div className="section-breath" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />
