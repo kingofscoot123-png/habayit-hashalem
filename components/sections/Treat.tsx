@@ -23,6 +23,7 @@ export function Treat() {
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const copyScrollRef = useRef<HTMLDivElement>(null);
+  const stRef = useRef<ScrollTrigger | null>(null);
   const stageRef = useRef(0);
   const pinActiveRef = useRef(false);
   const { reduced } = useMotionPrefs();
@@ -59,10 +60,9 @@ export function Treat() {
   };
 
   /**
-   * Sticky pin stays. Stages never scrub with page progress.
-   * Wheel/touch always finish the active card first; 01↔02↔03 only via
-   * dots / הקודם / הבא. While pinned, edge scroll is held so the section
-   * does not race away mid-read (release only at first↑ / last↓).
+   * Sticky pin + scroll-driven stages so the house builds 01→02→03.
+   * While a card still has unread overflow, vertical gestures finish the
+   * inner pane first; then page progress advances the stage / house.
    */
   useEffect(() => {
     const pin = pinRef.current;
@@ -79,27 +79,12 @@ export function Treat() {
     const onWheel = (e: globalThis.WheelEvent) => {
       if (!preferInnerScroll()) return;
       const { el, atTop, atBottom, hasOverflow } = readPane();
-      if (!el) return;
-
-      const goingDown = e.deltaY > 0;
-      const goingUp = e.deltaY < 0;
-
-      if (hasOverflow && ((goingDown && !atBottom) || (goingUp && !atTop))) {
+      if (!el || !hasOverflow) return;
+      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
         e.preventDefault();
         e.stopPropagation();
         el.scrollTop += e.deltaY;
-        return;
       }
-
-      if (!pinActiveRef.current) return;
-
-      // Hold the pin at card edges so reading stays calm; release only to leave the section.
-      const leavingDown = goingDown && stageRef.current >= items.length - 1 && (!hasOverflow || atBottom);
-      const leavingUp = goingUp && stageRef.current <= 0 && (!hasOverflow || atTop);
-      if (leavingDown || leavingUp) return;
-
-      e.preventDefault();
-      e.stopPropagation();
     };
 
     let touchY = 0;
@@ -117,31 +102,17 @@ export function Treat() {
       const y = e.touches[0]?.clientY ?? touchY;
       const dy = touchY - y;
       const { el, atTop, atBottom, hasOverflow } = readPane();
-      if (!el) return;
+      if (!el || !hasOverflow) return;
 
       const pullingUp = dy > 0;
       const pullingDown = dy < 0;
-
-      if (hasOverflow && ((pullingUp && !atBottom) || (pullingDown && !atTop))) {
+      if ((pullingUp && !atBottom) || (pullingDown && !atTop)) {
         lockingY = true;
         e.preventDefault();
         e.stopPropagation();
         el.scrollTop += dy;
         touchY = y;
-        return;
-      }
-
-      if (!pinActiveRef.current) return;
-
-      const leavingDown = pullingUp && stageRef.current >= items.length - 1 && (!hasOverflow || atBottom);
-      const leavingUp = pullingDown && stageRef.current <= 0 && (!hasOverflow || atTop);
-      if (leavingDown || leavingUp) {
-        lockingY = false;
-        return;
-      }
-
-      if (lockingY || Math.abs(y - startY) > 8) {
-        lockingY = true;
+      } else if (lockingY && Math.abs(y - startY) > 8) {
         e.preventDefault();
         e.stopPropagation();
         touchY = y;
@@ -166,24 +137,29 @@ export function Treat() {
 
     const mobile = window.matchMedia("(max-width: 767px)").matches;
     const endDistance = mobile
-      ? Math.round(window.innerHeight * Math.max(3.8, items.length * 1.3))
-      : Math.max(2000, Math.round(window.innerHeight * items.length * 1.25));
+      ? Math.round(window.innerHeight * Math.max(4.4, items.length * 1.55))
+      : Math.max(2400, Math.round(window.innerHeight * items.length * 1.45));
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         id: "treat-pin",
         trigger: section,
         start: mobile ? "top top" : "top top+=72",
         end: `+=${endDistance}`,
         pin,
         pinSpacing: true,
-        scrub: false,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onToggle: (self) => {
           pinActiveRef.current = self.isActive;
         },
+        onUpdate: (self) => {
+          const raw = self.progress * items.length;
+          const i = Math.min(items.length - 1, Math.floor(raw + 0.001));
+          if (i !== stageRef.current) setStep(i);
+        },
       });
+      stRef.current = st;
     }, section);
 
     const refresh = () => ScrollTrigger.refresh();
@@ -193,9 +169,19 @@ export function Treat() {
     return () => {
       pinActiveRef.current = false;
       window.removeEventListener("load", refresh);
+      stRef.current = null;
       ctx.revert();
     };
   }, [reduced, items.length]);
+
+  const goTo = (i: number) => {
+    setStep(i);
+    if (reduced) return;
+    const st = stRef.current;
+    if (!st) return;
+    const y = st.start + ((i + 0.45) / items.length) * (st.end - st.start);
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   return (
     <section id="treat" ref={sectionRef} className="treat-pin-section mishpacha-canvas">
@@ -214,7 +200,7 @@ export function Treat() {
               <button
                 type="button"
                 className="treat-pin__nav-btn"
-                onClick={() => setStep(stage - 1)}
+                onClick={() => goTo(stage - 1)}
                 disabled={!canPrev}
                 aria-disabled={!canPrev}
               >
@@ -228,7 +214,7 @@ export function Treat() {
               <button
                 type="button"
                 className="treat-pin__nav-btn treat-pin__nav-btn--next"
-                onClick={() => setStep(stage + 1)}
+                onClick={() => goTo(stage + 1)}
                 disabled={!canNext}
                 aria-disabled={!canNext}
               >
@@ -282,7 +268,7 @@ export function Treat() {
                   role="tab"
                   aria-selected={i === stage}
                   className={`treat-pin__dot ${i === stage ? "is-on" : ""}`}
-                  onClick={() => setStep(i)}
+                  onClick={() => goTo(i)}
                 >
                   {item.n}
                 </button>

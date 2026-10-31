@@ -11,15 +11,28 @@ function unlock(el: HTMLVideoElement) {
   el.muted = true;
   el.defaultMuted = true;
   el.playsInline = true;
+  el.controls = false;
   el.setAttribute("playsinline", "");
   el.setAttribute("webkit-playsinline", "");
+  el.setAttribute("muted", "");
+  el.setAttribute("controlslist", "nodownload nofullscreen noremoteplayback");
+  el.setAttribute("x-webkit-airplay", "deny");
+  el.removeAttribute("controls");
+  el.disablePictureInPicture = true;
+  try {
+    el.disableRemotePlayback = true;
+  } catch {
+    /* older browsers */
+  }
 }
 
 function tryPlay(el: HTMLVideoElement) {
+  el.muted = true;
+  el.controls = false;
   return el.play().catch(() => undefined);
 }
 
-/** Seamless crossfade loop — avoids a visible jump when native `loop` restarts. */
+/** Seamless crossfade loop — no native controls / play overlays. */
 export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
   const [front, setFront] = useState(0);
   const v0 = useRef<HTMLVideoElement>(null);
@@ -64,11 +77,14 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     const onVis = () => {
       if (document.visibilityState === "visible") prime();
     };
+    const onInteract = () => prime();
 
     a.addEventListener("timeupdate", onA);
     b.addEventListener("timeupdate", onB);
     a.addEventListener("canplay", prime);
     document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("touchstart", onInteract, { passive: true, once: true });
+    window.addEventListener("click", onInteract, { once: true });
     prime();
 
     return () => {
@@ -76,6 +92,8 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       b.removeEventListener("timeupdate", onB);
       a.removeEventListener("canplay", prime);
       document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("touchstart", onInteract);
+      window.removeEventListener("click", onInteract);
     };
   }, [src]);
 
@@ -83,7 +101,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
 
   return (
     <div className="hs-hero__media-inner relative h-full w-full overflow-hidden bg-[#1a0f12]">
-      {/* Video only — no couple still as poster/fallback */}
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
@@ -91,8 +108,12 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         muted
         playsInline
         autoPlay
-        loop
         preload="auto"
+        controls={false}
+        controlsList="nodownload nofullscreen noremoteplayback"
+        disablePictureInPicture
+        aria-hidden="true"
+        tabIndex={-1}
       />
       <video
         ref={v1}
@@ -101,9 +122,15 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         muted
         playsInline
         autoPlay
-        loop
         preload="auto"
+        controls={false}
+        controlsList="nodownload nofullscreen noremoteplayback"
+        disablePictureInPicture
+        aria-hidden="true"
+        tabIndex={-1}
       />
+      {/* Blocks residual native media chrome from showing through */}
+      <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
     </div>
   );
 }
