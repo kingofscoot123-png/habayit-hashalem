@@ -45,8 +45,9 @@ export function Treat() {
       },
       {
         root: null,
-        rootMargin: "-20% 0px -30% 0px",
-        threshold: [0.1, 0.25, 0.4, 0.55, 0.7, 0.85, 1],
+        /* Prefer the card occupying the mid viewport while sticky house sits on top */
+        rootMargin: "-18% 0px -35% 0px",
+        threshold: [0.08, 0.2, 0.35, 0.5, 0.65, 0.8, 1],
       },
     );
 
@@ -66,7 +67,7 @@ export function Treat() {
         </header>
 
         <div className="treat-lux__layout">
-          {/* Sticky node must be a direct child of the tall layout parent */}
+          {/* Centered sticky house — direct child of tall layout; advances on natural scroll */}
           <div className="treat-lux__house-sticky" aria-hidden="true">
             <TreatHouse stage={stage} />
             <ol className="treat-lux__progress">
@@ -87,7 +88,7 @@ export function Treat() {
                   stageRefs.current[i] = el;
                 }}
                 data-treat-stage={i}
-                className={`treat-lux__stage ${i === stage ? "is-on" : ""}`}
+                className={`treat-lux__stage min-h-[75vh] ${i === stage ? "is-on" : ""}`}
               >
                 <div className="treat-lux__meta">
                   <span className="treat-lux__n">{item.n}</span>

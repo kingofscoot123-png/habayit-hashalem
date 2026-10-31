@@ -16,7 +16,16 @@ export function Pain() {
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    const stage = section.querySelector<HTMLElement>(".pain-stage");
     const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-pain-card]"));
+
+    const fitStage = () => {
+      if (!stage || cards.length === 0) return;
+      const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
+      if (tallest > 0) stage.style.minHeight = `${tallest}px`;
+    };
+    fitStage();
+    window.addEventListener("resize", fitStage);
 
     const ctx = gsap.context(() => {
       if (reduced || cards.length === 0) {
@@ -27,6 +36,7 @@ export function Pain() {
       const mobile = window.matchMedia("(max-width: 767px)").matches;
       gsap.set(cards, { autoAlpha: 0, y: mobile ? 20 : 24 });
       gsap.set(cards[0], { autoAlpha: 1, y: 0 });
+      fitStage();
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -37,6 +47,7 @@ export function Pain() {
           scrub: mobile ? 1.45 : 1.6,
           anticipatePin: 1,
           invalidateOnRefresh: true,
+          onRefresh: fitStage,
         },
       });
 
@@ -56,17 +67,20 @@ export function Pain() {
       });
     }, section);
 
-    return () => ctx.revert();
+    return () => {
+      window.removeEventListener("resize", fitStage);
+      ctx.revert();
+    };
   }, [reduced]);
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className={`pain-section mishpacha-canvas relative z-10 -mt-16 px-5 py-16 sm:px-6 lg:px-16 lg:py-20 ${reduced ? "pain-static" : ""}`}
+      className={`pain-section mishpacha-canvas relative z-10 -mt-20 px-5 pt-4 pb-14 sm:px-6 sm:pb-16 lg:px-16 lg:pb-20 ${reduced ? "pain-static" : ""}`}
     >
       <div
-        className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+        className="card-glass content-shield mx-auto mb-6 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-5 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:mb-8 md:p-8"
         data-reveal
       >
         <p className="section-welcome">

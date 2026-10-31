@@ -20,8 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
-      {/* Large structural buffer — sections never visually collide */}
-      <div className="section-breath section-breath--xl" aria-hidden="true" />
+      {/* Massive breath — ~2s of background before Methods */}
+      <div className="section-breath section-breath--xl my-32 py-28" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />
