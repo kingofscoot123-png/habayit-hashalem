@@ -585,7 +585,7 @@ section:not(.hs-hero) .font-display {
 
 .pain-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
   background: transparent;
   margin-top: -1px;
