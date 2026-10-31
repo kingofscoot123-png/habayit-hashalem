@@ -20,8 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
-      {/* Massive breath — ~2s of background before Methods */}
-      <div className="section-breath section-breath--xl my-32 py-28" aria-hidden="true" />
+      {/* Clear breathing room between Treat and Methods */}
+      <div className="section-breath section-breath--lux my-16 py-20" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />

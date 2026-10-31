@@ -18,6 +18,8 @@ function unlock(el: HTMLVideoElement) {
   el.setAttribute("webkit-playsinline", "true");
   el.setAttribute("muted", "true");
   el.setAttribute("autoplay", "true");
+  el.setAttribute("loop", "true");
+  el.setAttribute("preload", "auto");
   el.setAttribute("controlslist", "nodownload nofullscreen noremoteplayback noplaybackrate");
   el.setAttribute("disablepictureinpicture", "");
   el.setAttribute("x-webkit-airplay", "deny");
@@ -35,7 +37,7 @@ function tryPlay(el: HTMLVideoElement) {
   return el.play().catch(() => undefined);
 }
 
-/** Seamless crossfade loop — no native controls / play overlays. */
+/** Seamless crossfade loop — zero native controls / play overlays. */
 export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
   const [front, setFront] = useState(0);
   const v0 = useRef<HTMLVideoElement>(null);
@@ -61,7 +63,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       const lead = frontRef.current === 0 ? a : b;
       const follow = frontRef.current === 0 ? b : a;
       void tryPlay(lead);
-      // Keep the off-layer muted & control-free so Safari never paints a play glyph
       follow.controls = false;
       follow.muted = true;
     };
@@ -76,7 +77,6 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       void tryPlay(follow).then(() => {
         setFront(nextFront);
         window.setTimeout(() => {
-          // Keep muted loop as safety net; never leave a paused visible layer.
           lead.currentTime = 0;
           lead.pause();
           unlock(lead);
@@ -105,7 +105,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     const keepAlive = window.setInterval(() => {
       const lead = frontRef.current === 0 ? a : b;
       if (lead.paused) void tryPlay(lead);
-    }, 2500);
+    }, 2000);
 
     return () => {
       window.clearInterval(keepAlive);
@@ -120,10 +120,10 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     };
   }, [src]);
 
-  const videoClass = `hs-hero__video absolute inset-0 h-full w-full object-cover transition-opacity duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${className}`;
+  const videoClass = `hs-hero__video absolute inset-0 h-full w-full object-cover pointer-events-none select-none transition-opacity duration-[850ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${className}`;
 
   return (
-    <div className="hs-hero__media-inner relative h-full w-full overflow-hidden bg-[#1a0f12]">
+    <div className="hs-hero__media-inner pointer-events-none select-none relative h-full w-full overflow-hidden bg-[#1a0f12]">
       <video
         ref={v0}
         className={`${videoClass} ${front === 0 ? "opacity-100" : "opacity-0"}`}
@@ -154,8 +154,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         aria-hidden="true"
         tabIndex={-1}
       />
-      {/* Opaque visual shield — hides residual Safari/Chrome play glyphs */}
-      <div className="hs-hero__media-mask" aria-hidden="true" />
+      <div className="hs-hero__media-mask pointer-events-none select-none" aria-hidden="true" />
     </div>
   );
 }

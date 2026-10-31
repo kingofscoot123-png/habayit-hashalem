@@ -88,13 +88,13 @@ export function Treat() {
                   stageRefs.current[i] = el;
                 }}
                 data-treat-stage={i}
-                className={`treat-lux__stage min-h-[75vh] ${i === stage ? "is-on" : ""}`}
+                className={`treat-lux__stage min-h-[75vh] border-[#C5A059]/30 ${i === stage ? "is-on" : ""}`}
               >
                 <div className="treat-lux__meta">
                   <span className="treat-lux__n">{item.n}</span>
                   <span className="treat-lux__tag">{item.tag}</span>
                 </div>
-                <h3 className="treat-lux__title">{item.title}</h3>
+                <h3 className="treat-lux__title text-[#82152B]">{item.title}</h3>
 
                 <div className="treat-lux__blocks">
                   {flow.map((key, si) => (
@@ -103,8 +103,8 @@ export function Treat() {
                       className={`treat-lux__block treat-lux__block--${key}`}
                       style={{ ["--d" as string]: si } as CSSProperties}
                     >
-                      <h4 className="treat-lux__block-label">{content.treat.labels[key]}</h4>
-                      <p className="treat-lux__block-text">{item[key]}</p>
+                      <h4 className="treat-lux__block-label text-[#82152B]">{content.treat.labels[key]}</h4>
+                      <p className="treat-lux__block-text leading-loose">{item[key]}</p>
                     </section>
                   ))}
                 </div>
