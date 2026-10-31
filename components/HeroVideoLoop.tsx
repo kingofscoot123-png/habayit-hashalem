@@ -29,6 +29,7 @@ function unlock(el: HTMLVideoElement) {
 function tryPlay(el: HTMLVideoElement) {
   el.muted = true;
   el.controls = false;
+  el.removeAttribute("controls");
   return el.play().catch(() => undefined);
 }
 
@@ -53,7 +54,8 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     unlock(b);
 
     const prime = () => {
-      void tryPlay(frontRef.current === 0 ? a : b);
+      const lead = frontRef.current === 0 ? a : b;
+      void tryPlay(lead);
     };
 
     const maybeSwap = (lead: HTMLVideoElement, follow: HTMLVideoElement, nextFront: 0 | 1) => {
@@ -66,7 +68,10 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
       void tryPlay(follow).then(() => {
         setFront(nextFront);
         window.setTimeout(() => {
+          // Keep muted loop as safety net; never leave a paused visible layer.
+          lead.currentTime = 0;
           lead.pause();
+          unlock(lead);
           swapping.current = false;
         }, 750);
       });
@@ -82,18 +87,28 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
     a.addEventListener("timeupdate", onA);
     b.addEventListener("timeupdate", onB);
     a.addEventListener("canplay", prime);
+    b.addEventListener("canplay", prime);
     document.addEventListener("visibilitychange", onVis);
     window.addEventListener("touchstart", onInteract, { passive: true, once: true });
     window.addEventListener("click", onInteract, { once: true });
+    window.addEventListener("pointerdown", onInteract, { once: true });
     prime();
 
+    const keepAlive = window.setInterval(() => {
+      const lead = frontRef.current === 0 ? a : b;
+      if (lead.paused) void tryPlay(lead);
+    }, 2500);
+
     return () => {
+      window.clearInterval(keepAlive);
       a.removeEventListener("timeupdate", onA);
       b.removeEventListener("timeupdate", onB);
       a.removeEventListener("canplay", prime);
+      b.removeEventListener("canplay", prime);
       document.removeEventListener("visibilitychange", onVis);
       window.removeEventListener("touchstart", onInteract);
       window.removeEventListener("click", onInteract);
+      window.removeEventListener("pointerdown", onInteract);
     };
   }, [src]);
 
@@ -108,6 +123,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         muted
         playsInline
         autoPlay
+        loop
         preload="auto"
         controls={false}
         controlsList="nodownload nofullscreen noremoteplayback"
@@ -122,6 +138,7 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         muted
         playsInline
         autoPlay
+        loop
         preload="auto"
         controls={false}
         controlsList="nodownload nofullscreen noremoteplayback"
@@ -129,8 +146,8 @@ export function HeroVideoLoop({ src, className = "" }: HeroVideoLoopProps) {
         aria-hidden="true"
         tabIndex={-1}
       />
-      {/* Blocks residual native media chrome from showing through */}
-      <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
+      {/* Covers residual native media chrome visually */}
+      <div className="hs-hero__media-mask pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
     </div>
   );
 }
