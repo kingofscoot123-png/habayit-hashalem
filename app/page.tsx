@@ -20,6 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
+      {/* Massive breath — ~2s of background before Methods */}
+      <div className="section-breath section-breath--xl my-32 py-28" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />

@@ -3,8 +3,8 @@
 import { HeroVideoLoop } from "@/components/HeroVideoLoop";
 import { content } from "@/content";
 
-const HERO_VIDEO =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260820_010308_b1636845-4c15-4ab6-b0c9-9a29bfb0c6e3.mp4";
+/** Same-origin — Cloudflare CSP on shalem.info only allows media-src 'self'. */
+const HERO_VIDEO = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/videos/hero-loop.mp4`;
 
 const GOOGLE_RATING: number | null = null;
 const GOOGLE_REVIEWS_COUNT: number | null = null;
