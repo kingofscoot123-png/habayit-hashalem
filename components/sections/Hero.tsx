@@ -20,7 +20,7 @@ export function Hero() {
       className="hs-hero hs-hero--video relative h-[100svh] min-h-[100svh] w-full overflow-hidden bg-transparent md:min-h-[700px]"
     >
       <div
-        className="hs-hero__media absolute inset-0 overflow-hidden will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] transition-transform duration-500 ease-out"
+        className="hs-hero__media pointer-events-none select-none absolute inset-0 overflow-hidden will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] transition-transform duration-500 ease-out"
         data-hero-media
         aria-hidden="true"
       >
