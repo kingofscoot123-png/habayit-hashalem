@@ -302,7 +302,7 @@ export function Methods() {
   return (
     <section id="path" ref={sectionRef} className="kit-section mishpacha-canvas px-5 py-0 sm:px-6 lg:px-16" aria-label={content.methods.title}>
       <div ref={pinRef} className="kit-section__pin">
-        <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned method-card--luxury is-hot">
+        <article key={`method-pinned-${active}`} className="method-card method-card--open method-card--pinned method-card--luxury is-hot h-auto min-h-[50vh]">
           <div className="method-card__top">
             <div className="method-card__identity">
               <p className="method-card__eyebrow">{content.methods.core}</p>
@@ -350,6 +350,7 @@ export function Methods() {
               data-method-scroll
               data-lenis-prevent
               data-lenis-prevent-wheel
+              data-lenis-prevent-touch
               tabIndex={0}
               aria-label={`${current.name}: תוכן מלא לגלילה`}
             >

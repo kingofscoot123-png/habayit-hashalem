@@ -18,7 +18,7 @@ export function TreatHouse({ stage }: TreatHouseProps) {
   const doorX = cx - doorW / 2;
 
   return (
-    <div className={`treat-house ${stage >= 3 ? "is-complete" : ""}`} data-stage={stage} aria-hidden="true">
+    <div className={`treat-house ${stage >= 2 ? "is-complete" : ""}`} data-stage={stage} aria-hidden="true">
       <svg className="treat-house__svg" viewBox="0 0 400 380" width="400" height="380">
         <defs>
           <linearGradient id="th-roof" x1="0" y1="0" x2="0" y2="1">
