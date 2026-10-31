@@ -20,8 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
-      {/* Full-viewport breath so במה אני מטפל never bleeds into ארגז הכלים */}
-      <div className="section-breath" aria-hidden="true" />
+      {/* Large structural buffer — sections never visually collide */}
+      <div className="section-breath section-breath--xl" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />
