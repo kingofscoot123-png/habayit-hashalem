@@ -1,116 +1,154 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
 import { TreatHouse } from "@/components/TreatHouse";
 import { content } from "@/content";
+import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const flow = ["now", "how", "result"] as const;
 
 /**
- * במה אני מטפל — full-bleed sticky house + natural vertical stages.
- * No carousel, no 1/3 counters, no inner scroll boxes.
+ * במה אני מטפל — GSAP pinned scroll cards.
+ * House lives inside each card header (never a floating overlay over text).
+ * Step advances only after the prior card has been scrolled through.
  */
 export function Treat() {
   const items = content.treat.items;
+  const sectionRef = useRef<HTMLElement>(null);
   const [stage, setStage] = useState(0);
-  const stageRefs = useRef<(HTMLElement | null)[]>([]);
-  const stageIndex = useRef(0);
+  const { reduced } = useMotionPrefs();
 
-  useEffect(() => {
-    const nodes = stageRefs.current.filter(Boolean) as HTMLElement[];
-    if (!nodes.length) return;
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const ratios = new Map<number, number>();
+    const stageEl = section.querySelector<HTMLElement>(".treat-scroll__stage");
+    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-treat-card]"));
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const i = Number((entry.target as HTMLElement).dataset.treatStage);
-          if (Number.isNaN(i)) continue;
-          ratios.set(i, entry.isIntersecting ? entry.intersectionRatio : 0);
-        }
-        let best = stageIndex.current;
-        let bestRatio = -1;
-        ratios.forEach((ratio, i) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            best = i;
-          }
-        });
-        if (best !== stageIndex.current && bestRatio > 0.12) {
-          stageIndex.current = best;
-          setStage(best);
-        }
-      },
-      {
-        root: null,
-        /* Prefer the card occupying the mid viewport while sticky house sits on top */
-        rootMargin: "-18% 0px -35% 0px",
-        threshold: [0.08, 0.2, 0.35, 0.5, 0.65, 0.8, 1],
-      },
-    );
+    const fitStage = () => {
+      if (!stageEl || cards.length === 0) return;
+      const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
+      stageEl.style.minHeight = `${Math.max(tallest, Math.round(window.innerHeight * 0.72))}px`;
+    };
+    fitStage();
+    window.addEventListener("resize", fitStage);
 
-    nodes.forEach((node) => io.observe(node));
-    return () => io.disconnect();
-  }, [items.length]);
+    const ctx = gsap.context(() => {
+      if (reduced || cards.length === 0) {
+        gsap.set(cards, { autoAlpha: 1, y: 0, position: "relative" });
+        return;
+      }
+
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set(cards, { autoAlpha: 0, y: mobile ? 28 : 36 });
+      gsap.set(cards[0], { autoAlpha: 1, y: 0 });
+      setStage(0);
+      fitStage();
+
+      const perStep = Math.round(window.innerHeight * (mobile ? 1.35 : 1.55));
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: "treat-scroll",
+          trigger: section,
+          start: mobile ? "top top+=64" : "top top+=80",
+          end: () => `+=${perStep * cards.length}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: mobile ? 1.2 : 1.35,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: fitStage,
+          onUpdate: (self) => {
+            const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
+            setStage((prev) => (prev === idx ? prev : idx));
+          },
+        },
+      });
+
+      cards.forEach((card, i) => {
+        if (i === 0) return;
+        tl.to(
+          cards[i - 1],
+          { autoAlpha: 0, y: mobile ? -22 : -28, duration: 0.7, ease: "power2.inOut" },
+          i,
+        );
+        tl.fromTo(
+          card,
+          { autoAlpha: 0, y: mobile ? 30 : 36 },
+          { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" },
+          i,
+        );
+      });
+    }, section);
+
+    return () => {
+      window.removeEventListener("resize", fitStage);
+      ctx.revert();
+    };
+  }, [reduced, items.length]);
 
   return (
-    <section id="treat" className="treat-lux mishpacha-canvas" aria-label={content.treat.title}>
-      <div className="treat-lux__inner">
-        <header className="treat-lux__head">
-          <h2 className="section-title-rule text-h2">
+    <section
+      id="treat"
+      ref={sectionRef}
+      className={`treat-scroll mishpacha-canvas ${reduced ? "treat-scroll--static" : ""}`}
+      aria-label={content.treat.title}
+    >
+      <div className="treat-scroll__inner">
+        <header className="treat-scroll__head">
+          <h2 className="section-title-rule text-h2 text-[#82152B]">
             <AccentLead text={content.treat.title} />
           </h2>
-          <span className="treat-lux__rule" aria-hidden="true" />
-          <p className="treat-lux__lead">{content.treat.lead}</p>
+          <span className="treat-scroll__rule" aria-hidden="true" />
+          <p className="treat-scroll__lead leading-relaxed">{content.treat.lead}</p>
         </header>
 
-        <div className="treat-lux__layout">
-          {/* Centered sticky house — direct child of tall layout; advances on natural scroll */}
-          <div className="treat-lux__house-sticky" aria-hidden="true">
-            <TreatHouse stage={stage} />
-            <ol className="treat-lux__progress">
-              {items.map((item, i) => (
-                <li key={item.n} className={i === stage ? "is-on" : i < stage ? "is-done" : ""}>
-                  <span>{item.n}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="treat-lux__stages">
-            {items.map((item, i) => (
-              <article
-                key={item.n}
-                id={`treat-stage-${item.n}`}
-                ref={(el) => {
-                  stageRefs.current[i] = el;
-                }}
-                data-treat-stage={i}
-                className={`treat-lux__stage min-h-[75vh] border-[#C5A059]/30 ${i === stage ? "is-on" : ""}`}
-              >
-                <div className="treat-lux__meta">
-                  <span className="treat-lux__n">{item.n}</span>
-                  <span className="treat-lux__tag">{item.tag}</span>
-                </div>
-                <h3 className="treat-lux__title text-[#82152B]">{item.title}</h3>
-
-                <div className="treat-lux__blocks">
-                  {flow.map((key, si) => (
-                    <section
-                      key={key}
-                      className={`treat-lux__block treat-lux__block--${key}`}
-                      style={{ ["--d" as string]: si } as CSSProperties}
-                    >
-                      <h4 className="treat-lux__block-label text-[#82152B]">{content.treat.labels[key]}</h4>
-                      <p className="treat-lux__block-text leading-loose">{item[key]}</p>
-                    </section>
+        <div className="treat-scroll__stage">
+          {items.map((item, i) => (
+            <article
+              key={item.n}
+              data-treat-card
+              data-treat-stage={i}
+              className={`treat-scroll__card border-[#C5A059]/40 ${i === stage ? "is-on" : ""}`}
+            >
+              {/* House anchored in card header — never a floating overlay */}
+              <div className="treat-scroll__house relative top-0 mb-4 w-full text-center" aria-hidden="true">
+                <TreatHouse stage={i} />
+                <ol className="treat-scroll__progress">
+                  {items.map((it, pi) => (
+                    <li key={it.n} className={pi === i ? "is-on" : pi < i ? "is-done" : ""}>
+                      <span>{it.n}</span>
+                    </li>
                   ))}
-                </div>
-              </article>
-            ))}
-          </div>
+                </ol>
+              </div>
+
+              <div className="treat-scroll__meta">
+                <span className="treat-scroll__n">{item.n}</span>
+                <span className="treat-scroll__tag">{item.tag}</span>
+              </div>
+              <h3 className="treat-scroll__title text-[#82152B]">{item.title}</h3>
+
+              <div className="treat-scroll__blocks">
+                {flow.map((key, si) => (
+                  <section
+                    key={key}
+                    className={`treat-scroll__block treat-scroll__block--${key}`}
+                    style={{ ["--d" as string]: si } as CSSProperties}
+                  >
+                    <h4 className="treat-scroll__block-label text-[#82152B]">{content.treat.labels[key]}</h4>
+                    <p className="treat-scroll__block-text leading-relaxed">{item[key]}</p>
+                  </section>
+                ))}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
