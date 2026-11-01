@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
@@ -28,14 +28,100 @@ function MethodIcon({ name }: { name: string }) {
 }
 
 /**
- * ארגז הכלים — single active card, GSAP pinned scroll progression.
- * One treatment at a time; scroll fades/slides to the next. No vertical dump.
+ * ארגז הכלים — single active card with pinned scrub.
+ * Mobile: read the full method copy inside the card before scrub advances.
  */
 export function Methods() {
   const items = content.methods.items;
   const sectionRef = useRef<HTMLElement>(null);
+  const pinActiveRef = useRef(false);
+  const activeRef = useRef(0);
   const [active, setActive] = useState(0);
   const { reduced } = useMotionPrefs();
+
+  const setStep = (i: number) => {
+    activeRef.current = i;
+    setActive(i);
+  };
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const pane = section.querySelector<HTMLElement>(
+      `.methods-scroll__card.is-on [data-method-read], [data-method-card][data-method-stage="${active}"] [data-method-read]`,
+    );
+    if (pane) pane.scrollTop = 0;
+  }, [active]);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || reduced) return;
+
+    const activePane = () =>
+      section.querySelector<HTMLElement>(".methods-scroll__card.is-on [data-method-read]");
+
+    const paneState = () => {
+      const el = activePane();
+      if (!el) return { el: null as HTMLElement | null, atTop: true, atBottom: true, hasOverflow: false };
+      const hasOverflow = el.scrollHeight > el.clientHeight + 2;
+      return {
+        el,
+        hasOverflow,
+        atTop: el.scrollTop <= 1,
+        atBottom: el.scrollTop + el.clientHeight >= el.scrollHeight - 2,
+      };
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!pinActiveRef.current) return;
+      const { el, atTop, atBottom, hasOverflow } = paneState();
+      if (!el || !hasOverflow) return;
+      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
+        e.preventDefault();
+        e.stopPropagation();
+        el.scrollTop += e.deltaY;
+      }
+    };
+
+    let touchY = 0;
+    let locking = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0]?.clientY ?? 0;
+      locking = false;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!pinActiveRef.current) return;
+      const y = e.touches[0]?.clientY ?? touchY;
+      const dy = touchY - y;
+      const { el, atTop, atBottom, hasOverflow } = paneState();
+      if (!el || !hasOverflow) return;
+
+      const pullingUp = dy > 0;
+      const pullingDown = dy < 0;
+      if ((pullingUp && !atBottom) || (pullingDown && !atTop)) {
+        locking = true;
+        e.preventDefault();
+        e.stopPropagation();
+        el.scrollTop += dy;
+        touchY = y;
+      } else if (locking) {
+        e.preventDefault();
+        touchY = y;
+      }
+    };
+
+    section.addEventListener("wheel", onWheel, { passive: false });
+    section.addEventListener("touchstart", onTouchStart, { passive: true });
+    section.addEventListener("touchmove", onTouchMove, { passive: false });
+
+    return () => {
+      section.removeEventListener("wheel", onWheel);
+      section.removeEventListener("touchstart", onTouchStart);
+      section.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [reduced]);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -46,8 +132,19 @@ export function Methods() {
 
     const fitStage = () => {
       if (!stageEl || cards.length === 0) return;
-      const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
-      stageEl.style.minHeight = `${Math.max(tallest, Math.round(window.innerHeight * 0.62))}px`;
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      if (mobile) {
+        const avail = Math.max(340, Math.round(window.innerHeight * 0.68));
+        stageEl.style.minHeight = `${avail}px`;
+        stageEl.style.height = `${avail}px`;
+        stageEl.style.maxHeight = `${avail}px`;
+      } else {
+        const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
+        const h = Math.max(tallest, Math.round(window.innerHeight * 0.62));
+        stageEl.style.minHeight = `${h}px`;
+        stageEl.style.height = "";
+        stageEl.style.maxHeight = "";
+      }
     };
     fitStage();
     window.addEventListener("resize", fitStage);
@@ -61,53 +158,55 @@ export function Methods() {
       const mobile = window.matchMedia("(max-width: 767px)").matches;
       gsap.set(cards, { autoAlpha: 0, y: mobile ? 32 : 40, scale: 0.985 });
       gsap.set(cards[0], { autoAlpha: 1, y: 0, scale: 1 });
-      setActive(0);
+      setStep(0);
       fitStage();
 
-      // SOLUTION 1: ~3× pin distance (~600% viewport per method card).
-      // Each of 01–09 stays locked for a generous read hold before scrub advance.
-      const perStep = Math.round(window.innerHeight * (mobile ? 6.2 : 6));
+      const perStep = Math.round(window.innerHeight * (mobile ? 1.15 : 1.4));
       const slot = 2;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           id: "methods-scroll",
           trigger: section,
-          start: mobile ? "top top+=64" : "top top+=80",
+          start: mobile ? "top top+=56" : "top top+=80",
           end: () => `+=${perStep * cards.length}`,
           pin: true,
           pinSpacing: true,
-          scrub: 1.2,
+          scrub: mobile ? 0.5 : 0.8,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,
+          onToggle: (self) => {
+            pinActiveRef.current = self.isActive;
+          },
           onUpdate: (self) => {
+            pinActiveRef.current = self.isActive;
             const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
-            setActive((prev) => (prev === idx ? prev : idx));
+            if (idx !== activeRef.current) setStep(idx);
           },
         },
       });
 
       cards.forEach((card, i) => {
         if (i === 0) return;
-        // Advance only after ~50% of this method's pin distance has been scrolled
         const at = (i - 1) * slot + 1;
         tl.to(
           cards[i - 1],
-          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.8, ease: "power2.inOut" },
+          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.65, ease: "power2.inOut" },
           at,
         );
         tl.fromTo(
           card,
           { autoAlpha: 0, y: mobile ? 34 : 42, scale: 0.985 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: "power2.out" },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" },
           at,
         );
       });
-      tl.to({}, { duration: 1 }, (cards.length - 1) * slot + 1);
+      tl.to({}, { duration: 0.85 }, (cards.length - 1) * slot + 1);
     }, section);
 
     return () => {
+      pinActiveRef.current = false;
       window.removeEventListener("resize", fitStage);
       ctx.revert();
     };
@@ -155,14 +254,17 @@ export function Methods() {
                 </span>
               </div>
               <h3 className="methods-scroll__name text-[#82152B]">{item.name}</h3>
-              <p className="methods-scroll__summary leading-relaxed">
-                <HighlightCopy text={item.summary} />
-              </p>
-              <div className="methods-scroll__detail">
-                <h4 className="methods-scroll__detail-label text-[#82152B]">איך זה עובד</h4>
-                <p className="methods-scroll__detail-text leading-relaxed">
-                  <HighlightCopy text={item.body.replace(/^איך זה עובד:\s*/, "")} />
+
+              <div className="methods-scroll__read" data-method-read>
+                <p className="methods-scroll__summary leading-relaxed">
+                  <HighlightCopy text={item.summary} />
                 </p>
+                <div className="methods-scroll__detail">
+                  <h4 className="methods-scroll__detail-label text-[#82152B]">איך זה עובד</h4>
+                  <p className="methods-scroll__detail-text leading-relaxed">
+                    <HighlightCopy text={item.body.replace(/^איך זה עובד:\s*/, "")} />
+                  </p>
+                </div>
               </div>
             </article>
           ))}
