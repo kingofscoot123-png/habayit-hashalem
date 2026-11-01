@@ -50,8 +50,9 @@ export function Treat() {
       setStage(0);
       fitStage();
 
-      // 200% viewport per step — card stays readable ~half the slot before crossfade
-      const perStep = Math.round(window.innerHeight * (mobile ? 2.15 : 2));
+      // SOLUTION 1: ~3× pin distance (~600% viewport per card).
+      // First half of each slot = read hold; second half = crossfade + house stage.
+      const perStep = Math.round(window.innerHeight * (mobile ? 6.5 : 6));
       const slot = 2;
 
       const tl = gsap.timeline({
@@ -62,7 +63,7 @@ export function Treat() {
           end: () => `+=${perStep * cards.length}`,
           pin: true,
           pinSpacing: true,
-          scrub: mobile ? 1.55 : 1.45,
+          scrub: 1.2,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,
@@ -75,7 +76,7 @@ export function Treat() {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
-        // Transition at end of each reading slot (hold first half of slot)
+        // Advance only after ~50% of this card's pin distance has been scrolled
         const at = (i - 1) * slot + 1;
         tl.to(
           cards[i - 1],
@@ -89,7 +90,7 @@ export function Treat() {
           at,
         );
       });
-      // Trailing hold so the last card also gets a full reading window
+      // Trailing hold so card 03 also gets a full reading window
       tl.to({}, { duration: 1 }, (cards.length - 1) * slot + 1);
     }, section);
 

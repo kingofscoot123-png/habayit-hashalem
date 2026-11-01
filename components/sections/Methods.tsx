@@ -64,8 +64,9 @@ export function Methods() {
       setActive(0);
       fitStage();
 
-      // 180% viewport per method — full description readable before advance
-      const perStep = Math.round(window.innerHeight * (mobile ? 1.95 : 1.8));
+      // SOLUTION 1: ~3× pin distance (~600% viewport per method card).
+      // Each of 01–09 stays locked for a generous read hold before scrub advance.
+      const perStep = Math.round(window.innerHeight * (mobile ? 6.2 : 6));
       const slot = 2;
 
       const tl = gsap.timeline({
@@ -76,7 +77,7 @@ export function Methods() {
           end: () => `+=${perStep * cards.length}`,
           pin: true,
           pinSpacing: true,
-          scrub: mobile ? 1.5 : 1.35,
+          scrub: 1.2,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,
@@ -89,6 +90,7 @@ export function Methods() {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
+        // Advance only after ~50% of this method's pin distance has been scrolled
         const at = (i - 1) * slot + 1;
         tl.to(
           cards[i - 1],
