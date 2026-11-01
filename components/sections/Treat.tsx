@@ -60,15 +60,17 @@ export function Treat() {
     const section = sectionRef.current;
     if (!section) return;
 
+    const pinEl = section.querySelector<HTMLElement>(".treat-scroll__pin");
     const stageEl = section.querySelector<HTMLElement>(".treat-scroll__stage");
     const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-treat-card]"));
 
     const fitStage = () => {
       if (!stageEl || cards.length === 0) return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;
+      // Pin only the card stack — leave room for the top nav.
       const avail = Math.max(
-        mobile ? 340 : 420,
-        Math.round(window.innerHeight * (mobile ? 0.58 : 0.62)),
+        mobile ? 360 : 420,
+        Math.round(window.innerHeight * (mobile ? 0.78 : 0.7)),
       );
       stageEl.style.minHeight = `${avail}px`;
       stageEl.style.height = `${avail}px`;
@@ -91,11 +93,12 @@ export function Treat() {
 
       const perStep = Math.round(window.innerHeight * (mobile ? 1.05 : 1.35));
       const slot = 2;
+      const pinTarget = pinEl || section;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           id: "treat-scroll",
-          trigger: section,
+          trigger: pinTarget,
           start: mobile ? "top top+=56" : "top top+=80",
           end: () => `+=${perStep * cards.length}`,
           pin: true,
@@ -158,6 +161,7 @@ export function Treat() {
           <p className="treat-scroll__hint">{content.treat.scrollHint}</p>
         </header>
 
+        <div className="treat-scroll__pin">
         <div className="treat-scroll__stage">
           {items.map((item, i) => (
             <article
@@ -185,28 +189,22 @@ export function Treat() {
 
               <button
                 type="button"
-                className="treat-scroll__teaser"
+                className="treat-detail-cta treat-detail-cta--strong"
                 onClick={openDetail}
                 aria-haspopup="dialog"
                 aria-expanded={detailOpen && i === stage}
               >
-                <span className="treat-scroll__teaser-label">{content.treat.labels.now}</span>
-                <span className="treat-scroll__teaser-text">{item.now}</span>
-                <span className="treat-scroll__teaser-more">לחצו לקריאה המלאה</span>
+                <span className="treat-detail-cta__main">{content.treat.detailCta}</span>
+                <span className="treat-detail-cta__sub">{content.treat.detailHint}</span>
               </button>
 
-              {i === stage ? (
-                <button
-                  type="button"
-                  className="treat-detail-cta"
-                  onClick={openDetail}
-                  aria-haspopup="dialog"
-                >
-                  {content.treat.detailCta}
-                </button>
-              ) : null}
+              <div className="treat-scroll__preview" aria-hidden="true">
+                <p className="treat-scroll__preview-label text-[#82152B]">{content.treat.labels.now}</p>
+                <p className="treat-scroll__preview-text">{item.now}</p>
+              </div>
             </article>
           ))}
+        </div>
         </div>
       </div>
 

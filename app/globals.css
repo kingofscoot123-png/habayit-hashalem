@@ -7152,6 +7152,11 @@ span.hero-pill.hs-hero__cred,
   letter-spacing: 0.01em;
 }
 
+.treat-scroll__pin {
+  position: relative;
+  width: 100%;
+}
+
 .treat-scroll__stage {
   position: relative;
   width: 100%;
@@ -7326,60 +7331,79 @@ span.hero-pill.hs-hero__cred,
 
 .treat-scroll__card--compact {
   justify-content: flex-start;
-  gap: 0.55rem;
+  gap: 0.5rem;
+  overflow: hidden;
 }
 
-.treat-scroll__teaser {
+.treat-scroll__preview {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
+  align-content: start;
   gap: 0.35rem;
   width: 100%;
   margin: 0;
-  padding: 0.95rem 1rem;
-  text-align: right;
+  padding: 0.85rem 0.95rem;
   border-radius: 0.95rem;
   border: 1px solid rgba(197, 160, 89, 0.28);
   background: #faf6f0;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
 }
 
-.treat-scroll__teaser:hover,
-.treat-scroll__teaser:focus-visible {
-  border-color: rgba(130, 21, 43, 0.4);
-  box-shadow: 0 12px 28px -22px rgba(130, 21, 43, 0.45);
-  outline: none;
-}
-
-.treat-scroll__teaser:active {
-  transform: translateY(1px);
-}
-
-.treat-scroll__teaser-label {
-  color: #82152b;
-  font-size: 0.98rem;
+.treat-scroll__preview-label {
+  margin: 0;
+  font-size: 0.95rem;
   font-weight: 800;
 }
 
-.treat-scroll__teaser-text {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+.treat-scroll__preview-text {
+  margin: 0;
   color: #18181b;
   font-size: 1.02rem;
   font-weight: 500;
-  line-height: 1.7;
-}
-
-.treat-scroll__teaser-more {
-  margin-top: 0.15rem;
-  color: #c5a059;
-  font-size: 0.88rem;
-  font-weight: 800;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
 }
 
 .treat-scroll__card--compact .treat-detail-cta {
-  margin-top: auto;
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+}
+
+.treat-detail-cta--strong {
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(197, 160, 89, 0.55);
+  background: linear-gradient(135deg, #82152b 0%, #9a1d35 100%);
+  color: #fff !important;
+  box-shadow: 0 14px 28px -18px rgba(130, 21, 43, 0.55);
+  text-align: center;
+}
+
+.treat-detail-cta--strong:hover,
+.treat-detail-cta--strong:focus-visible {
+  background: linear-gradient(135deg, #6e1124 0%, #82152b 100%);
+  border-color: #c5a059;
+  outline: none;
+}
+
+.treat-detail-cta__main {
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.treat-detail-cta__sub {
+  font-size: 0.82rem;
+  font-weight: 600;
+  opacity: 0.92;
+  line-height: 1.35;
 }
 
 .treat-scroll__blocks {
@@ -7879,8 +7903,19 @@ span.hero-pill.hs-hero__cred,
   }
 
   .treat-scroll__head {
-    margin-bottom: 1rem;
-    padding: 0.9rem 1rem;
+    margin-bottom: 0.85rem;
+    padding: 0.75rem 0.9rem;
+  }
+
+  .treat-scroll__head .text-h2 {
+    font-size: clamp(1.35rem, 5.5vw, 1.7rem);
+  }
+
+  .treat-scroll__lead {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
   }
 
   .treat-scroll__lead {
@@ -7893,9 +7928,26 @@ span.hero-pill.hs-hero__cred,
     font-size: 0.86rem;
   }
 
-  .treat-scroll__teaser-text {
-    -webkit-line-clamp: 2;
+  .treat-scroll__preview {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .treat-scroll__preview-text {
+    -webkit-line-clamp: 3;
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .treat-detail-cta--strong {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .treat-detail-cta__main {
     font-size: 0.98rem;
+  }
+
+  .treat-detail-cta__sub {
+    font-size: 0.76rem;
   }
 
   .methods-kit {
@@ -7931,18 +7983,38 @@ span.hero-pill.hs-hero__cred,
     padding: 0.15rem 0 0.25rem;
   }
 
+  .treat-scroll__house {
+    gap: 0.3rem;
+    padding: 0;
+  }
+
   .treat-scroll__house .treat-house {
-    min-height: 84px;
+    min-height: 58px;
   }
 
   .treat-scroll__house .treat-house__svg {
-    width: min(34vw, 120px);
+    width: min(26vw, 92px);
   }
 
   .treat-scroll__progress li {
-    width: 1.75rem;
-    height: 1.75rem;
-    font-size: 0.68rem;
+    width: 1.65rem;
+    height: 1.65rem;
+    font-size: 0.66rem;
+  }
+
+  .treat-scroll__title {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.2rem, 5vw, 1.45rem);
+  }
+
+  .treat-scroll__preview {
+    display: grid;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .treat-scroll__preview-text {
+    -webkit-line-clamp: 2;
   }
 
   .treat-scroll__card {
