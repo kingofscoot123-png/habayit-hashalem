@@ -7150,6 +7150,14 @@ span.hero-pill.hs-hero__cred,
   min-height: 28rem;
 }
 
+.treat-scroll,
+.treat-scroll__stage,
+.treat-scroll__card,
+.treat-scroll__blocks,
+.treat-scroll__block-text {
+  touch-action: pan-y;
+}
+
 .treat-scroll__card {
   position: absolute;
   inset: 0 auto auto 0;
@@ -7404,6 +7412,14 @@ span.hero-pill.hs-hero__cred,
   position: relative;
   width: 100%;
   min-height: 22rem;
+}
+
+.methods-scroll,
+.methods-scroll__stage,
+.methods-scroll__card,
+.methods-scroll__summary,
+.methods-scroll__detail-text {
+  touch-action: pan-y;
 }
 
 .methods-scroll__card {

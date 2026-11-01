@@ -64,7 +64,9 @@ export function Methods() {
       setActive(0);
       fitStage();
 
-      const perStep = Math.round(window.innerHeight * (mobile ? 1.15 : 1.25));
+      // 180% viewport per method — full description readable before advance
+      const perStep = Math.round(window.innerHeight * (mobile ? 1.95 : 1.8));
+      const slot = 2;
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -74,7 +76,7 @@ export function Methods() {
           end: () => `+=${perStep * cards.length}`,
           pin: true,
           pinSpacing: true,
-          scrub: mobile ? 1.15 : 1.25,
+          scrub: mobile ? 1.5 : 1.35,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,
@@ -87,18 +89,20 @@ export function Methods() {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
+        const at = (i - 1) * slot + 1;
         tl.to(
           cards[i - 1],
-          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.65, ease: "power2.inOut" },
-          i,
+          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.8, ease: "power2.inOut" },
+          at,
         );
         tl.fromTo(
           card,
           { autoAlpha: 0, y: mobile ? 34 : 42, scale: 0.985 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" },
-          i,
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: "power2.out" },
+          at,
         );
       });
+      tl.to({}, { duration: 1 }, (cards.length - 1) * slot + 1);
     }, section);
 
     return () => {

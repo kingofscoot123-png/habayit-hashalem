@@ -50,7 +50,9 @@ export function Treat() {
       setStage(0);
       fitStage();
 
-      const perStep = Math.round(window.innerHeight * (mobile ? 1.35 : 1.55));
+      // 200% viewport per step — card stays readable ~half the slot before crossfade
+      const perStep = Math.round(window.innerHeight * (mobile ? 2.15 : 2));
+      const slot = 2;
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -60,7 +62,7 @@ export function Treat() {
           end: () => `+=${perStep * cards.length}`,
           pin: true,
           pinSpacing: true,
-          scrub: mobile ? 1.2 : 1.35,
+          scrub: mobile ? 1.55 : 1.45,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,
@@ -73,18 +75,22 @@ export function Treat() {
 
       cards.forEach((card, i) => {
         if (i === 0) return;
+        // Transition at end of each reading slot (hold first half of slot)
+        const at = (i - 1) * slot + 1;
         tl.to(
           cards[i - 1],
-          { autoAlpha: 0, y: mobile ? -22 : -28, duration: 0.7, ease: "power2.inOut" },
-          i,
+          { autoAlpha: 0, y: mobile ? -22 : -28, duration: 0.85, ease: "power2.inOut" },
+          at,
         );
         tl.fromTo(
           card,
           { autoAlpha: 0, y: mobile ? 30 : 36 },
-          { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" },
-          i,
+          { autoAlpha: 1, y: 0, duration: 0.85, ease: "power2.out" },
+          at,
         );
       });
+      // Trailing hold so the last card also gets a full reading window
+      tl.to({}, { duration: 1 }, (cards.length - 1) * slot + 1);
     }, section);
 
     return () => {
