@@ -1,23 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Assistant, Heebo } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { SiteBackdrop } from "@/components/SiteBackdrop";
 import { asset } from "@/lib/asset";
 import "./globals.css";
-
-const heebo = Heebo({
-  subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "700", "800", "900"],
-  variable: "--font-heebo",
-  display: "swap",
-});
-
-const assistant = Assistant({
-  subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-assistant",
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -46,6 +31,9 @@ export const metadata: Metadata = {
 const FONTSHARE =
   "https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@700,500,400&display=swap";
 
+const GOOGLE_FONTS =
+  "https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Heebo:wght@400;500;700;800;900&display=swap";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -55,18 +43,24 @@ export default function RootLayout({
       dir="rtl"
       data-scene="hero"
       data-rev="certs-quotes"
-      className={`${heebo.variable} ${assistant.variable} ${heebo.className}`}
       style={{
+        ["--font-heebo" as string]: '"Heebo", "Helvetica Neue", Arial, sans-serif',
+        ["--font-assistant" as string]: '"Assistant", "Helvetica Neue", Arial, sans-serif',
         ["--artwork-mobile" as string]: `url("${asset("/bg-mobile.jpg")}")`,
         ["--artwork-desktop" as string]: `url("${asset("/bg-desktop.jpg")}")`,
+        fontFamily: '"Heebo", "Helvetica Neue", Arial, sans-serif',
       }}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="stylesheet" href={GOOGLE_FONTS} />
         <link rel="stylesheet" href={FONTSHARE} />
       </head>
       <body
-        className={`${assistant.className} studio-body antialiased`}
+        className="studio-body antialiased"
+        style={{ fontFamily: '"Assistant", "Helvetica Neue", Arial, sans-serif' }}
       >
         <SiteBackdrop />
         <div className="relative z-10">
