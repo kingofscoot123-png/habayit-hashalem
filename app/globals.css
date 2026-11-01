@@ -8007,14 +8007,9 @@ span.hero-pill.hs-hero__cred,
     font-size: clamp(1.2rem, 5vw, 1.45rem);
   }
 
+  /* On phone the CTA is the reading path — avoid a cut-off teaser look. */
   .treat-scroll__preview {
-    display: grid;
-    flex: 1 1 auto;
-    min-height: 0;
-  }
-
-  .treat-scroll__preview-text {
-    -webkit-line-clamp: 2;
+    display: none;
   }
 
   .treat-scroll__card {
