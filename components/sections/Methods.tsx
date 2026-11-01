@@ -1,14 +1,9 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useState } from "react";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
-import { useMotionPrefs } from "@/lib/useMotionPrefs";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const icons: Record<string, string> = {
   "NLP – ניתוב לשוני נוירולוגי": "M12 3v18M4 12h16",
@@ -21,253 +16,107 @@ const icons: Record<string, string> = {
 
 function MethodIcon({ name }: { name: string }) {
   return (
-    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={icons[name] || "M12 5v14M5 12h14"} />
     </svg>
   );
 }
 
 /**
- * ארגז הכלים — single active card with pinned scrub.
- * Mobile: read the full method copy inside the card before scrub advances.
+ * ארגז הכלים — compact accordion (no scroll-jack).
+ * Tap a method to expand the full clinical explanation.
  */
 export function Methods() {
   const items = content.methods.items;
-  const sectionRef = useRef<HTMLElement>(null);
-  const pinActiveRef = useRef(false);
-  const activeRef = useRef(0);
-  const [active, setActive] = useState(0);
-  const { reduced } = useMotionPrefs();
+  const [open, setOpen] = useState(0);
 
-  const setStep = (i: number) => {
-    activeRef.current = i;
-    setActive(i);
+  const toggle = (i: number) => {
+    setOpen((prev) => (prev === i ? -1 : i));
   };
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const pane = section.querySelector<HTMLElement>(
-      `.methods-scroll__card.is-on [data-method-read], [data-method-card][data-method-stage="${active}"] [data-method-read]`,
-    );
-    if (pane) pane.scrollTop = 0;
-  }, [active]);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section || reduced) return;
-
-    const activePane = () =>
-      section.querySelector<HTMLElement>(".methods-scroll__card.is-on [data-method-read]");
-
-    const paneState = () => {
-      const el = activePane();
-      if (!el) return { el: null as HTMLElement | null, atTop: true, atBottom: true, hasOverflow: false };
-      const hasOverflow = el.scrollHeight > el.clientHeight + 2;
-      return {
-        el,
-        hasOverflow,
-        atTop: el.scrollTop <= 1,
-        atBottom: el.scrollTop + el.clientHeight >= el.scrollHeight - 2,
-      };
-    };
-
-    const onWheel = (e: WheelEvent) => {
-      if (!pinActiveRef.current) return;
-      const { el, atTop, atBottom, hasOverflow } = paneState();
-      if (!el || !hasOverflow) return;
-      if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
-        e.preventDefault();
-        e.stopPropagation();
-        el.scrollTop += e.deltaY;
-      }
-    };
-
-    let touchY = 0;
-    let locking = false;
-
-    const onTouchStart = (e: TouchEvent) => {
-      touchY = e.touches[0]?.clientY ?? 0;
-      locking = false;
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (!pinActiveRef.current) return;
-      const y = e.touches[0]?.clientY ?? touchY;
-      const dy = touchY - y;
-      const { el, atTop, atBottom, hasOverflow } = paneState();
-      if (!el || !hasOverflow) return;
-
-      const pullingUp = dy > 0;
-      const pullingDown = dy < 0;
-      if ((pullingUp && !atBottom) || (pullingDown && !atTop)) {
-        locking = true;
-        e.preventDefault();
-        e.stopPropagation();
-        el.scrollTop += dy;
-        touchY = y;
-      } else if (locking) {
-        e.preventDefault();
-        touchY = y;
-      }
-    };
-
-    section.addEventListener("wheel", onWheel, { passive: false });
-    section.addEventListener("touchstart", onTouchStart, { passive: true });
-    section.addEventListener("touchmove", onTouchMove, { passive: false });
-
-    return () => {
-      section.removeEventListener("wheel", onWheel);
-      section.removeEventListener("touchstart", onTouchStart);
-      section.removeEventListener("touchmove", onTouchMove);
-    };
-  }, [reduced]);
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const stageEl = section.querySelector<HTMLElement>(".methods-scroll__stage");
-    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-method-card]"));
-
-    const fitStage = () => {
-      if (!stageEl || cards.length === 0) return;
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-      if (mobile) {
-        const avail = Math.max(340, Math.round(window.innerHeight * 0.68));
-        stageEl.style.minHeight = `${avail}px`;
-        stageEl.style.height = `${avail}px`;
-        stageEl.style.maxHeight = `${avail}px`;
-      } else {
-        const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
-        const h = Math.max(tallest, Math.round(window.innerHeight * 0.62));
-        stageEl.style.minHeight = `${h}px`;
-        stageEl.style.height = "";
-        stageEl.style.maxHeight = "";
-      }
-    };
-    fitStage();
-    window.addEventListener("resize", fitStage);
-
-    const ctx = gsap.context(() => {
-      if (reduced || cards.length === 0) {
-        gsap.set(cards, { autoAlpha: 1, y: 0, position: "relative" });
-        return;
-      }
-
-      const mobile = window.matchMedia("(max-width: 767px)").matches;
-      gsap.set(cards, { autoAlpha: 0, y: mobile ? 32 : 40, scale: 0.985 });
-      gsap.set(cards[0], { autoAlpha: 1, y: 0, scale: 1 });
-      setStep(0);
-      fitStage();
-
-      const perStep = Math.round(window.innerHeight * (mobile ? 1.15 : 1.4));
-      const slot = 2;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "methods-scroll",
-          trigger: section,
-          start: mobile ? "top top+=56" : "top top+=80",
-          end: () => `+=${perStep * cards.length}`,
-          pin: true,
-          pinSpacing: true,
-          scrub: mobile ? 0.5 : 0.8,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onRefresh: fitStage,
-          onToggle: (self) => {
-            pinActiveRef.current = self.isActive;
-          },
-          onUpdate: (self) => {
-            pinActiveRef.current = self.isActive;
-            const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
-            if (idx !== activeRef.current) setStep(idx);
-          },
-        },
-      });
-
-      cards.forEach((card, i) => {
-        if (i === 0) return;
-        const at = (i - 1) * slot + 1;
-        tl.to(
-          cards[i - 1],
-          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.65, ease: "power2.inOut" },
-          at,
-        );
-        tl.fromTo(
-          card,
-          { autoAlpha: 0, y: mobile ? 34 : 42, scale: 0.985 },
-          { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" },
-          at,
-        );
-      });
-      tl.to({}, { duration: 0.85 }, (cards.length - 1) * slot + 1);
-    }, section);
-
-    return () => {
-      pinActiveRef.current = false;
-      window.removeEventListener("resize", fitStage);
-      ctx.revert();
-    };
-  }, [reduced, items.length]);
 
   return (
     <section
       id="path"
-      ref={sectionRef}
-      className={`methods-scroll mishpacha-canvas ${reduced ? "methods-scroll--static" : ""}`}
+      className="methods-kit mishpacha-canvas"
       aria-label={content.methods.title}
     >
-      <div className="methods-scroll__canvas">
-        <header className="methods-scroll__head">
-          <p className="methods-scroll__eyebrow">{content.methods.core}</p>
+      <div className="methods-kit__shell">
+        <header className="methods-kit__head">
+          <p className="methods-kit__eyebrow">{content.methods.core}</p>
           <h2 className="section-title-rule text-h2 text-[#82152B]">
             <AccentLead text={content.methods.title} />
           </h2>
-          <span className="methods-scroll__rule" aria-hidden="true" />
-          <p className="methods-scroll__lead leading-relaxed">
-            שיטה אחת בכל פעם — גללו בקצב שלכם בין הכלים הקליניים של מיכאל מרום.
+          <span className="methods-kit__rule" aria-hidden="true" />
+          <p className="methods-kit__lead leading-relaxed">
+            <HighlightCopy text={content.methods.hint} />
           </p>
         </header>
 
-        <ol className="methods-scroll__progress" aria-hidden="true">
-          {items.map((item, i) => (
-            <li key={item.name} className={i === active ? "is-on" : i < active ? "is-done" : ""}>
-              <span>{String(i + 1).padStart(2, "0")}</span>
-            </li>
-          ))}
-        </ol>
+        <div className="methods-kit__list" role="list">
+          {items.map((item, i) => {
+            const isOpen = open === i;
+            const panelId = `method-panel-${i}`;
+            const buttonId = `method-toggle-${i}`;
+            return (
+              <article
+                key={item.name}
+                role="listitem"
+                className={`methods-kit__card border-[#C5A059]/40 ${isOpen ? "is-open" : ""}`}
+              >
+                <button
+                  type="button"
+                  id={buttonId}
+                  className="methods-kit__trigger"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  onClick={() => toggle(i)}
+                >
+                  <span className="methods-kit__index">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="methods-kit__icon" aria-hidden="true">
+                    <MethodIcon name={item.name} />
+                  </span>
+                  <span className="methods-kit__copy">
+                    <span className="methods-kit__name text-[#82152B]">{item.name}</span>
+                    <span className="methods-kit__teaser">
+                      <HighlightCopy text={item.summary} />
+                    </span>
+                  </span>
+                  <span className="methods-kit__cta">
+                    {isOpen ? content.methods.close : content.methods.expand}
+                    <svg
+                      className={`methods-kit__chevron ${isOpen ? "is-open" : ""}`}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </span>
+                </button>
 
-        <div className="methods-scroll__stage">
-          {items.map((item, i) => (
-            <article
-              key={item.name}
-              data-method-card
-              data-method-stage={i}
-              className={`methods-scroll__card border-[#C5A059]/40 ${i === active ? "is-on" : ""}`}
-            >
-              <div className="methods-scroll__card-top">
-                <span className="methods-scroll__index">{String(i + 1).padStart(2, "0")}</span>
-                <span className="methods-scroll__icon" aria-hidden="true">
-                  <MethodIcon name={item.name} />
-                </span>
-              </div>
-              <h3 className="methods-scroll__name text-[#82152B]">{item.name}</h3>
-
-              <div className="methods-scroll__read" data-method-read>
-                <p className="methods-scroll__summary leading-relaxed">
-                  <HighlightCopy text={item.summary} />
-                </p>
-                <div className="methods-scroll__detail">
-                  <h4 className="methods-scroll__detail-label text-[#82152B]">איך זה עובד</h4>
-                  <p className="methods-scroll__detail-text leading-relaxed">
-                    <HighlightCopy text={item.body.replace(/^איך זה עובד:\s*/, "")} />
-                  </p>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  aria-hidden={!isOpen}
+                  className={`methods-kit__panel ${isOpen ? "is-open" : ""}`}
+                >
+                  <div className="methods-kit__panel-inner">
+                    <h4 className="methods-kit__detail-label text-[#82152B]">איך זה עובד</h4>
+                    <p className="methods-kit__detail-text leading-relaxed">
+                      <HighlightCopy text={item.body.replace(/^איך זה עובד:\s*/, "")} />
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
