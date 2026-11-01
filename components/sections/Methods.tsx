@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AccentLead } from "@/components/AccentLead";
 import { HighlightCopy } from "@/components/HighlightCopy";
 import { content } from "@/content";
+import { useMotionPrefs } from "@/lib/useMotionPrefs";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const icons: Record<string, string> = {
   "NLP – ניתוב לשוני נוירולוגי": "M12 3v18M4 12h16",
@@ -23,67 +28,105 @@ function MethodIcon({ name }: { name: string }) {
 }
 
 /**
- * ארגז הכלים — dedicated luxury canvas + scroll-driven method stages.
- * Natural window scroll advances cards; no inner overflow-y-auto boxes.
+ * ארגז הכלים — single active card, GSAP pinned scroll progression.
+ * One treatment at a time; scroll fades/slides to the next. No vertical dump.
  */
 export function Methods() {
   const items = content.methods.items;
+  const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const activeRef = useRef(0);
+  const { reduced } = useMotionPrefs();
 
-  useEffect(() => {
-    const nodes = cardRefs.current.filter(Boolean) as HTMLElement[];
-    if (!nodes.length) return;
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-    const ratios = new Map<number, number>();
+    const stageEl = section.querySelector<HTMLElement>(".methods-scroll__stage");
+    const cards = Array.from(section.querySelectorAll<HTMLElement>("[data-method-card]"));
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const i = Number((entry.target as HTMLElement).dataset.methodStage);
-          if (Number.isNaN(i)) continue;
-          ratios.set(i, entry.isIntersecting ? entry.intersectionRatio : 0);
-        }
-        let best = activeRef.current;
-        let bestRatio = -1;
-        ratios.forEach((ratio, i) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            best = i;
-          }
-        });
-        if (best !== activeRef.current && bestRatio > 0.15) {
-          activeRef.current = best;
-          setActive(best);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "-22% 0px -28% 0px",
-        threshold: [0.1, 0.25, 0.4, 0.55, 0.7, 0.85],
-      },
-    );
+    const fitStage = () => {
+      if (!stageEl || cards.length === 0) return;
+      const tallest = cards.reduce((max, card) => Math.max(max, card.scrollHeight), 0);
+      stageEl.style.minHeight = `${Math.max(tallest, Math.round(window.innerHeight * 0.62))}px`;
+    };
+    fitStage();
+    window.addEventListener("resize", fitStage);
 
-    nodes.forEach((node) => io.observe(node));
-    return () => io.disconnect();
-  }, [items.length]);
+    const ctx = gsap.context(() => {
+      if (reduced || cards.length === 0) {
+        gsap.set(cards, { autoAlpha: 1, y: 0, position: "relative" });
+        return;
+      }
+
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      gsap.set(cards, { autoAlpha: 0, y: mobile ? 32 : 40, scale: 0.985 });
+      gsap.set(cards[0], { autoAlpha: 1, y: 0, scale: 1 });
+      setActive(0);
+      fitStage();
+
+      const perStep = Math.round(window.innerHeight * (mobile ? 1.15 : 1.25));
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: "methods-scroll",
+          trigger: section,
+          start: mobile ? "top top+=64" : "top top+=80",
+          end: () => `+=${perStep * cards.length}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: mobile ? 1.15 : 1.25,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onRefresh: fitStage,
+          onUpdate: (self) => {
+            const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
+            setActive((prev) => (prev === idx ? prev : idx));
+          },
+        },
+      });
+
+      cards.forEach((card, i) => {
+        if (i === 0) return;
+        tl.to(
+          cards[i - 1],
+          { autoAlpha: 0, y: mobile ? -24 : -30, scale: 0.98, duration: 0.65, ease: "power2.inOut" },
+          i,
+        );
+        tl.fromTo(
+          card,
+          { autoAlpha: 0, y: mobile ? 34 : 42, scale: 0.985 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: "power2.out" },
+          i,
+        );
+      });
+    }, section);
+
+    return () => {
+      window.removeEventListener("resize", fitStage);
+      ctx.revert();
+    };
+  }, [reduced, items.length]);
 
   return (
-    <section id="path" className="methods-lux mishpacha-canvas" aria-label={content.methods.title}>
-      <div className="methods-lux__canvas">
-        <header className="methods-lux__head">
-          <p className="methods-lux__eyebrow">{content.methods.core}</p>
-          <h2 className="section-title-rule text-h2">
+    <section
+      id="path"
+      ref={sectionRef}
+      className={`methods-scroll mishpacha-canvas ${reduced ? "methods-scroll--static" : ""}`}
+      aria-label={content.methods.title}
+    >
+      <div className="methods-scroll__canvas">
+        <header className="methods-scroll__head">
+          <p className="methods-scroll__eyebrow">{content.methods.core}</p>
+          <h2 className="section-title-rule text-h2 text-[#82152B]">
             <AccentLead text={content.methods.title} />
           </h2>
-          <span className="methods-lux__rule" aria-hidden="true" />
-          <p className="methods-lux__lead leading-loose">
-            שיטות קליניות מדויקות מארגז הכלים של מיכאל מרום — גללו בין הכרטיסים בנחת, כל שיטה במלואה.
+          <span className="methods-scroll__rule" aria-hidden="true" />
+          <p className="methods-scroll__lead leading-relaxed">
+            שיטה אחת בכל פעם — גללו בקצב שלכם בין הכלים הקליניים של מיכאל מרום.
           </p>
         </header>
 
-        <ol className="methods-lux__progress" aria-hidden="true">
+        <ol className="methods-scroll__progress" aria-hidden="true">
           {items.map((item, i) => (
             <li key={item.name} className={i === active ? "is-on" : i < active ? "is-done" : ""}>
               <span>{String(i + 1).padStart(2, "0")}</span>
@@ -91,30 +134,27 @@ export function Methods() {
           ))}
         </ol>
 
-        <div className="methods-lux__stages">
+        <div className="methods-scroll__stage">
           {items.map((item, i) => (
             <article
               key={item.name}
-              id={`method-stage-${i + 1}`}
-              ref={(el) => {
-                cardRefs.current[i] = el;
-              }}
+              data-method-card
               data-method-stage={i}
-              className={`methods-lux__card border-[#C5A059]/30 ${i === active ? "is-on" : ""}`}
+              className={`methods-scroll__card border-[#C5A059]/40 ${i === active ? "is-on" : ""}`}
             >
-              <div className="methods-lux__card-top">
-                <span className="methods-lux__index">{String(i + 1).padStart(2, "0")}</span>
-                <span className="methods-lux__icon" aria-hidden="true">
+              <div className="methods-scroll__card-top">
+                <span className="methods-scroll__index">{String(i + 1).padStart(2, "0")}</span>
+                <span className="methods-scroll__icon" aria-hidden="true">
                   <MethodIcon name={item.name} />
                 </span>
               </div>
-              <h3 className="methods-lux__name">{item.name}</h3>
-              <p className="methods-lux__summary leading-loose">
+              <h3 className="methods-scroll__name text-[#82152B]">{item.name}</h3>
+              <p className="methods-scroll__summary leading-relaxed">
                 <HighlightCopy text={item.summary} />
               </p>
-              <div className="methods-lux__detail">
-                <h4 className="methods-lux__detail-label">איך זה עובד</h4>
-                <p className="methods-lux__detail-text leading-loose">
+              <div className="methods-scroll__detail">
+                <h4 className="methods-scroll__detail-label text-[#82152B]">איך זה עובד</h4>
+                <p className="methods-scroll__detail-text leading-relaxed">
                   <HighlightCopy text={item.body.replace(/^איך זה עובד:\s*/, "")} />
                 </p>
               </div>

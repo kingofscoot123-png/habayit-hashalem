@@ -20,8 +20,8 @@ export default function Page() {
       <Hero />
       <Pain />
       <Treat />
-      {/* Clear breathing room between Treat and Methods */}
-      <div className="section-breath section-breath--lux my-16 py-20" aria-hidden="true" />
+      {/* Massive buffer between Treat and Methods */}
+      <div className="section-breath section-breath--pin my-28 py-24" aria-hidden="true" />
       <Methods />
       <About />
       <Credentials />
