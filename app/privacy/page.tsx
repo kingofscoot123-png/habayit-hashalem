@@ -12,7 +12,7 @@ export default function PrivacyPage() {
     <LegalPage title={content.legal.privacy} updated="3 באוקטובר 2026">
       <p>
         מדיניות זו חלה על האתר של «הבית השלם» ועל יצירת קשר עם מיכאל מרום, קליניקה לטיפול זוגי
-        ורגשי באזור המרכז. היא כתובה בעברית פשוטה, בלי להבטיח דברים שהאתר לא עושה בפועל.
+        ורגשי בראש העין. היא כתובה בעברית פשוטה, בלי להבטיח דברים שהאתר לא עושה בפועל.
       </p>
       <h2 className="pt-2 text-xl font-bold text-ink">מה נאסף באתר</h2>
       <p>
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         <a className="text-accent underline underline-offset-4" href={content.whatsappHref}>
           וואטסאפ
         </a>
-        . הקליניקה באזור המרכז.
+        . הקליניקה ברחוב סמדר 13, ראש העין.
       </p>
     </LegalPage>
   );

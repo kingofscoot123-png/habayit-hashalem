@@ -17,7 +17,7 @@ function QuoteCard({ punch, quote, name }: Quote) {
       <p className="quote-card__punch">"{punch}"</p>
       <blockquote className="quote-card__text">{quote}</blockquote>
       <figcaption className="quote-card__who">
-        <span className="quote-card__name">{name}</span>
+        <span className="quote-card__name">מאת {name}</span>
       </figcaption>
     </figure>
   );
@@ -118,7 +118,7 @@ export function Quotes() {
                   <p className="quote-card__punch">"{item.punch}"</p>
                   <blockquote className="quote-card__text">{item.quote}</blockquote>
                   <figcaption className="quote-card__who">
-                    <span className="quote-card__name">{item.name}</span>
+                    <span className="quote-card__name">מאת {item.name}</span>
                   </figcaption>
                 </figure>
               ))}
