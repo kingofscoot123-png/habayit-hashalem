@@ -7,9 +7,9 @@ const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
  * Hero:
- * - Mobile: full-viewport photo cover + live HTML overlay (matches blue reference)
- * - Desktop: landscape photo | typographic stack (flex-row)
- * Photos never carry burned-in text.
+ * - Mobile: stacked — portrait photo on top (faces clear), text/CTAs below
+ * - Desktop: landscape photo left | typographic stack right (blue-ref structure)
+ * Photos stay clean; no floating card over faces.
  */
 export function Hero() {
   return (
