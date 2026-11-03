@@ -11,9 +11,10 @@ import { useMotionPrefs } from "@/lib/useMotionPrefs";
 gsap.registerPlugin(ScrollTrigger);
 
 const flow = ["now", "how", "result"] as const;
+const HOUSE_STAGES = 5;
 
 /**
- * במה אני מטפל — house builds on scroll (pin scrub).
+ * במה אני מטפל — 4 cards + house builds in 5 stages on scroll (pin scrub).
  * Full copy opens on tap so scroll never fights reading.
  */
 export function Treat() {
@@ -23,7 +24,9 @@ export function Treat() {
   const pinActiveRef = useRef(false);
   const detailOpenRef = useRef(false);
   const stageRef = useRef(0);
+  const houseRef = useRef(0);
   const [stage, setStage] = useState(0);
+  const [houseStage, setHouseStage] = useState(0);
   const [detailOpen, setDetailOpen] = useState(false);
   const { reduced } = useMotionPrefs();
   const current = items[stage] ?? items[0];
@@ -31,6 +34,11 @@ export function Treat() {
   const setStep = (i: number) => {
     stageRef.current = i;
     setStage(i);
+  };
+
+  const setHouse = (i: number) => {
+    houseRef.current = i;
+    setHouseStage(i);
   };
 
   const openDetail = () => setDetailOpen(true);
@@ -67,10 +75,10 @@ export function Treat() {
     const fitStage = () => {
       if (!stageEl || cards.length === 0) return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;
-      // Pin only the card stack — leave room for the top nav.
+      // Pin only the card stack — leave room for the top nav + shared house.
       const avail = Math.max(
-        mobile ? 360 : 420,
-        Math.round(window.innerHeight * (mobile ? 0.78 : 0.7)),
+        mobile ? 300 : 360,
+        Math.round(window.innerHeight * (mobile ? 0.62 : 0.58)),
       );
       stageEl.style.minHeight = `${avail}px`;
       stageEl.style.height = `${avail}px`;
@@ -82,6 +90,7 @@ export function Treat() {
     const ctx = gsap.context(() => {
       if (reduced || cards.length === 0) {
         gsap.set(cards, { autoAlpha: 1, y: 0, position: "relative" });
+        setHouse(HOUSE_STAGES - 1);
         return;
       }
 
@@ -89,6 +98,7 @@ export function Treat() {
       gsap.set(cards, { autoAlpha: 0, y: mobile ? 26 : 34 });
       gsap.set(cards[0], { autoAlpha: 1, y: 0 });
       setStep(0);
+      setHouse(0);
       fitStage();
 
       const perStep = Math.round(window.innerHeight * (mobile ? 1.05 : 1.35));
@@ -115,6 +125,11 @@ export function Treat() {
             if (detailOpenRef.current) return;
             const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
             if (idx !== stageRef.current) setStep(idx);
+            const hIdx = Math.min(
+              HOUSE_STAGES - 1,
+              Math.floor(self.progress * HOUSE_STAGES + 0.001),
+            );
+            if (hIdx !== houseRef.current) setHouse(hIdx);
           },
         },
       });
@@ -162,49 +177,49 @@ export function Treat() {
         </header>
 
         <div className="treat-scroll__pin">
-        <div className="treat-scroll__stage">
-          {items.map((item, i) => (
-            <article
-              key={item.n}
-              data-treat-card
-              data-treat-stage={i}
-              className={`treat-scroll__card treat-scroll__card--compact border-[#C5A059]/40 ${i === stage ? "is-on" : ""}`}
-            >
-              <div className="treat-scroll__house relative top-0 w-full text-center" aria-hidden="true">
-                <TreatHouse stage={i} />
-                <ol className="treat-scroll__progress">
-                  {items.map((it, pi) => (
-                    <li key={it.n} className={pi === i ? "is-on" : pi < i ? "is-done" : ""}>
-                      <span>{it.n}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
+          <div className="treat-scroll__house treat-scroll__house--shared relative w-full text-center" aria-hidden="true">
+            <TreatHouse stage={houseStage} />
+            <ol className="treat-scroll__progress treat-scroll__progress--house" aria-hidden="true">
+              {Array.from({ length: HOUSE_STAGES }, (_, pi) => (
+                <li key={pi} className={pi === houseStage ? "is-on" : pi < houseStage ? "is-done" : ""}>
+                  <span>{String(pi + 1).padStart(2, "0")}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
 
-              <div className="treat-scroll__meta">
-                <span className="treat-scroll__n">{item.n}</span>
-                <span className="treat-scroll__tag">{item.tag}</span>
-              </div>
-              <h3 className="treat-scroll__title text-[#82152B]">{item.title}</h3>
-
-              <button
-                type="button"
-                className="treat-detail-cta treat-detail-cta--strong"
-                onClick={openDetail}
-                aria-haspopup="dialog"
-                aria-expanded={detailOpen && i === stage}
+          <div className="treat-scroll__stage">
+            {items.map((item, i) => (
+              <article
+                key={item.n}
+                data-treat-card
+                data-treat-stage={i}
+                className={`treat-scroll__card treat-scroll__card--compact treat-scroll__card--no-house border-[#C5A059]/40 ${i === stage ? "is-on" : ""}`}
               >
-                <span className="treat-detail-cta__main">{content.treat.detailCta}</span>
-                <span className="treat-detail-cta__sub">{content.treat.detailHint}</span>
-              </button>
+                <div className="treat-scroll__meta">
+                  <span className="treat-scroll__n">{item.n}</span>
+                  <span className="treat-scroll__tag">{item.tag}</span>
+                </div>
+                <h3 className="treat-scroll__title text-[#82152B]">{item.title}</h3>
 
-              <div className="treat-scroll__preview" aria-hidden="true">
-                <p className="treat-scroll__preview-label text-[#82152B]">{content.treat.labels.now}</p>
-                <p className="treat-scroll__preview-text">{item.now}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+                <button
+                  type="button"
+                  className="treat-detail-cta treat-detail-cta--strong"
+                  onClick={openDetail}
+                  aria-haspopup="dialog"
+                  aria-expanded={detailOpen && i === stage}
+                >
+                  <span className="treat-detail-cta__main">{content.treat.detailCta}</span>
+                  <span className="treat-detail-cta__sub">{content.treat.detailHint}</span>
+                </button>
+
+                <div className="treat-scroll__preview" aria-hidden="true">
+                  <p className="treat-scroll__preview-label text-[#82152B]">{content.treat.labels.now}</p>
+                  <p className="treat-scroll__preview-text">{item.now}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
 

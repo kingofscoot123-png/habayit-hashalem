@@ -28,23 +28,22 @@ export function Hero() {
       </div>
 
       <div className="hs-hero__shell relative z-[2] mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-start px-5 pb-24 pt-[5.75rem] md:px-6 md:pb-28 md:pt-[7.25rem] lg:px-8">
-        <div className="hs-hero__copy flex min-w-0 w-full max-w-3xl flex-col items-center gap-4 text-center">
+        <div className="hs-hero__copy flex min-w-0 w-full max-w-3xl flex-col items-center gap-3 text-center md:gap-4">
           <div className="hs-hero__veil" aria-hidden="true" />
-          <p className="hs-hero__kicker animate-fade-up stagger-3 m-0 w-full max-w-xl font-bold leading-snug">
-            <span className="kicker-name block sm:inline">{content.person}</span>
-            <span className="gold-sep hidden sm:inline" aria-hidden="true">
-              {" "}
-              •{" "}
-            </span>
-            <span className="block text-base font-semibold sm:inline sm:text-inherit">מטפל בכיר זוגי ורגשי</span>
-          </p>
-          <h1 className="hs-hero__title font-display animate-fade-up stagger-4 m-0 w-full">
-            חוזרים לקרבה שהייתה
-            <br />
-            לפני שהשיחות <span>נשברו</span>
+
+          <h1 className="hs-hero__title hs-hero__brand font-display animate-fade-up stagger-3 m-0 w-full">
+            {content.hero.brand}
           </h1>
 
-          <div className="hs-hero__actions animate-fade-up stagger-5 mt-0 w-full">
+          <p className="hs-hero__subtitle animate-fade-up stagger-4 m-0 w-full max-w-2xl">
+            {content.hero.subtitle}
+          </p>
+
+          <p className="hs-hero__tags animate-fade-up stagger-4 m-0 w-full max-w-2xl" role="doc-subtitle">
+            {content.hero.treatmentTags}
+          </p>
+
+          <div className="hs-hero__actions animate-fade-up stagger-5 mt-1 w-full md:mt-2">
             <a
               href={content.whatsappHref}
               target="_blank"
