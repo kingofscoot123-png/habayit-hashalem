@@ -3,33 +3,41 @@
 import { HeroHouseMark } from "@/components/HeroHouseMark";
 import { content } from "@/content";
 
-const GOOGLE_RATING: number | null = null;
-const GOOGLE_REVIEWS_COUNT: number | null = null;
-
 const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
-const TAG_LINES = content.hero.treatmentTags
-  .split("|")
-  .map((part) => part.trim())
-  .filter(Boolean);
-
 /**
- * Split hero — family photo (visual left) + reference-inspired text stack (visual right).
- * All copy stays in HTML/CSS; photo has no overlaid text.
+ * Responsive split hero:
+ * - Mobile (<768): vertical 9:16 family photo on top + text card below
+ * - Desktop (≥768): landscape 16:9 family photo left + typographic stack right
+ * Photos stay clean (no burned-in text). Hierarchy follows the blue reference.
  */
 export function Hero() {
   return (
     <header id="top" dir="rtl" className="hs-hero hs-hero--split">
       <div className="hs-hero__split">
-        {/* Visual LEFT (LTR placement) — family photograph only */}
-        <div className="hs-hero__visual">
+        <div className="hs-hero__visual" aria-hidden={false}>
           <picture>
-            <source srcSet={content.hero.family} type="image/webp" />
+            {/* Mobile portrait */}
+            <source
+              media="(max-width: 767px)"
+              srcSet={content.hero.familyMobile}
+              type="image/webp"
+            />
+            <source
+              media="(max-width: 767px)"
+              srcSet={content.hero.familyMobileJpg}
+            />
+            {/* Desktop landscape */}
+            <source
+              media="(min-width: 768px)"
+              srcSet={content.hero.familyDesktop}
+              type="image/webp"
+            />
             <img
-              src={content.hero.familyJpg}
+              src={content.hero.familyDesktopJpg}
               alt={content.hero.familyAlt}
-              width={1600}
-              height={900}
+              width={1536}
+              height={864}
               className="hs-hero__photo-img"
               decoding="async"
               fetchPriority="high"
@@ -38,29 +46,19 @@ export function Hero() {
           <div className="hs-hero__visual-shade" aria-hidden="true" />
         </div>
 
-        {/* Visual RIGHT — typographic hierarchy inspired by the blue reference */}
         <div className="hs-hero__panel">
           <div className="hs-hero__copy hs-hero__copy--split">
             <div className="hs-hero__mark animate-fade-up stagger-2" aria-hidden="true">
               <HeroHouseMark className="hs-hero__house-mark" />
             </div>
 
-            <p className="hs-hero__brand-word animate-fade-up stagger-3">{content.hero.brand}</p>
+            <h1 className="hs-hero__brand-word animate-fade-up stagger-3">{content.hero.brand}</h1>
 
-            <h1 className="hs-hero__headline font-display animate-fade-up stagger-4">
-              {content.hero.titleLines.map((line, i) => (
-                <span key={line} className="hs-hero__headline-line">
-                  {line}
-                  {i < content.hero.titleLines.length - 1 ? <br /> : null}
-                </span>
-              ))}
-            </h1>
-
-            <p className="hs-hero__capsule animate-fade-up stagger-4">{content.hero.subtitle}</p>
+            <p className="hs-hero__capsule animate-fade-up stagger-4">{content.hero.serviceBadge}</p>
 
             <div className="hs-hero__heart-rule animate-fade-up stagger-5" aria-hidden="true">
               <span className="hs-hero__heart-rule__line" />
-              <span className="hs-hero__heart" title="">
+              <span className="hs-hero__heart">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                   <path
                     fill="currentColor"
@@ -71,11 +69,9 @@ export function Hero() {
               <span className="hs-hero__heart-rule__line" />
             </div>
 
-            <ul className="hs-hero__tag-lines animate-fade-up stagger-5">
-              {TAG_LINES.map((line) => (
-                <li key={line}>{line}</li>
-              ))}
-            </ul>
+            <p className="hs-hero__service-line animate-fade-up stagger-5">{content.hero.serviceLine}</p>
+
+            <p className="hs-hero__clinic-line animate-fade-up stagger-5">{content.hero.subtitle}</p>
 
             <div className="hs-hero__actions animate-fade-up stagger-5">
               <a
@@ -94,7 +90,7 @@ export function Hero() {
                     d="M12.04 2C6.58 2 2.15 6.43 2.15 11.89c0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.39a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.89-4.43 9.89-9.89C21.94 6.43 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.15.83.84-3.07-.2-.32a8.18 8.18 0 0 1-1.26-4.38c0-4.53 3.69-8.21 8.23-8.21 2.2 0 4.26.86 5.81 2.41a8.16 8.16 0 0 1 2.41 5.81c0 4.54-3.69 8.22-8.19 8.22z"
                   />
                 </svg>
-                לשיחת היכרות בוואטסאפ
+                שיחת היכרות בוואטסאפ
               </a>
               <a
                 href={content.phoneHref}
@@ -113,11 +109,6 @@ export function Hero() {
               >
                 {content.address}
               </a>
-              {GOOGLE_RATING != null && GOOGLE_REVIEWS_COUNT != null ? (
-                <span className="hs-hero__rating">
-                  דירוג {GOOGLE_RATING} בגוגל, {GOOGLE_REVIEWS_COUNT} ביקורות
-                </span>
-              ) : null}
 
               <div className="hs-hero__badges" aria-label="שיטות טיפול">
                 {TRUST_MARKS.map((mark) => (
