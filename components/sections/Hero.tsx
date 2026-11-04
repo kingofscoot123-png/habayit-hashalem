@@ -7,15 +7,16 @@ const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
  * Hero:
- * - Mobile: stacked — portrait photo on top (faces clear), text/CTAs below
+ * - Mobile: stacked — full family photo (no crop) on top, airy text/CTAs below
  * - Desktop: landscape photo left | typographic stack right (blue-ref structure)
- * Photos stay clean; no floating card over faces.
+ * Photos stay clean; emotional headline restored.
  */
 export function Hero() {
+  const headline = content.hero.titleLines.join(" ");
+
   return (
     <header id="top" dir="rtl" className="hs-hero hs-hero--split">
       <div className="hs-hero__split">
-        {/* Photo plane — absolute full cover on mobile; side panel on desktop */}
         <div className="hs-hero__visual">
           <picture>
             <source
@@ -45,16 +46,15 @@ export function Hero() {
           <div className="hs-hero__visual-shade" aria-hidden="true" />
         </div>
 
-        {/* Live typography / CTAs */}
         <div className="hs-hero__panel">
           <div className="hs-hero__overlay">
             <div className="hs-hero__overlay-top animate-fade-up stagger-2">
               <HeroHouseMark className="hs-hero__house-mark" />
-              <h1 className="hs-hero__brand-word">{content.hero.brand}</h1>
-              <p className="hs-hero__person-line">
-                <span>{content.person}</span>
-              </p>
+              <p className="hs-hero__brand-word">{content.hero.brand}</p>
+              <p className="hs-hero__person-line">{content.person}</p>
             </div>
+
+            <h1 className="hs-hero__headline animate-fade-up stagger-3">{headline}</h1>
 
             <div className="hs-hero__overlay-mid animate-fade-up stagger-4">
               <p className="hs-hero__capsule">{content.hero.serviceBadge}</p>
@@ -84,7 +84,7 @@ export function Hero() {
                   rel="noopener noreferrer"
                   className="hs-hero__btn hs-hero__btn--wa border border-[#C5A059]/70 shadow-xl"
                 >
-                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                     <path
                       fill="currentColor"
                       d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.48-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.21-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"
@@ -98,8 +98,14 @@ export function Hero() {
                 </a>
                 <a
                   href={content.phoneHref}
-                  className="hs-hero__btn hs-hero__btn--tel border border-[#C5A059]/50 bg-white/80 font-bold text-[#18181B] backdrop-blur-md"
+                  className="hs-hero__btn hs-hero__btn--tel border border-[#C5A059]/55 bg-white font-bold text-[#82152B]"
                 >
+                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                    <path
+                      fill="currentColor"
+                      d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z"
+                    />
+                  </svg>
                   להתקשר: {content.phoneDisplay}
                 </a>
               </div>
@@ -109,7 +115,7 @@ export function Hero() {
                   href={content.mapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hero-pill hs-hero__address inline-block rounded-full border border-[#C5A059]/55 bg-white/80 px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md backdrop-blur-md"
+                  className="hero-pill hs-hero__address inline-block rounded-full border border-[#C5A059]/55 bg-white px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md"
                 >
                   {content.address}
                 </a>
