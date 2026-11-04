@@ -77,7 +77,7 @@ export function Pain() {
     <section
       id="about"
       ref={sectionRef}
-      className={`pain-section mishpacha-canvas relative z-10 -mt-20 px-5 pt-4 pb-14 sm:px-6 sm:pb-16 lg:px-16 lg:pb-20 ${reduced ? "pain-static" : ""}`}
+      className={`pain-section mishpacha-canvas relative z-10 mt-0 px-5 pt-6 pb-14 sm:px-6 sm:pb-16 lg:px-16 lg:pb-20 ${reduced ? "pain-static" : ""}`}
     >
       <div
         className="card-glass content-shield mx-auto mb-6 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-5 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:mb-8 md:p-8"
