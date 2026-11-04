@@ -6,47 +6,35 @@ import { content } from "@/content";
 const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
- * Hero:
- * - Mobile: stacked — full family photo (no crop) on top, airy text/CTAs below
- * - Desktop: landscape photo left | typographic stack right (blue-ref structure)
- * Photos stay clean; emotional headline restored.
+ * Hero — blue-reference structure with brand colors:
+ * One full-bleed family photo. Live HTML text sits ON the photo
+ * (right on desktop, lower band on mobile) over a soft cream glow
+ * so copy stays readable without covering faces or cutting the family.
  */
 export function Hero() {
   const headline = content.hero.titleLines.join(" ");
 
   return (
-    <header id="top" dir="rtl" className="hs-hero hs-hero--split">
-      <div className="hs-hero__split">
-        <div className="hs-hero__visual">
-          <picture>
-            <source
-              media="(max-width: 767px)"
-              srcSet={content.hero.familyMobile}
-              type="image/webp"
-            />
-            <source
-              media="(max-width: 767px)"
-              srcSet={content.hero.familyMobileJpg}
-            />
-            <source
-              media="(min-width: 768px)"
-              srcSet={content.hero.familyDesktop}
-              type="image/webp"
-            />
-            <img
-              src={content.hero.familyDesktopJpg}
-              alt={content.hero.familyAlt}
-              width={1536}
-              height={864}
-              className="hs-hero__photo-img"
-              decoding="async"
-              fetchPriority="high"
-            />
-          </picture>
-          <div className="hs-hero__visual-shade" aria-hidden="true" />
-        </div>
+    <header id="top" dir="rtl" className="hs-hero hs-hero--onphoto">
+      <div className="hs-hero__stage">
+        <picture className="hs-hero__plate">
+          {/* Landscape family plate on all sizes — matches blue-ref side-by-side composition */}
+          <source srcSet={content.hero.familyDesktop} type="image/webp" />
+          <img
+            src={content.hero.familyDesktopJpg}
+            alt={content.hero.familyAlt}
+            width={1536}
+            height={864}
+            className="hs-hero__plate-img"
+            decoding="async"
+            fetchPriority="high"
+          />
+        </picture>
 
-        <div className="hs-hero__panel">
+        {/* Soft cream glow — blends like the reference white bloom, not a solid card */}
+        <div className="hs-hero__glow" aria-hidden="true" />
+
+        <div className="hs-hero__copy">
           <div className="hs-hero__overlay">
             <div className="hs-hero__overlay-top animate-fade-up stagger-2">
               <HeroHouseMark className="hs-hero__house-mark" />
@@ -115,7 +103,7 @@ export function Hero() {
                   href={content.mapsHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hero-pill hs-hero__address inline-block rounded-full border border-[#C5A059]/55 bg-white px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md"
+                  className="hero-pill hs-hero__address inline-block rounded-full border border-[#C5A059]/55 bg-white/90 px-4 py-1.5 text-sm font-bold text-[#82152B] shadow-md"
                 >
                   {content.address}
                 </a>
