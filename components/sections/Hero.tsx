@@ -6,9 +6,9 @@ import { content } from "@/content";
 const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
- * Hero — live HTML on the family photo:
- * - Mobile portrait: full scene (sky + whole family); copy high in sky; CTAs on ground
- * - Desktop landscape: copy on the bright right with soft cream glow
+ * Hero — blue-reference hierarchy (brand colors):
+ * house → brand → person → emotional headline → capsule → heart →
+ * service subtitles → CTAs. One cohesive stack on the family photo.
  */
 export function Hero() {
   const headline = content.hero.titleLines.join(" ");
@@ -70,7 +70,9 @@ export function Hero() {
                 <span className="hs-hero__heart-rule__line" />
               </div>
 
-              <p className="hs-hero__service-line">{content.hero.serviceLine}</p>
+              {/* Blue-ref subtitle pair */}
+              <p className="hs-hero__service-line">טיפול רגשי</p>
+              <p className="hs-hero__service-sub">לילדים, נוער ומבוגרים</p>
               <p className="hs-hero__clinic-line">{content.hero.subtitle}</p>
             </div>
 
