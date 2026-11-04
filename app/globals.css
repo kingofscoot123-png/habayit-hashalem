@@ -3526,12 +3526,13 @@ a.clinic-address {
   background: var(--brand-cream);
 }
 
-/* ——— Hero: desktop flex-row split | mobile stacked (photo then text) ——— */
+/* ——— Hero: desktop 16:9 split | mobile full-family photo (no crop) ——— */
 .hs-hero--split {
   position: relative;
-  height: auto;
-  min-height: 100svh;
-  overflow: hidden;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible;
   background:
     radial-gradient(ellipse 80% 55% at 78% 20%, rgba(197, 160, 89, 0.12), transparent 58%),
     linear-gradient(165deg, #faf5ef 0%, #f3eadc 52%, #efe4d2 100%);
@@ -3545,16 +3546,15 @@ a.clinic-address {
   flex-direction: row;
   align-items: stretch;
   width: 100%;
-  min-height: 100svh;
+  min-height: 0;
 }
 
 .hs-hero__visual {
   position: relative;
   flex: 1.15 1 0;
   min-width: 0;
-  min-height: 100svh;
   overflow: hidden;
-  background: #1f1417;
+  background: #f3eadc;
 }
 
 .hs-hero__visual picture {
@@ -3564,31 +3564,32 @@ a.clinic-address {
 .hs-hero__photo-img {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 16% 40%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .hs-hero__visual-shade {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(90deg, transparent 58%, rgba(250, 245, 239, 0.28) 100%),
-    linear-gradient(180deg, rgba(42, 24, 28, 0.04) 0%, transparent 40%, rgba(42, 24, 28, 0.1) 100%);
+  background: linear-gradient(90deg, transparent 62%, rgba(250, 245, 239, 0.35) 100%);
 }
 
 .hs-hero__panel {
   direction: rtl;
   position: relative;
   z-index: 2;
-  flex: 0.95 1 0;
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(5rem, 8vh, 6.5rem) clamp(1.4rem, 3.2vw, 3.25rem) clamp(1.8rem, 4vh, 2.8rem);
-  background: transparent;
+  padding: clamp(4.5rem, 7vh, 6rem) clamp(1.25rem, 3vw, 3rem) clamp(1.75rem, 4vh, 2.75rem);
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 18%, rgba(197, 160, 89, 0.12), transparent 60%),
+    linear-gradient(165deg, #faf5ef 0%, #f3eadc 52%, #efe4d2 100%);
 }
 
 .hs-hero__overlay {
@@ -3596,9 +3597,9 @@ a.clinic-address {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
   width: 100%;
-  max-width: 32rem;
+  max-width: 34rem;
   margin-inline: auto;
   text-align: center;
 }
@@ -3617,13 +3618,12 @@ a.clinic-address {
 }
 
 .hs-hero__overlay-mid {
-  gap: 0.42rem;
-  margin-top: 0.1rem;
+  gap: 0.55rem;
 }
 
 .hs-hero__overlay-bottom {
-  gap: 0.6rem;
-  margin-top: 0.3rem;
+  gap: 0.75rem;
+  margin-top: 0.2rem;
 }
 
 .hs-hero__house-mark {
@@ -3632,23 +3632,38 @@ a.clinic-address {
   filter: drop-shadow(0 10px 18px rgba(130, 21, 43, 0.16));
 }
 
+body.studio-body .hs-hero__brand-word,
 .hs-hero__brand-word {
   margin: 0;
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
-  font-size: clamp(2.45rem, 4.4vw, 3.75rem);
+  font-size: clamp(2.35rem, 4.2vw, 3.55rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
-  color: #82152b;
+  color: #82152b !important;
 }
 
+body.studio-body .hs-hero__person-line,
 .hs-hero__person-line {
   margin: 0;
   font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: clamp(0.95rem, 1.3vw, 1.12rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #c5a059;
+  color: #c5a059 !important;
+}
+
+body.studio-body .hs-hero__headline,
+.hs-hero__headline {
+  margin: 0.35rem 0 0.15rem;
+  max-width: 22ch;
+  font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #82152b !important;
+  text-wrap: balance;
 }
 
 .hs-hero__capsule {
@@ -3657,7 +3672,7 @@ a.clinic-address {
   align-items: center;
   justify-content: center;
   max-width: 100%;
-  padding: 0.7rem 1.5rem;
+  padding: 0.72rem 1.55rem;
   border-radius: 999px;
   border: 2px solid #c5a059;
   background: linear-gradient(180deg, #8f1a32 0%, #82152b 55%, #6e1225 100%);
@@ -3698,16 +3713,18 @@ a.clinic-address {
   display: block;
 }
 
+body.studio-body .hs-hero__service-line,
 .hs-hero__service-line {
   margin: 0;
   font-family: var(--font-assistant), Assistant, Arial, sans-serif;
   font-size: clamp(1.12rem, 1.8vw, 1.35rem);
   font-weight: 800;
   line-height: 1.4;
-  color: #5c1220;
+  color: #5c1220 !important;
   text-wrap: balance;
 }
 
+body.studio-body .hs-hero__clinic-line,
 .hs-hero__clinic-line {
   margin: 0;
   max-width: 28rem;
@@ -3715,7 +3732,7 @@ a.clinic-address {
   font-size: clamp(0.9rem, 1.2vw, 1.02rem);
   font-weight: 600;
   line-height: 1.5;
-  color: rgba(92, 18, 32, 0.8);
+  color: rgba(92, 18, 32, 0.8) !important;
   text-wrap: balance;
 }
 
@@ -3723,8 +3740,33 @@ a.clinic-address {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.7rem;
+  gap: 0.85rem;
   width: 100%;
+}
+
+.hs-hero--split .hs-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 58px;
+  padding-inline: 1.55rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-radius: 999px;
+}
+
+.hs-hero--split .hs-hero__btn--wa {
+  min-width: min(100%, 22rem);
+  box-shadow: 0 16px 32px -16px rgba(130, 21, 43, 0.55);
+}
+
+.hs-hero--split .hs-hero__btn--tel {
+  min-width: min(100%, 20rem);
+  color: #82152b !important;
+  background: #fff !important;
+  border-width: 2px !important;
+  box-shadow: 0 12px 28px -18px rgba(130, 21, 43, 0.35);
 }
 
 .hs-hero--split .hs-hero__trust {
@@ -3742,15 +3784,15 @@ a.clinic-address {
 }
 
 /*
- * Mobile: stacked layout — photo on top (faces fully visible),
- * text/CTAs in a cream panel BELOW. No floating centered card on faces.
+ * Mobile: stacked — FULL family photo (no crop), then airy text stack.
+ * Natural / contain framing so parents + children stay fully visible.
  */
 @media (max-width: 767px) {
   .hs-hero--split {
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
-    overflow: visible;
+    overflow: visible !important;
     background: #faf5ef !important;
   }
 
@@ -3768,30 +3810,27 @@ a.clinic-address {
     width: 100%;
     height: auto;
     min-height: 0;
-    max-height: none;
-    /* Portrait frame — faces stay in view, no mid-screen cut by text */
-    aspect-ratio: 4 / 5;
-    max-height: min(52svh, 460px);
+    max-height: none !important;
+    aspect-ratio: auto;
+    background: #f3eadc;
     z-index: 0;
+    overflow: visible;
   }
 
   .hs-hero__photo-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 18%;
+    position: static !important;
+    inset: auto !important;
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    /* Never crop — show all four family members at natural portrait size */
+    object-fit: contain !important;
+    object-position: top center !important;
   }
 
   .hs-hero__visual-shade {
-    /* Soft bottom fade only — never a box over faces */
-    background: linear-gradient(
-      180deg,
-      transparent 72%,
-      rgba(250, 245, 239, 0.55) 88%,
-      #faf5ef 100%
-    );
+    display: none;
   }
 
   .hs-hero__panel {
@@ -3802,7 +3841,7 @@ a.clinic-address {
     height: auto;
     min-height: 0;
     align-items: flex-start;
-    padding: 0.35rem 1.15rem calc(1.6rem + env(safe-area-inset-bottom, 0px));
+    padding: 1.35rem 1.25rem calc(2rem + env(safe-area-inset-bottom, 0px));
     background: #faf5ef;
   }
 
@@ -3810,83 +3849,71 @@ a.clinic-address {
     height: auto;
     max-width: 36rem;
     justify-content: flex-start;
-    gap: 0.7rem;
+    gap: 1rem;
     padding: 0;
   }
 
   .hs-hero__overlay-top {
-    gap: 0.2rem;
+    gap: 0.28rem;
   }
 
   .hs-hero__overlay-mid {
-    margin-top: 0;
-    margin-bottom: 0;
-    gap: 0.38rem;
-    padding: 0;
-    border-radius: 0;
-    background: transparent;
-    border: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    box-shadow: none;
+    gap: 0.55rem;
   }
 
   .hs-hero__overlay-bottom {
-    margin-top: 0.15rem;
-    gap: 0.5rem;
+    gap: 0.7rem;
   }
 
   .hs-hero__house-mark {
-    width: 2.85rem;
-    filter: drop-shadow(0 8px 14px rgba(130, 21, 43, 0.14));
+    width: 3rem;
   }
 
   .hs-hero__brand-word {
-    font-size: clamp(2.05rem, 8.6vw, 2.55rem);
-    color: #82152b;
-    text-shadow: none;
+    font-size: clamp(2.1rem, 8.6vw, 2.55rem);
   }
 
   .hs-hero__person-line {
-    font-size: 0.95rem;
-    color: #c5a059;
-    text-shadow: none;
+    font-size: 1rem;
+  }
+
+  .hs-hero__headline {
+    margin-top: 0.35rem;
+    max-width: 18ch;
+    font-size: clamp(1.28rem, 5.4vw, 1.5rem);
   }
 
   .hs-hero__capsule {
-    padding: 0.58rem 1.2rem;
-    font-size: clamp(0.95rem, 3.6vw, 1.06rem);
-    border-width: 1.5px;
+    padding: 0.68rem 1.35rem;
+    font-size: clamp(1rem, 3.8vw, 1.1rem);
   }
 
   .hs-hero__service-line {
-    font-size: clamp(1.05rem, 4vw, 1.18rem);
-    color: #5c1220;
+    font-size: clamp(1.1rem, 4.2vw, 1.22rem);
   }
 
   .hs-hero__clinic-line {
-    font-size: clamp(0.84rem, 3.2vw, 0.94rem);
+    font-size: clamp(0.9rem, 3.4vw, 0.98rem);
   }
 
   .hs-hero--split .hs-hero__actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.45rem;
+    gap: 0.7rem;
   }
 
   .hs-hero--split .hs-hero__btn {
     width: 100%;
     max-width: none;
-    min-height: 46px;
-    font-size: 1rem;
+    min-width: 0;
+    min-height: 58px;
+    font-size: 1.08rem;
+    gap: 0.6rem;
   }
 
   .hs-hero--split .hs-hero__btn--tel {
-    background: #fff !important;
-  }
-
-  .hs-hero--split .hs-hero__trust {
-    gap: 0.4rem;
+    min-height: 56px;
+    font-size: 1.06rem;
   }
 
   .hs-hero--split .hs-hero__badges {
@@ -3894,39 +3921,73 @@ a.clinic-address {
   }
 }
 
+/*
+ * Desktop: two-column blue-ref structure.
+ * Left column is a full-bleed photo plane; object-fit:contain keeps
+ * parents + children fully visible even when the text column is taller.
+ */
 @media (min-width: 768px) {
   .hs-hero--split {
-    height: 100svh;
-    min-height: 100svh;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden;
   }
 
   .hs-hero__split {
-    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+    align-items: stretch;
+    min-height: min(100svh, 860px);
   }
 
   .hs-hero__visual {
-    height: 100%;
+    position: relative;
+    flex: none;
+    width: 100%;
     min-height: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    align-self: stretch;
+    overflow: hidden;
+    background: #efe4d2;
+  }
+
+  .hs-hero__photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /*
+     * Full-bleed left column: cover fills height (no head/kid crop on the
+     * landscape asset); left-bias keeps the family, crops empty sky/land.
+     */
+    object-fit: cover;
+    object-position: left center;
+  }
+
+  .hs-hero__visual-shade {
+    background: linear-gradient(90deg, transparent 55%, rgba(250, 245, 239, 0.45) 100%);
   }
 
   .hs-hero__panel {
-    background:
-      radial-gradient(ellipse 80% 55% at 50% 18%, rgba(197, 160, 89, 0.12), transparent 60%),
-      linear-gradient(165deg, #faf5ef 0%, #f3eadc 52%, #efe4d2 100%);
+    flex: none;
+    width: 100%;
+    min-height: 100%;
+    align-self: stretch;
   }
 }
 
 @media (min-width: 768px) and (max-width: 1100px) {
-  .hs-hero__photo-img {
-    object-position: 22% 40%;
-  }
-
   .hs-hero__panel {
-    padding-block: 4.5rem 2rem;
+    padding-block: 4.25rem 2rem;
   }
 
   .hs-hero__brand-word {
-    font-size: clamp(2.1rem, 3.8vw, 2.9rem);
+    font-size: clamp(2.05rem, 3.6vw, 2.75rem);
+  }
+
+  .hs-hero__headline {
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
   }
 }
 
