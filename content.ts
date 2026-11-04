@@ -23,11 +23,14 @@ export const content = {
     titleLines: ["חוזרים לקרבה", "שהייתה לפני", "שהשיחות נשברו"],
     badge: "מיכאל מרום, מטפל בכיר זוגי ורגשי מוסמך, מאסטר טריינר NLP",
     trust: "13 שנות קליניקה בראש העין",
-    familyAlt: "משפחה מאושרת יחד — קרבה, חיבוק ואור זהוב",
+    familyAlt: "משפחה מאושרת יחד — קרבה, חיבוק ואור זהוב בשקיעה",
     familyDesktop: asset("/images/hero-family-desktop.webp"),
     familyDesktopJpg: asset("/images/hero-family-desktop.jpg"),
     familyMobile: asset("/images/hero-family-mobile.webp"),
     familyMobileJpg: asset("/images/hero-family-mobile.jpg"),
+    /** Full portrait plate — sky above, whole family below (preferred mobile hero). */
+    familyPortrait: asset("/images/hero-family-portrait.webp"),
+    familyPortraitJpg: asset("/images/hero-family-portrait.jpg"),
     /** @deprecated kept for older references */
     family: asset("/images/hero-family-desktop.webp"),
     familyJpg: asset("/images/hero-family-desktop.jpg"),

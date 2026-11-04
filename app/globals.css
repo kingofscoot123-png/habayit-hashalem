@@ -3533,11 +3533,12 @@ a.clinic-address {
  */
 .hs-hero--onphoto {
   position: relative;
+  z-index: 1;
   height: auto !important;
-  min-height: 100svh !important;
+  min-height: 0 !important;
   max-height: none !important;
   overflow: hidden;
-  background: #efe4d2;
+  background: #1a0f12;
   color: #82152b;
 }
 
@@ -3548,8 +3549,9 @@ a.clinic-address {
   align-items: stretch;
   justify-content: flex-end;
   width: 100%;
-  min-height: 100svh;
+  min-height: 0;
   overflow: hidden;
+  background: #1a0f12;
 }
 
 .hs-hero__plate {
@@ -3575,12 +3577,11 @@ a.clinic-address {
   max-width: none !important;
   max-height: none !important;
   object-fit: cover !important;
-  /* Keep the full family cluster on the left of the landscape plate */
   object-position: left center;
   border-radius: 0 !important;
 }
 
-/* Soft cream bloom — mirrors the reference’s bright right-side wash */
+/* Soft cream bloom — desktop: bright right wash; mobile overrides to top sky */
 .hs-hero__glow {
   position: absolute;
   inset: 0;
@@ -3805,124 +3806,143 @@ body.studio-body .hs-hero__clinic-line,
   gap: 0.45rem;
 }
 
-/* Mobile: reserved upper photo band for family; copy only in lower bloom */
+/*
+ * Mobile: true portrait plate (matches the new photo 768×1376).
+ * Full sky + whole seated family visible. Copy pinned high in the sky.
+ */
 @media (max-width: 767px) {
   .hs-hero--onphoto {
-    min-height: 100svh !important;
-    height: 100svh !important;
+    height: auto !important;
+    min-height: 0 !important;
     max-height: none !important;
     overflow: hidden;
   }
 
   .hs-hero__stage {
-    min-height: 100svh;
-    height: 100svh;
-    display: grid;
-    grid-template-rows: minmax(42vh, 1.25fr) auto;
-    align-items: stretch;
-    justify-content: stretch;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    /* Exact portrait ratio of the new family plate — no face-zoom crop */
+    aspect-ratio: 768 / 1376;
+    max-height: none;
   }
 
   .hs-hero__plate-img {
     object-fit: cover !important;
-    /*
-     * Lift the family cluster (parents + kids) into the clear upper band
-     * so faces aren't sitting under the cream copy bloom.
-     */
-    object-position: 16% 58% !important;
+    object-position: center center !important;
   }
 
   .hs-hero__glow {
+    /* Sky wash (top) + soft ground wash (bottom); mid family stays clear */
     background:
       linear-gradient(180deg,
-        rgba(250, 245, 239, 0) 0%,
-        rgba(250, 245, 239, 0) 38%,
-        rgba(250, 245, 239, 0.28) 52%,
-        rgba(250, 245, 239, 0.78) 66%,
-        rgba(250, 245, 239, 0.95) 100%);
+        rgba(250, 245, 239, 0.78) 0%,
+        rgba(250, 245, 239, 0.5) 12%,
+        rgba(250, 245, 239, 0.16) 24%,
+        rgba(250, 245, 239, 0) 36%,
+        rgba(250, 245, 239, 0) 72%,
+        rgba(250, 245, 239, 0.35) 86%,
+        rgba(250, 245, 239, 0.72) 100%);
   }
 
   .hs-hero__copy {
-    grid-row: 2;
+    position: absolute;
+    inset: 0;
     width: 100%;
     max-width: none;
     margin: 0;
-    align-items: flex-end;
-    padding: 0.35rem 1.1rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+    align-items: stretch;
+    justify-content: flex-start;
+    padding:
+      calc(4rem + env(safe-area-inset-top, 0px))
+      1.15rem
+      calc(0.85rem + env(safe-area-inset-bottom, 0px));
+    pointer-events: none;
   }
 
   .hs-hero__overlay {
-    gap: 0.4rem;
+    height: 100%;
+    gap: 0.28rem;
     padding-top: 0;
     max-width: 36rem;
+    margin-inline: auto;
+    justify-content: flex-start;
   }
 
   .hs-hero__overlay-top {
-    gap: 0.08rem;
+    gap: 0.04rem;
   }
 
   .hs-hero__overlay-mid {
-    gap: 0.28rem;
+    gap: 0.18rem;
   }
 
+  /* CTAs dock on the ground strip — family faces stay open in the middle */
   .hs-hero__overlay-bottom {
-    gap: 0.4rem;
+    gap: 0.34rem;
+    margin-top: auto;
+    width: 100%;
   }
 
-  .hs-hero__house-mark {
-    display: none;
+  .hs-hero__overlay-top,
+  .hs-hero__overlay-mid,
+  .hs-hero__overlay-bottom,
+  .hs-hero__headline {
+    pointer-events: auto;
+  }
+
+  /* Sky band only — keep stack short so faces stay clear */
+  .hs-hero__house-mark,
+  .hs-hero__heart-rule,
+  body.studio-body .hs-hero__service-line,
+  .hs-hero__service-line,
+  body.studio-body .hs-hero__clinic-line,
+  .hs-hero__clinic-line {
+    display: none !important;
   }
 
   body.studio-body .hs-hero__brand-word,
   .hs-hero__brand-word {
-    font-size: clamp(1.55rem, 6.5vw, 1.9rem);
+    font-size: clamp(1.45rem, 6vw, 1.75rem);
   }
 
   body.studio-body .hs-hero__person-line,
   .hs-hero__person-line {
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
   body.studio-body .hs-hero__headline,
   .hs-hero__headline {
-    margin-top: 0.05rem;
+    margin-top: 0.02rem;
     max-width: 18ch;
-    font-size: clamp(1rem, 4.1vw, 1.14rem);
+    font-size: clamp(0.95rem, 3.8vw, 1.08rem);
   }
 
   body.studio-body .hs-hero__capsule,
   .hs-hero__capsule {
-    padding: 0.42rem 0.95rem;
-    font-size: clamp(0.84rem, 3.2vw, 0.94rem);
-  }
-
-  body.studio-body .hs-hero__service-line,
-  .hs-hero__service-line {
-    font-size: clamp(0.88rem, 3.3vw, 0.98rem);
-  }
-
-  /* Keep mobile band short so faces stay clear above */
-  body.studio-body .hs-hero__clinic-line,
-  .hs-hero__clinic-line {
-    display: none;
+    padding: 0.38rem 0.85rem;
+    font-size: clamp(0.8rem, 3vw, 0.9rem);
   }
 
   .hs-hero--onphoto .hs-hero__actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.38rem;
+    gap: 0.34rem;
   }
 
   .hs-hero--onphoto .hs-hero__btn {
     width: 100%;
     max-width: none;
     min-width: 0;
-    min-height: 44px;
-    font-size: 0.95rem;
+    min-height: 42px;
+    font-size: 0.94rem;
+    pointer-events: auto;
   }
 
   .hs-hero--onphoto .hs-hero__btn--tel {
-    min-height: 42px;
+    min-height: 40px;
   }
 
   .hs-hero--onphoto .hs-hero__badges,
@@ -6986,8 +7006,8 @@ span.hero-pill.hs-hero__cred,
   }
 
   .hs-hero--onphoto {
-    height: 100svh !important;
-    min-height: 100svh !important;
+    height: auto !important;
+    min-height: 0 !important;
     max-height: none !important;
     background: #efe4d2 !important;
   }
@@ -7019,7 +7039,7 @@ span.hero-pill.hs-hero__cred,
   }
 
   .pain-section {
-    margin-top: -3.5rem;
+    margin-top: 0;
   }
 
   .cookie-bar {

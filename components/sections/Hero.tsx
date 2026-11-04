@@ -6,10 +6,9 @@ import { content } from "@/content";
 const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
- * Hero — blue-reference structure with brand colors:
- * One full-bleed family photo. Live HTML text sits ON the photo
- * (right on desktop, lower band on mobile) over a soft cream glow
- * so copy stays readable without covering faces or cutting the family.
+ * Hero — live HTML on the family photo:
+ * - Mobile portrait: full scene (sky + whole family); copy high in sky; CTAs on ground
+ * - Desktop landscape: copy on the bright right with soft cream glow
  */
 export function Hero() {
   const headline = content.hero.titleLines.join(" ");
@@ -18,8 +17,20 @@ export function Hero() {
     <header id="top" dir="rtl" className="hs-hero hs-hero--onphoto">
       <div className="hs-hero__stage">
         <picture className="hs-hero__plate">
-          {/* Landscape family plate on all sizes — matches blue-ref side-by-side composition */}
-          <source srcSet={content.hero.familyDesktop} type="image/webp" />
+          <source
+            media="(max-width: 767px)"
+            srcSet={content.hero.familyPortrait}
+            type="image/webp"
+          />
+          <source
+            media="(max-width: 767px)"
+            srcSet={content.hero.familyPortraitJpg}
+          />
+          <source
+            media="(min-width: 768px)"
+            srcSet={content.hero.familyDesktop}
+            type="image/webp"
+          />
           <img
             src={content.hero.familyDesktopJpg}
             alt={content.hero.familyAlt}
@@ -31,7 +42,6 @@ export function Hero() {
           />
         </picture>
 
-        {/* Soft cream glow — blends like the reference white bloom, not a solid card */}
         <div className="hs-hero__glow" aria-hidden="true" />
 
         <div className="hs-hero__copy">
