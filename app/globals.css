@@ -3739,7 +3739,7 @@ body.studio-body .hs-hero__capsule,
   display: block;
 }
 
-/* Cohesive mid stack — blue-ref, no boxed card */
+/* Cohesive mid stack — blue-ref soft bloom (not a boxed card) */
 .hs-hero__midstack {
   position: relative;
   z-index: 2;
@@ -3750,6 +3750,22 @@ body.studio-body .hs-hero__capsule,
   width: 100%;
   max-width: 28rem;
   margin-top: 0.15rem;
+}
+
+.hs-hero__midstack::before {
+  content: "";
+  position: absolute;
+  inset: -18% -12% -14%;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 48% 48% 42% 42%;
+  background: radial-gradient(
+    ellipse 72% 68% at 50% 42%,
+    rgba(255, 252, 247, 0.9) 0%,
+    rgba(250, 245, 239, 0.72) 42%,
+    rgba(250, 245, 239, 0.28) 68%,
+    rgba(250, 245, 239, 0) 82%
+  );
 }
 
 .hs-hero__service-block {
@@ -3956,7 +3972,12 @@ body.studio-body .hs-hero__clinic-line,
 
   .hs-hero__midstack {
     gap: 0.38rem;
-    margin-top: 0.2rem;
+    /* Drop mid stack onto torso so faces stay in the open band */
+    margin-top: clamp(2.4rem, 12vw, 4.2rem);
+  }
+
+  .hs-hero__midstack::before {
+    inset: -22% -14% -16%;
   }
 
   .hs-hero__heart-rule {
