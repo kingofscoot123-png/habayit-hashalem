@@ -14,11 +14,13 @@ const flow = ["now", "how", "result"] as const;
 const HOUSE_STAGES = 5;
 
 /**
- * במה אני מטפל — 4 cards + house builds in 5 stages on scroll (pin scrub).
+ * במה אני מטפל — N cards on scroll (pin scrub).
+ * Progress dots follow cards; house build maps onto the same steps.
  * Full copy opens on tap so scroll never fights reading.
  */
 export function Treat() {
   const items = content.treat.items;
+  const cardCount = items.length;
   const sectionRef = useRef<HTMLElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const pinActiveRef = useRef(false);
@@ -101,7 +103,7 @@ export function Treat() {
       setHouse(0);
       fitStage();
 
-      const perStep = Math.round(window.innerHeight * (mobile ? 1.05 : 1.35));
+      const perStep = Math.round(window.innerHeight * (mobile ? 0.85 : 1.05));
       const slot = 2;
       const pinTarget = pinEl || section;
 
@@ -125,10 +127,11 @@ export function Treat() {
             if (detailOpenRef.current) return;
             const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
             if (idx !== stageRef.current) setStep(idx);
-            const hIdx = Math.min(
-              HOUSE_STAGES - 1,
-              Math.floor(self.progress * HOUSE_STAGES + 0.001),
-            );
+            // Keep house in lockstep with cards (last card = complete house).
+            const hIdx =
+              cards.length <= 1
+                ? HOUSE_STAGES - 1
+                : Math.round((idx / (cards.length - 1)) * (HOUSE_STAGES - 1));
             if (hIdx !== houseRef.current) setHouse(hIdx);
           },
         },
@@ -149,7 +152,7 @@ export function Treat() {
           at,
         );
       });
-      tl.to({}, { duration: 0.75 }, (cards.length - 1) * slot + 1);
+      tl.to({}, { duration: 0.35 }, (cards.length - 1) * slot + 1);
     }, section);
 
     return () => {
@@ -180,8 +183,8 @@ export function Treat() {
           <div className="treat-scroll__house treat-scroll__house--shared relative w-full text-center" aria-hidden="true">
             <TreatHouse stage={houseStage} />
             <ol className="treat-scroll__progress treat-scroll__progress--house" aria-hidden="true">
-              {Array.from({ length: HOUSE_STAGES }, (_, pi) => (
-                <li key={pi} className={pi === houseStage ? "is-on" : pi < houseStage ? "is-done" : ""}>
+              {Array.from({ length: cardCount }, (_, pi) => (
+                <li key={pi} className={pi === stage ? "is-on" : pi < stage ? "is-done" : ""}>
                   <span>{String(pi + 1).padStart(2, "0")}</span>
                 </li>
               ))}

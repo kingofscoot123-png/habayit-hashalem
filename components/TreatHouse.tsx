@@ -194,51 +194,10 @@ export function TreatHouse({ stage }: TreatHouseProps) {
             />
           </g>
 
-          {/* 5 — Complete: chimney + organic vine + gold accent */}
+          {/* 5 — Complete: clean chimney + soft gold peak (no flourish / horn) */}
           <g data-build="5" className="treat-house__finale">
             <rect x={cx - 10} y={peakY + 14} width="20" height="32" rx="2" fill="#5C1220" opacity="0.95" />
             <rect x={cx - 14} y={peakY + 8} width="28" height="8" rx="2" fill="#82152B" />
-            <path
-              d={`M${cx - 6} ${peakY + 8} Q${cx - 18} ${peakY - 6} ${cx - 4} ${peakY - 14} Q${cx + 8} ${peakY - 4} ${cx + 4} ${peakY + 8}`}
-              fill="rgba(197,160,89,0.35)"
-              stroke="#C5A059"
-              strokeWidth="1.2"
-              opacity="0.85"
-            />
-            {/* Organic vine / leaf on the right wall */}
-            <path
-              d={`M${wallX + wallW - 8} ${baseY - 24}
-                  C${wallX + wallW + 18} ${baseY - 70},
-                   ${wallX + wallW + 10} ${wallTop + 40},
-                   ${wallX + wallW - 6} ${wallTop + 18}
-                  C${wallX + wallW + 22} ${wallTop + 50},
-                   ${wallX + wallW + 28} ${baseY - 90},
-                   ${wallX + wallW - 4} ${baseY - 40}`}
-              fill="none"
-              stroke="#82152B"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              opacity="0.72"
-            />
-            <ellipse
-              cx={wallX + wallW + 10}
-              cy={wallTop + 48}
-              rx="7"
-              ry="11"
-              fill="#82152B"
-              opacity="0.55"
-              transform={`rotate(-28 ${wallX + wallW + 10} ${wallTop + 48})`}
-            />
-            <ellipse
-              cx={wallX + wallW + 16}
-              cy={baseY - 78}
-              rx="6"
-              ry="10"
-              fill="#9E1B32"
-              opacity="0.5"
-              transform={`rotate(18 ${wallX + wallW + 16} ${baseY - 78})`}
-            />
-            {/* Gold luxury rim on roof peak */}
             <circle
               cx={cx}
               cy={peakY + 4}
