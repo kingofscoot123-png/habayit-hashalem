@@ -70,9 +70,11 @@ export function Hero() {
                 <span className="hs-hero__heart-rule__line" />
               </div>
 
-              {/* Blue-ref subtitle pair */}
-              <p className="hs-hero__service-line">טיפול רגשי</p>
-              <p className="hs-hero__service-sub">לילדים, נוער ומבוגרים</p>
+              {/* Blue-ref subtitle pair — soft plate keeps contrast on the photo */}
+              <div className="hs-hero__service-block">
+                <p className="hs-hero__service-line">טיפול רגשי</p>
+                <p className="hs-hero__service-sub">לילדים, נוער ומבוגרים</p>
+              </div>
               <p className="hs-hero__clinic-line">{content.hero.subtitle}</p>
             </div>
 
