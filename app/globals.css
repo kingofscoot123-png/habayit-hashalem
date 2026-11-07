@@ -1118,7 +1118,10 @@ a.clinic-address {
   width: 72px;
   height: 2px;
   margin: 12px auto 0;
-  background: linear-gradient(90deg, var(--burgundy), var(--gold));
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--burgundy), var(--gold), var(--burgundy));
+  background-size: 200% 100%;
+  animation: lux-rule-shimmer 5.5s ease-in-out infinite;
 }
 
 .about-section .section-title-rule::after {
@@ -3736,37 +3739,55 @@ body.studio-body .hs-hero__capsule,
   display: block;
 }
 
+.hs-hero__sky {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.42rem;
+  width: 100%;
+}
+
+.hs-hero__face-window {
+  display: none;
+}
+
+.hs-hero__couple-chip {
+  display: none;
+  margin: 0;
+  font-family: var(--font-assistant), Assistant, Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: #f3e0b8;
+  text-shadow: 0 1px 2px rgba(26, 15, 18, 0.55);
+}
+
+/* Transparent service lines — readable via soft halo, never a face-blocking plate */
 .hs-hero__service-block {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  margin-top: 0.15rem;
-  padding: 0.55rem 1.25rem 0.62rem;
-  border-radius: 0.95rem;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 252, 247, 0.92) 0%,
-    rgba(250, 244, 234, 0.82) 100%
-  );
-  border: 1px solid rgba(197, 160, 89, 0.38);
-  box-shadow:
-    0 10px 28px rgba(92, 18, 32, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  gap: 0.12rem;
+  margin-top: 0.1rem;
+  padding: 0.15rem 0.35rem;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 body.studio-body .hs-hero__service-line,
 .hs-hero__service-line {
   margin: 0;
   font-family: var(--font-heebo), Heebo, "Clash Display", Arial, sans-serif;
-  font-size: clamp(1.2rem, 1.9vw, 1.48rem);
+  font-size: clamp(1.18rem, 1.85vw, 1.42rem);
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: #3d0c16 !important;
-  text-shadow: none;
+  text-shadow:
+    0 1px 0 rgba(255, 252, 247, 0.95),
+    0 0 14px rgba(250, 245, 239, 0.9),
+    0 0 28px rgba(250, 245, 239, 0.7);
   text-wrap: balance;
 }
 
@@ -3774,11 +3795,14 @@ body.studio-body .hs-hero__service-sub,
 .hs-hero__service-sub {
   margin: 0;
   font-family: var(--font-assistant), Assistant, Arial, sans-serif;
-  font-size: clamp(0.98rem, 1.4vw, 1.14rem);
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
   font-weight: 800;
   line-height: 1.35;
   color: #5c1220 !important;
-  text-shadow: none;
+  text-shadow:
+    0 1px 0 rgba(255, 252, 247, 0.92),
+    0 0 12px rgba(250, 245, 239, 0.85),
+    0 0 24px rgba(250, 245, 239, 0.65);
   text-wrap: balance;
 }
 
@@ -3842,9 +3866,8 @@ body.studio-body .hs-hero__clinic-line,
 }
 
 /*
- * Mobile: blue-ref stack as one unit in the sky —
- * house → brand → headline → capsule → heart → subtitles → CTAs.
- * Family stays clear below the stack.
+ * Mobile faces-open layout:
+ * sky band (brand + service) · clear face window · bottom CTAs.
  */
 @media (max-width: 767px) {
   .hs-hero--onphoto {
@@ -3866,61 +3889,93 @@ body.studio-body .hs-hero__clinic-line,
 
   .hs-hero__plate-img {
     object-fit: cover !important;
-    object-position: center center !important;
+    object-position: center 42% !important;
   }
 
+  /* Soft sky wash + soft bottom for CTAs; mid stays open for faces */
   .hs-hero__glow {
     background:
       linear-gradient(180deg,
-        rgba(250, 245, 239, 0.88) 0%,
-        rgba(250, 245, 239, 0.72) 28%,
-        rgba(250, 245, 239, 0.35) 48%,
-        rgba(250, 245, 239, 0.08) 62%,
-        rgba(250, 245, 239, 0) 78%);
+        rgba(250, 245, 239, 0.78) 0%,
+        rgba(250, 245, 239, 0.42) 14%,
+        rgba(250, 245, 239, 0.08) 24%,
+        rgba(250, 245, 239, 0) 34%,
+        rgba(250, 245, 239, 0) 58%,
+        rgba(26, 15, 18, 0.28) 76%,
+        rgba(26, 15, 18, 0.55) 100%);
+  }
+
+  .hs-hero__face-window {
+    display: block;
+    position: absolute;
+    inset-inline: 0;
+    top: 34%;
+    height: 36%;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 78% 70% at 50% 48%,
+      rgba(250, 245, 239, 0) 0%,
+      rgba(250, 245, 239, 0) 55%,
+      rgba(250, 245, 239, 0.04) 100%
+    );
   }
 
   .hs-hero__copy {
     position: absolute;
-    top: 0;
-    inset-inline: 0;
-    bottom: auto;
+    inset: 0;
     width: 100%;
     max-width: none;
-    height: auto;
+    height: 100%;
     margin: 0;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding:
-      calc(3.85rem + env(safe-area-inset-top, 0px))
-      1.1rem
-      0;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
     pointer-events: none;
   }
 
   .hs-hero__overlay {
-    height: auto;
-    gap: 0.32rem;
-    padding: 0.1rem 0.25rem 0.15rem;
-    max-width: 36rem;
-    margin-inline: auto;
+    position: relative;
+    height: 100%;
+    gap: 0;
+    padding: 0;
+    max-width: none;
+    margin: 0;
     justify-content: flex-start;
   }
 
+  /* Pin sky to top, CTAs to bottom — mid stays an open face window */
+  .hs-hero__sky {
+    position: absolute;
+    top: calc(3.4rem + env(safe-area-inset-top, 0px));
+    inset-inline: 1.05rem;
+    gap: 0.14rem;
+    max-width: 22rem;
+    margin-inline: auto;
+    z-index: 2;
+  }
+
   .hs-hero__overlay-top {
-    gap: 0.08rem;
+    gap: 0.04rem;
   }
 
   .hs-hero__overlay-mid {
-    gap: 0.24rem;
+    gap: 0.14rem;
   }
 
-  /* CTAs stay in the same stack — not stranded at the bottom */
   .hs-hero__overlay-bottom {
-    gap: 0.34rem;
-    margin-top: 0.28rem;
-    width: 100%;
+    position: absolute;
+    bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    inset-inline: 1.05rem;
+    gap: 0.18rem;
+    margin-top: 0;
+    width: auto;
+    z-index: 2;
+    /* Cap height so the band cannot climb into faces */
+    max-height: 30%;
   }
 
+  .hs-hero__sky,
   .hs-hero__overlay-top,
   .hs-hero__overlay-mid,
   .hs-hero__overlay-bottom,
@@ -3930,58 +3985,91 @@ body.studio-body .hs-hero__clinic-line,
 
   .hs-hero__house-mark {
     display: block !important;
-    width: 2.35rem;
+    width: 2.15rem;
     margin-inline: auto;
   }
 
-  .hs-hero__heart-rule {
-    display: flex !important;
-    width: min(100%, 11rem);
+  /* Nav already shows brand — keep sky light so faces stay open */
+  .hs-hero__brand-word,
+  .hs-hero__person-line,
+  .hs-hero__heart-rule,
+  .hs-hero__overlay-mid--desktop {
+    display: none !important;
   }
 
-  .hs-hero__heart svg {
-    width: 15px;
-    height: 15px;
+  /* Couple + therapy as one compact gold/cream line above CTAs */
+  .hs-hero__couple-chip {
+    display: block !important;
+    font-size: 0.78rem;
+    color: #f3e0b8 !important;
   }
 
-  body.studio-body .hs-hero__brand-word,
-  .hs-hero__brand-word {
-    font-size: clamp(1.55rem, 6.4vw, 1.9rem);
+  .hs-hero__sky {
+    inset-inline: 1.15rem;
+    left: 1.15rem;
+    right: 1.15rem;
+    width: auto;
+    max-width: none;
   }
 
-  body.studio-body .hs-hero__person-line,
-  .hs-hero__person-line {
-    font-size: 0.86rem;
+  .hs-hero__house-mark {
+    width: 1.85rem;
   }
 
   body.studio-body .hs-hero__headline,
   .hs-hero__headline {
-    margin-top: 0.06rem;
-    max-width: 18ch;
-    font-size: clamp(0.98rem, 3.8vw, 1.12rem);
-  }
-
-  body.studio-body .hs-hero__capsule,
-  .hs-hero__capsule {
-    padding: 0.45rem 1rem;
-    font-size: clamp(0.84rem, 3.2vw, 0.94rem);
+    margin-top: 0.02rem;
+    max-width: 16ch;
+    font-size: clamp(0.9rem, 3.4vw, 1.02rem);
   }
 
   .hs-hero__service-block {
-    padding: 0.48rem 1rem 0.55rem;
-    border-radius: 0.85rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0 0.2rem 0.1rem;
   }
 
   body.studio-body .hs-hero__service-line,
   .hs-hero__service-line {
-    display: block !important;
-    font-size: clamp(1.05rem, 4vw, 1.18rem);
+    display: inline !important;
+    font-size: clamp(0.9rem, 3.3vw, 1rem);
+    color: #fff8f0 !important;
+    text-shadow:
+      0 1px 2px rgba(26, 15, 18, 0.65),
+      0 0 16px rgba(26, 15, 18, 0.4);
   }
 
   body.studio-body .hs-hero__service-sub,
   .hs-hero__service-sub {
-    display: block !important;
-    font-size: clamp(0.88rem, 3.3vw, 0.98rem);
+    display: inline !important;
+    font-size: clamp(0.78rem, 2.9vw, 0.86rem);
+    color: #f3e0b8 !important;
+    text-shadow:
+      0 1px 2px rgba(26, 15, 18, 0.55),
+      0 0 14px rgba(26, 15, 18, 0.35);
+  }
+
+  .hs-hero__service-sub::before {
+    content: "·";
+    margin-inline-end: 0.35rem;
+    opacity: 0.85;
+  }
+
+  .hs-hero__plate-img {
+    object-position: center 52% !important;
+  }
+
+  .hs-hero--onphoto .hs-hero__btn {
+    min-height: 42px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .hs-hero--onphoto .hs-hero__btn--tel {
+    min-height: 40px !important;
   }
 
   body.studio-body .hs-hero__clinic-line,
@@ -3992,20 +4080,23 @@ body.studio-body .hs-hero__clinic-line,
   .hs-hero--onphoto .hs-hero__actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.34rem;
+    gap: 0.3rem;
   }
 
   .hs-hero--onphoto .hs-hero__btn {
     width: 100%;
     max-width: none;
     min-width: 0;
-    min-height: 44px;
-    font-size: 0.95rem;
+    min-height: 46px;
+    font-size: 0.94rem;
     pointer-events: auto;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
   .hs-hero--onphoto .hs-hero__btn--tel {
-    min-height: 42px;
+    min-height: 44px;
+    background: rgba(255, 252, 247, 0.92) !important;
   }
 
   .hs-hero--onphoto .hs-hero__badges,
@@ -8793,5 +8884,218 @@ span.hero-pill.hs-hero__cred,
 
   .posts-lux__grid {
     gap: 0.85rem;
+  }
+}
+
+/* ========== Luxury polish: color + motion accents ========== */
+@keyframes lux-rule-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes lux-gold-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateX(220%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+@keyframes lux-soft-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hs-hero--onphoto .hs-hero__btn--wa,
+.hs-hero--onphoto .hs-hero__btn--tel {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.35s var(--ease-palomar),
+    box-shadow 0.35s var(--ease-palomar),
+    border-color 0.35s ease;
+}
+
+.hs-hero--onphoto .hs-hero__btn--wa::after,
+.hs-hero--onphoto .hs-hero__btn--tel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 38%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 250, 243, 0.35) 45%,
+    transparent 100%
+  );
+  transform: translateX(-120%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.hs-hero--onphoto .hs-hero__btn--wa:hover,
+.hs-hero--onphoto .hs-hero__btn--tel:hover {
+  transform: translateY(-2px);
+}
+
+.hs-hero--onphoto .hs-hero__btn--wa:hover::after,
+.hs-hero--onphoto .hs-hero__btn--tel:hover::after {
+  animation: lux-gold-sheen 0.85s var(--ease-palomar) both;
+}
+
+.hs-hero--onphoto .hs-hero__btn--wa:hover {
+  box-shadow:
+    0 18px 34px -16px rgba(130, 21, 43, 0.58),
+    0 0 0 1px rgba(197, 160, 89, 0.45);
+}
+
+.hs-hero--onphoto .hs-hero__btn--tel:hover {
+  border-color: #c5a059 !important;
+  box-shadow:
+    0 14px 30px -16px rgba(130, 21, 43, 0.35),
+    0 0 0 1px rgba(197, 160, 89, 0.4);
+}
+
+body.studio-body .hs-hero__capsule,
+.hs-hero__capsule {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 14px 28px -18px rgba(130, 21, 43, 0.55),
+    0 0 0 1px rgba(197, 160, 89, 0.28);
+}
+
+.hs-hero__house-mark {
+  filter:
+    drop-shadow(0 6px 12px rgba(130, 21, 43, 0.14))
+    drop-shadow(0 0 10px rgba(197, 160, 89, 0.22));
+}
+
+.posts-lux__card {
+  transition:
+    transform 0.4s var(--ease-palomar),
+    box-shadow 0.4s var(--ease-palomar),
+    border-color 0.35s ease;
+}
+
+.posts-lux__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(197, 160, 89, 0.55);
+  box-shadow:
+    0 16px 32px rgba(92, 18, 32, 0.1),
+    0 0 0 1px rgba(197, 160, 89, 0.28);
+}
+
+.posts-lux__rule {
+  width: 3rem;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent, #82152b, #c5a059, transparent);
+  background-size: 200% 100%;
+  animation: lux-rule-shimmer 5.5s ease-in-out infinite;
+}
+
+.treat-scroll__progress li.is-on {
+  box-shadow:
+    0 0 0 2px rgba(197, 160, 89, 0.55),
+    0 8px 18px rgba(130, 21, 43, 0.22);
+  transition:
+    transform 0.35s var(--ease-palomar),
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+.treat-scroll__card--compact {
+  transition:
+    box-shadow 0.4s var(--ease-palomar),
+    border-color 0.35s ease;
+}
+
+.treat-scroll__card.is-on {
+  box-shadow:
+    0 18px 36px rgba(92, 18, 32, 0.1),
+    0 0 0 1px rgba(197, 160, 89, 0.35);
+}
+
+.site-nav__bar {
+  transition:
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+
+.site-nav--scrolled .site-nav__bar {
+  background: rgba(250, 245, 239, 0.88);
+  box-shadow:
+    0 10px 28px rgba(92, 18, 32, 0.08),
+    inset 0 -1px 0 rgba(197, 160, 89, 0.28);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.card-glass {
+  transition:
+    transform 0.4s var(--ease-palomar),
+    box-shadow 0.4s var(--ease-palomar);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-glass:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 36px rgba(92, 18, 32, 0.1),
+      0 0 0 1px rgba(197, 160, 89, 0.22);
+  }
+}
+
+.quote-card__punch {
+  position: relative;
+}
+
+.mishpacha-canvas {
+  position: relative;
+}
+
+.studio-main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 45% at 15% 12%, rgba(197, 160, 89, 0.07), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 88% 78%, rgba(130, 21, 43, 0.05), transparent 62%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-title-rule::after,
+  .posts-lux__rule {
+    animation: none;
+  }
+
+  .hs-hero--onphoto .hs-hero__btn--wa:hover::after,
+  .hs-hero--onphoto .hs-hero__btn--tel:hover::after {
+    animation: none;
+  }
+
+  .posts-lux__card:hover,
+  .card-glass:hover,
+  .hs-hero--onphoto .hs-hero__btn--wa:hover,
+  .hs-hero--onphoto .hs-hero__btn--tel:hover {
+    transform: none;
   }
 }

@@ -6,15 +6,15 @@ import { content } from "@/content";
 const TRUST_MARKS = ["TAT", "TFT", "NLP", "Access Bars"] as const;
 
 /**
- * Hero — blue-reference hierarchy (brand colors):
- * house → brand → person → emotional headline → capsule → heart →
- * service subtitles → CTAs. One cohesive stack on the family photo.
+ * Hero — on-photo composition:
+ * sky band (brand + headline + service) · open face window · bottom CTAs.
+ * No opaque plates over the family.
  */
 export function Hero() {
   const headline = content.hero.titleLines.join(" ");
 
   return (
-    <header id="top" dir="rtl" className="hs-hero hs-hero--onphoto">
+    <header id="top" dir="rtl" className="hs-hero hs-hero--onphoto hs-hero--faces">
       <div className="hs-hero__stage">
         <picture className="hs-hero__plate">
           <source
@@ -43,42 +43,47 @@ export function Hero() {
         </picture>
 
         <div className="hs-hero__glow" aria-hidden="true" />
+        <div className="hs-hero__face-window" aria-hidden="true" />
 
         <div className="hs-hero__copy">
           <div className="hs-hero__overlay">
-            <div className="hs-hero__overlay-top animate-fade-up stagger-2">
-              <HeroHouseMark className="hs-hero__house-mark" />
-              <p className="hs-hero__brand-word">{content.hero.brand}</p>
-              <p className="hs-hero__person-line">{content.person}</p>
-            </div>
-
-            <h1 className="hs-hero__headline animate-fade-up stagger-3">{headline}</h1>
-
-            <div className="hs-hero__overlay-mid animate-fade-up stagger-4">
-              <p className="hs-hero__capsule">{content.hero.serviceBadge}</p>
-
-              <div className="hs-hero__heart-rule" aria-hidden="true">
-                <span className="hs-hero__heart-rule__line" />
-                <span className="hs-hero__heart">
-                  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <path
-                      fill="currentColor"
-                      d="M12 21s-6.7-4.35-9.33-7.7C.8 10.9 1.1 7.6 3.4 5.9c2-1.5 4.7-1.1 6.3.7L12 9l2.3-2.4c1.6-1.8 4.3-2.2 6.3-.7 2.3 1.7 2.6 5 .73 7.4C18.7 16.65 12 21 12 21z"
-                    />
-                  </svg>
-                </span>
-                <span className="hs-hero__heart-rule__line" />
+            <div className="hs-hero__sky animate-fade-up stagger-2">
+              <div className="hs-hero__overlay-top">
+                <HeroHouseMark className="hs-hero__house-mark" />
+                <p className="hs-hero__brand-word">{content.hero.brand}</p>
+                <p className="hs-hero__person-line">{content.person}</p>
               </div>
 
-              {/* Blue-ref subtitle pair — soft plate keeps contrast on the photo */}
+              <h1 className="hs-hero__headline">{headline}</h1>
+
+              <div className="hs-hero__overlay-mid hs-hero__overlay-mid--desktop">
+                <p className="hs-hero__capsule">{content.hero.serviceBadge}</p>
+
+                <div className="hs-hero__heart-rule" aria-hidden="true">
+                  <span className="hs-hero__heart-rule__line" />
+                  <span className="hs-hero__heart">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                      <path
+                        fill="currentColor"
+                        d="M12 21s-6.7-4.35-9.33-7.7C.8 10.9 1.1 7.6 3.4 5.9c2-1.5 4.7-1.1 6.3.7L12 9l2.3-2.4c1.6-1.8 4.3-2.2 6.3-.7 2.3 1.7 2.6 5 .73 7.4C18.7 16.65 12 21 12 21z"
+                      />
+                    </svg>
+                  </span>
+                  <span className="hs-hero__heart-rule__line" />
+                </div>
+
+                <p className="hs-hero__clinic-line">{content.hero.subtitle}</p>
+              </div>
+            </div>
+
+            <div className="hs-hero__overlay-bottom animate-fade-up stagger-5">
+              {/* Bottom band: service + CTAs. Mid stays open for family faces. */}
+              <p className="hs-hero__couple-chip">{content.hero.serviceBadge}</p>
               <div className="hs-hero__service-block">
                 <p className="hs-hero__service-line">טיפול רגשי</p>
                 <p className="hs-hero__service-sub">לילדים, נוער ומבוגרים</p>
               </div>
-              <p className="hs-hero__clinic-line">{content.hero.subtitle}</p>
-            </div>
 
-            <div className="hs-hero__overlay-bottom animate-fade-up stagger-5">
               <div className="hs-hero__actions">
                 <a
                   href={content.whatsappHref}
