@@ -3973,7 +3973,7 @@ body.studio-body .hs-hero__clinic-line,
   .hs-hero__midstack {
     gap: 0.38rem;
     /* Drop mid stack onto torso so faces stay in the open band */
-    margin-top: clamp(2.4rem, 12vw, 4.2rem);
+    margin-top: clamp(4.5rem, 22vw, 7.5rem);
   }
 
   .hs-hero__midstack::before {
