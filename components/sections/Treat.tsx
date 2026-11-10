@@ -15,8 +15,8 @@ const HOUSE_STAGES = 5;
 
 /**
  * במה אני מטפל — N cards on scroll (pin scrub).
- * Progress dots follow cards; house build maps onto the same steps.
- * Full copy opens on tap so scroll never fights reading.
+ * Progress dots follow the visually active card; house build maps onto the same steps.
+ * Full copy opens for the card that was tapped — never the lagging scroll index.
  */
 export function Treat() {
   const items = content.treat.items;
@@ -30,8 +30,9 @@ export function Treat() {
   const [stage, setStage] = useState(0);
   const [houseStage, setHouseStage] = useState(0);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [detailIndex, setDetailIndex] = useState(0);
   const { reduced } = useMotionPrefs();
-  const current = items[stage] ?? items[0];
+  const current = items[detailIndex] ?? items[0];
 
   const setStep = (i: number) => {
     stageRef.current = i;
@@ -43,7 +44,21 @@ export function Treat() {
     setHouseStage(i);
   };
 
-  const openDetail = () => setDetailOpen(true);
+  const syncHouseForCard = (idx: number) => {
+    const hIdx =
+      cardCount <= 1
+        ? HOUSE_STAGES - 1
+        : Math.round((idx / (cardCount - 1)) * (HOUSE_STAGES - 1));
+    if (hIdx !== houseRef.current) setHouse(hIdx);
+  };
+
+  const openDetail = (i: number) => {
+    const idx = Math.max(0, Math.min(cardCount - 1, i));
+    setDetailIndex(idx);
+    setStep(idx);
+    syncHouseForCard(idx);
+    setDetailOpen(true);
+  };
   const closeDetail = () => setDetailOpen(false);
 
   useEffect(() => {
@@ -89,6 +104,19 @@ export function Treat() {
     fitStage();
     window.addEventListener("resize", fitStage);
 
+    const activeCardIndex = () => {
+      let best = 0;
+      let bestA = -1;
+      cards.forEach((c, i) => {
+        const a = Number(gsap.getProperty(c, "autoAlpha"));
+        if (a > bestA) {
+          bestA = a;
+          best = i;
+        }
+      });
+      return best;
+    };
+
     const ctx = gsap.context(() => {
       if (reduced || cards.length === 0) {
         gsap.set(cards, { autoAlpha: 1, y: 0, position: "relative" });
@@ -125,9 +153,10 @@ export function Treat() {
           onUpdate: (self) => {
             pinActiveRef.current = self.isActive;
             if (detailOpenRef.current) return;
-            const idx = Math.min(cards.length - 1, Math.floor(self.progress * cards.length + 0.001));
+            // Follow the card that is actually on screen — scrub lag used to
+            // leave React `stage` one topic behind the visible CTA.
+            const idx = activeCardIndex();
             if (idx !== stageRef.current) setStep(idx);
-            // Keep house in lockstep with cards (last card = complete house).
             const hIdx =
               cards.length <= 1
                 ? HOUSE_STAGES - 1
@@ -208,9 +237,9 @@ export function Treat() {
                 <button
                   type="button"
                   className="treat-detail-cta treat-detail-cta--strong"
-                  onClick={openDetail}
+                  onClick={() => openDetail(i)}
                   aria-haspopup="dialog"
-                  aria-expanded={detailOpen && i === stage}
+                  aria-expanded={detailOpen && detailIndex === i}
                 >
                   <span className="treat-detail-cta__main">{content.treat.detailCta}</span>
                   <span className="treat-detail-cta__sub">{content.treat.detailHint}</span>
