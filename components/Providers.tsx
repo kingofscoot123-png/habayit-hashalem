@@ -19,6 +19,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     };
 
     if (!reduced) {
+      // Keep the original reveal language — slightly earlier start so content
+      // arrives with the finger without stripping the section-to-section motion.
       gsap.utils.toArray<HTMLElement>("[data-reveal-word]").forEach((el, i) => {
         gsap.fromTo(
           el,
@@ -29,7 +31,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             duration: 0.55,
             delay: (i % 8) * 0.03,
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 92%", once: true },
+            scrollTrigger: { trigger: el, start: "top 93%", once: true },
           },
         );
       });
@@ -41,10 +43,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.6 : 0.45,
+            duration: desktop ? 0.58 : 0.42,
             delay: Number(el.dataset.delay || 0),
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: { trigger: el, start: "top 92%", once: true },
           },
         );
       });
@@ -58,10 +60,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.5 : 0.4,
-            stagger: 0.06,
+            duration: desktop ? 0.5 : 0.38,
+            stagger: 0.055,
             ease: "power2.out",
-            scrollTrigger: { trigger: wrap, start: "top 88%", once: true },
+            scrollTrigger: { trigger: wrap, start: "top 90%", once: true },
           },
         );
       });
@@ -76,7 +78,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             trigger,
             start: "top top",
             end: "bottom top",
-            scrub: 1.15,
+            scrub: 0.9,
           },
         });
       });
@@ -89,7 +91,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             trigger: document.documentElement,
             start: "top top",
             end: "max",
-            scrub: 1.2,
+            scrub: 0.95,
           },
         });
       });
@@ -125,15 +127,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
         gsap.fromTo(
           el,
           {
-            y: desktop ? 28 : 16,
+            y: desktop ? 24 : 14,
             opacity: 0,
           },
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.65 : 0.5,
+            duration: desktop ? 0.6 : 0.45,
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 82%", once: true },
+            scrollTrigger: { trigger: el, start: "top 86%", once: true },
             onStart: () => el.classList.add("is-in"),
           },
         );
