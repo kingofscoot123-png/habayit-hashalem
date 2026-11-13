@@ -207,11 +207,15 @@ export function Treat() {
     const fitStage = () => {
       if (!stageEl || cards.length === 0) return;
       const mobile = window.matchMedia("(max-width: 767px)").matches;
-      // Pin only the card stack — leave room for the top nav + shared house.
-      const avail = Math.max(
-        mobile ? 300 : 360,
-        Math.round(window.innerHeight * (mobile ? 0.62 : 0.58)),
-      );
+      const desktop = window.matchMedia("(min-width: 1024px)").matches;
+      // Mobile keeps the stacked pin. Desktop is side-by-side, so the card
+      // can use most of the viewport height without sitting under the fold.
+      const avail = desktop
+        ? Math.max(400, Math.round(window.innerHeight * 0.62))
+        : Math.max(
+            mobile ? 300 : 360,
+            Math.round(window.innerHeight * (mobile ? 0.62 : 0.58)),
+          );
       stageEl.style.minHeight = `${avail}px`;
       stageEl.style.height = `${avail}px`;
       stageEl.style.maxHeight = `${avail}px`;

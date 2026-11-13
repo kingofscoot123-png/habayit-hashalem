@@ -6225,6 +6225,26 @@ body.studio-body .hs-hero__clinic-line,
 
   .why-radar__picks {
     display: flex;
+    justify-content: center;
+    gap: 10px 12px;
+    margin-top: 1.15rem;
+    max-width: 46rem;
+    margin-inline: auto;
+  }
+
+  .why-radar__pick {
+    padding: 0.55rem 0.95rem;
+    font-size: 0.95rem;
+    transition:
+      transform 0.25s var(--ease-palomar, cubic-bezier(0.22, 1, 0.36, 1)),
+      background 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .why-radar__pick:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(130, 21, 43, 0.12);
   }
 
   .why-radar__stage {
@@ -7818,6 +7838,96 @@ span.hero-pill.hs-hero__cred,
   flex-direction: column;
   align-items: stretch;
   gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .treat-scroll {
+    padding-inline: clamp(1.25rem, 3vw, 2.5rem);
+    padding-block: 2rem 3rem;
+  }
+
+  .treat-scroll__inner {
+    max-width: 72rem;
+  }
+
+  .treat-scroll__head {
+    max-width: 42rem;
+    margin-bottom: 1.75rem;
+  }
+
+  /* Desktop: house + numbers beside the card — must follow the flex rule above. */
+  .treat-scroll__pin {
+    display: grid;
+    /* LTR columns so the treatment card sits on the right; children keep RTL copy. */
+    direction: ltr;
+    grid-template-columns: minmax(240px, 0.88fr) minmax(340px, 1.45fr);
+    flex-direction: unset;
+    align-items: center;
+    gap: 1.35rem 2.5rem;
+    min-height: calc(100svh - 6.75rem);
+  }
+
+  .treat-scroll__house--shared,
+  .treat-scroll__stage,
+  .treat-scroll__card {
+    direction: rtl;
+  }
+
+  .treat-scroll__house--shared {
+    padding-block: 0.35rem;
+  }
+
+  .treat-scroll__house .treat-house,
+  .treat-scroll__house--shared .treat-house {
+    min-height: 168px;
+  }
+
+  .treat-scroll__house .treat-house__svg,
+  .treat-scroll__house--shared .treat-house__svg {
+    width: min(100%, 230px);
+  }
+
+  .treat-scroll__progress--house {
+    gap: 0.5rem;
+  }
+
+  .treat-scroll__progress--house li {
+    width: 2.15rem;
+    height: 2.15rem;
+    font-size: 0.78rem;
+  }
+
+  .treat-scroll__stage {
+    min-height: 24rem;
+  }
+
+  .treat-scroll__card {
+    padding: 1.55rem 1.55rem 1.6rem;
+  }
+
+  .treat-scroll__title {
+    font-size: clamp(1.45rem, 1.8vw, 1.75rem);
+  }
+
+  .treat-scroll__preview {
+    margin-top: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .treat-scroll__inner {
+    max-width: 46rem;
+  }
+
+  .treat-scroll__house .treat-house,
+  .treat-scroll__house--shared .treat-house {
+    min-height: 140px;
+  }
+
+  .treat-scroll__house .treat-house__svg,
+  .treat-scroll__house--shared .treat-house__svg {
+    width: min(40vw, 180px);
+  }
 }
 
 .treat-scroll__house--shared {
