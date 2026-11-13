@@ -47,7 +47,7 @@ export function Why() {
     if (!section || !pin || reduced) return;
     if (!window.matchMedia("(min-width: 768px)").matches) return;
 
-    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
+    const endDistance = Math.round(window.innerHeight * (1.45 + items.length * 0.32));
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -56,7 +56,7 @@ export function Why() {
         start: "top top+=80",
         end: `+=${endDistance}`,
         pin,
-        scrub: 1.25,
+        scrub: 0.5,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -99,10 +99,9 @@ export function Why() {
   }, [reduced, items.length]);
 
   return (
-    <section id="why" ref={sectionRef} className="why-radar mishpacha-canvas overflow-visible px-5 py-12 sm:px-6 lg:px-16 lg:py-[100px]">
+    <section id="why" ref={sectionRef} className="why-radar mishpacha-canvas overflow-visible px-5 py-10 sm:px-6 lg:px-16 lg:py-14">
       <div
-        className="card-glass content-shield mx-auto mb-8 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
-        data-reveal
+        className="card-glass content-shield mx-auto mb-6 max-w-3xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
       >
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.why.title} />

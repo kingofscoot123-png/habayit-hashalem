@@ -22,29 +22,31 @@ export function Providers({ children }: { children: React.ReactNode }) {
       gsap.utils.toArray<HTMLElement>("[data-reveal-word]").forEach((el, i) => {
         gsap.fromTo(
           el,
-          { y: 12, opacity: 0 },
+          { y: 8, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.55,
-            delay: (i % 8) * 0.03,
+            duration: 0.32,
+            delay: (i % 8) * 0.02,
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 92%", once: true },
+            scrollTrigger: { trigger: el, start: "top 98%", once: true },
           },
         );
       });
 
+      // Reveal with the finger — early trigger + short travel so sections
+      // never sit invisible in an empty viewport while the user scrolls.
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
         gsap.fromTo(
           el,
-          { y: desktop ? 18 : 12, opacity: 0 },
+          { y: desktop ? 10 : 6, opacity: 0.08 },
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.6 : 0.45,
+            duration: desktop ? 0.32 : 0.22,
             delay: Number(el.dataset.delay || 0),
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            scrollTrigger: { trigger: el, start: "top 99%", once: true },
           },
         );
       });
@@ -54,14 +56,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
         if (kids.length === 0) return;
         gsap.fromTo(
           kids,
-          { y: desktop ? 16 : 10, opacity: 0 },
+          { y: desktop ? 8 : 5, opacity: 0.08 },
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.5 : 0.4,
-            stagger: 0.06,
+            duration: desktop ? 0.28 : 0.2,
+            stagger: 0.035,
             ease: "power2.out",
-            scrollTrigger: { trigger: wrap, start: "top 88%", once: true },
+            scrollTrigger: { trigger: wrap, start: "top 98%", once: true },
           },
         );
       });
@@ -76,7 +78,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             trigger,
             start: "top top",
             end: "bottom top",
-            scrub: 1.15,
+            scrub: 0.35,
           },
         });
       });
@@ -89,7 +91,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             trigger: document.documentElement,
             start: "top top",
             end: "max",
-            scrub: 1.2,
+            scrub: 0.4,
           },
         });
       });
@@ -125,15 +127,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
         gsap.fromTo(
           el,
           {
-            y: desktop ? 28 : 16,
-            opacity: 0,
+            y: desktop ? 14 : 8,
+            opacity: 0.1,
           },
           {
             y: 0,
             opacity: 1,
-            duration: desktop ? 0.65 : 0.5,
+            duration: desktop ? 0.34 : 0.24,
             ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 82%", once: true },
+            scrollTrigger: { trigger: el, start: "top 96%", once: true },
             onStart: () => el.classList.add("is-in"),
           },
         );
@@ -143,7 +145,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const lenis =
       !reduced && desktop
         ? new Lenis({
-            lerp: 0.18,
+            lerp: 0.28,
             smoothWheel: true,
             syncTouch: false,
           })

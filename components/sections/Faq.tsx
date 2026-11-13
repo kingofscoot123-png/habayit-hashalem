@@ -9,10 +9,9 @@ export function Faq() {
   const [open, setOpen] = useState<string | null>(null);
 
   return (
-    <section id="faq" className="site-section site-section--band-c mishpacha-canvas px-5 pb-16 sm:px-6 lg:px-16 lg:pb-[100px]">
+    <section id="faq" className="site-section site-section--band-c mishpacha-canvas px-5 pb-12 sm:px-6 lg:px-16 lg:pb-16">
       <div
         className="card-glass content-shield mx-auto max-w-2xl rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 text-center shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
-        data-reveal
       >
         <h2 className="section-title-rule text-h2">
           <AccentLead text={content.objections.title} />

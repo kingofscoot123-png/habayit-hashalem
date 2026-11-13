@@ -61,6 +61,25 @@ export function Treat() {
   };
   const closeDetail = () => setDetailOpen(false);
 
+  /** Jump via the existing scrub timeline — scroll animation stays untouched. */
+  const jumpTo = (i: number) => {
+    if (detailOpenRef.current) return;
+    const idx = Math.max(0, Math.min(cardCount - 1, i));
+    setStep(idx);
+    syncHouseForCard(idx);
+    if (reduced) return;
+
+    const st = ScrollTrigger.getById("treat-scroll");
+    if (!st) return;
+
+    const slot = 2;
+    const totalDur = Math.max(0.001, (cardCount - 1) * slot + 1 + 0.35);
+    const settle = idx === 0 ? 0.02 : (idx - 1) * slot + 1 + 0.7;
+    const p = Math.min(0.999, settle / totalDur);
+    const y = st.start + (st.end - st.start) * p;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
+
   useEffect(() => {
     detailOpenRef.current = detailOpen;
   }, [detailOpen]);
@@ -209,12 +228,31 @@ export function Treat() {
         </header>
 
         <div className="treat-scroll__pin">
-          <div className="treat-scroll__house treat-scroll__house--shared relative w-full text-center" aria-hidden="true">
-            <TreatHouse stage={houseStage} />
-            <ol className="treat-scroll__progress treat-scroll__progress--house" aria-hidden="true">
+          <div className="treat-scroll__house treat-scroll__house--shared relative w-full text-center">
+            <div aria-hidden="true">
+              <TreatHouse stage={houseStage} />
+            </div>
+            <ol
+              className="treat-scroll__progress treat-scroll__progress--house"
+              role="tablist"
+              aria-label={content.treat.title}
+            >
               {Array.from({ length: cardCount }, (_, pi) => (
-                <li key={pi} className={pi === stage ? "is-on" : pi < stage ? "is-done" : ""}>
-                  <span>{String(pi + 1).padStart(2, "0")}</span>
+                <li
+                  key={pi}
+                  className={pi === stage ? "is-on" : pi < stage ? "is-done" : ""}
+                  role="presentation"
+                >
+                  <button
+                    type="button"
+                    role="tab"
+                    className="treat-scroll__progress-btn"
+                    aria-selected={pi === stage}
+                    aria-label={`${items[pi]?.n ?? String(pi + 1).padStart(2, "0")} — ${items[pi]?.title ?? ""}`}
+                    onClick={() => jumpTo(pi)}
+                  >
+                    {String(pi + 1).padStart(2, "0")}
+                  </button>
                 </li>
               ))}
             </ol>
