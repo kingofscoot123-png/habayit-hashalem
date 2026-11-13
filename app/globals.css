@@ -7957,6 +7957,12 @@ span.hero-pill.hs-hero__cred,
   color: #82152b;
   font-size: 0.72rem;
   font-weight: 800;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease,
+    transform 0.25s var(--ease-palomar, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
 .treat-scroll__progress-btn {
@@ -7973,12 +7979,17 @@ span.hero-pill.hs-hero__cred,
   font: inherit;
   letter-spacing: inherit;
   cursor: pointer;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.25s var(--ease-palomar, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
 .treat-scroll__progress-btn:hover {
   transform: scale(1.06);
+}
+
+.treat-scroll__progress-btn:active {
+  transform: scale(0.96);
 }
 
 .treat-scroll__progress-btn:focus-visible {

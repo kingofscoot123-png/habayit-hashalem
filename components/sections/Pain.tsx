@@ -42,9 +42,9 @@ export function Pain() {
         scrollTrigger: {
           trigger: section,
           start: mobile ? "top top+=72" : "top top+=88",
-          end: mobile ? `+=${Math.round(window.innerHeight * 1.55)}` : "+=140%",
+          end: mobile ? `+=${Math.round(window.innerHeight * 2.0)}` : "+=180%",
           pin: true,
-          scrub: mobile ? 0.5 : 0.6,
+          scrub: mobile ? 0.95 : 1.1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onRefresh: fitStage,

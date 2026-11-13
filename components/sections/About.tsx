@@ -6,7 +6,7 @@ import { content } from "@/content";
 
 export function About() {
   return (
-    <section id="who" className="about-section mishpacha-canvas px-5 py-12 sm:px-6 lg:px-16 lg:py-16">
+    <section id="who" className="about-section mishpacha-canvas px-5 py-16 sm:px-6 lg:px-16 lg:py-[100px]">
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
           <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl ring-2 ring-[#C5A059]">
