@@ -47,7 +47,7 @@ export function Why() {
     if (!section || !pin || reduced) return;
     if (!window.matchMedia("(min-width: 768px)").matches) return;
 
-    const endDistance = Math.round(window.innerHeight * (2.2 + items.length * 0.45));
+    const endDistance = Math.round(window.innerHeight * (2.0 + items.length * 0.4));
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -56,7 +56,7 @@ export function Why() {
         start: "top top+=80",
         end: `+=${endDistance}`,
         pin,
-        scrub: 1.25,
+        scrub: 0.95,
         anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
