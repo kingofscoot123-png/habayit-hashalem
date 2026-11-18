@@ -3895,40 +3895,42 @@ body.studio-body .hs-hero__clinic-line,
 
   .hs-hero__plate-img {
     object-fit: cover !important;
-    object-position: center 42% !important;
+    /* Use sky room so faces sit under the headline */
+    object-position: 50% 15% !important;
   }
 
   .hs-hero__glow {
+    /* Soft cream only behind title (top) + CTAs (bottom); faces 30–60% fully clear */
     background:
       linear-gradient(180deg,
-        rgba(250, 245, 239, 0.88) 0%,
-        rgba(250, 245, 239, 0.72) 22%,
-        rgba(250, 245, 239, 0.45) 40%,
-        rgba(250, 245, 239, 0.18) 55%,
-        rgba(250, 245, 239, 0.04) 68%,
-        rgba(250, 245, 239, 0) 80%);
+        rgba(250, 245, 239, 0.82) 0%,
+        rgba(250, 245, 239, 0.48) 10%,
+        rgba(250, 245, 239, 0.14) 20%,
+        rgba(250, 245, 239, 0) 30%,
+        rgba(250, 245, 239, 0) 60%,
+        rgba(250, 245, 239, 0.14) 72%,
+        rgba(250, 245, 239, 0.4) 88%,
+        rgba(250, 245, 239, 0.58) 100%);
   }
 
   .hs-hero__copy {
     position: absolute;
-    top: 0;
-    inset-inline: 0;
-    bottom: auto;
+    inset: 0;
     width: 100%;
     max-width: none;
-    height: auto;
+    height: 100%;
     margin: 0;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: flex-start;
     padding:
       calc(3.65rem + env(safe-area-inset-top, 0px))
       0.95rem
-      0;
+      0.85rem;
     pointer-events: none;
   }
 
   .hs-hero__overlay {
-    height: auto;
+    height: 100%;
     gap: 0.38rem;
     padding: 0.05rem 0.15rem 0.2rem;
     max-width: 36rem;
@@ -3956,11 +3958,18 @@ body.studio-body .hs-hero__clinic-line,
   body.studio-body .hs-hero__brand-word,
   .hs-hero__brand-word {
     font-size: clamp(1.45rem, 6vw, 1.75rem);
+    text-shadow:
+      0 1px 0 rgba(255, 252, 247, 0.95),
+      0 0 18px rgba(250, 245, 239, 0.9),
+      0 0 32px rgba(250, 245, 239, 0.7);
   }
 
   body.studio-body .hs-hero__person-line,
   .hs-hero__person-line {
     font-size: 0.82rem;
+    text-shadow:
+      0 1px 0 rgba(255, 252, 247, 0.9),
+      0 0 14px rgba(250, 245, 239, 0.75);
   }
 
   body.studio-body .hs-hero__headline,
@@ -3968,16 +3977,29 @@ body.studio-body .hs-hero__clinic-line,
     margin: 0.08rem 0 0;
     max-width: 18ch;
     font-size: clamp(0.94rem, 3.6vw, 1.08rem);
+    text-shadow:
+      0 1px 0 rgba(255, 252, 247, 0.95),
+      0 0 16px rgba(250, 245, 239, 0.88),
+      0 0 28px rgba(250, 245, 239, 0.65);
   }
 
   .hs-hero__midstack {
     gap: 0.38rem;
-    /* Drop mid stack onto torso so faces stay in the open band */
-    margin-top: clamp(4.5rem, 22vw, 7.5rem);
+    /* Pin tags + CTAs onto shirts/hands near WhatsApp — faces stay open above */
+    margin-top: auto;
+    margin-bottom: 0.15rem;
   }
 
   .hs-hero__midstack::before {
-    inset: -22% -14% -16%;
+    /* Local readable bloom on torso/buttons only — no white wash over faces */
+    inset: -4% -10% -8%;
+    background: radial-gradient(
+      ellipse 70% 48% at 50% 58%,
+      rgba(255, 252, 247, 0.88) 0%,
+      rgba(250, 245, 239, 0.55) 36%,
+      rgba(250, 245, 239, 0.16) 60%,
+      rgba(250, 245, 239, 0) 78%
+    );
   }
 
   .hs-hero__heart-rule {
