@@ -10,7 +10,17 @@ export function About() {
       <div className="about-layout">
         <div className="about-portrait" data-reveal>
           <div className="about-portrait__frame rounded-full border-4 border-[#82152B] bg-white p-1 shadow-2xl ring-2 ring-[#C5A059]">
-            <img src={content.who.portrait} alt={content.who.portraitAlt} />
+            <picture>
+              <source srcSet="/images/michael.webp" type="image/webp" />
+              <img
+                src={content.who.portrait}
+                alt={content.who.portraitAlt}
+                width={1200}
+                height={1200}
+                decoding="async"
+                loading="lazy"
+              />
+            </picture>
           </div>
         </div>
 
