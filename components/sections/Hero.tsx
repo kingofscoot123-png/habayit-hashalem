@@ -72,8 +72,8 @@ export function Hero() {
               </div>
 
               <div className="hs-hero__service-block">
-                <p className="hs-hero__service-line">טיפול רגשי</p>
-                <p className="hs-hero__service-sub">לילדים, נוער ומבוגרים</p>
+                <p className="hs-hero__service-line">{content.hero.serviceLine}</p>
+                <p className="hs-hero__service-sub">{content.hero.serviceSub}</p>
               </div>
               <p className="hs-hero__clinic-line">{content.hero.subtitle}</p>
 
