@@ -14,17 +14,17 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://habayit-hashalem.vercel.app"),
   title: "הבית השלם · מיכאל מרום",
   description:
-    "טיפול זוגי, רגשי ומשפחתי בראש העין. חוזרים לקרבה שהייתה לפני שהשיחות נשברו.",
+    "טיפול רגשי לילדים, נוער ומבוגרים בראש העין. שקט, ביטחון וכלים לחיים.",
   openGraph: {
     title: "הבית השלם · מיכאל מרום",
-    description: "טיפול זוגי, רגשי ומשפחתי בראש העין.",
-    images: [{ url: "images/treatment-couple.jpg", width: 1600, height: 900 }],
+    description: "טיפול רגשי לילדים, נוער ומבוגרים בראש העין.",
+    images: [{ url: "images/treatment-calm.jpg", width: 1600, height: 900 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "הבית השלם · מיכאל מרום",
-    description: "טיפול זוגי, רגשי ומשפחתי בראש העין.",
-    images: ["images/treatment-couple.jpg"],
+    description: "טיפול רגשי לילדים, נוער ומבוגרים בראש העין.",
+    images: ["images/treatment-calm.jpg"],
   },
 };
 
