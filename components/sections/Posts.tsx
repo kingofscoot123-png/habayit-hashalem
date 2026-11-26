@@ -14,6 +14,7 @@ export function Posts() {
       <div className="posts-lux__grid mx-auto grid max-w-5xl gap-4 md:grid-cols-2 lg:grid-cols-3">
         {content.posts.items.map((item) => (
           <article key={item.title} className="posts-lux__card" data-reveal>
+            <p className="posts-lux__eyebrow">טיפול רגשי</p>
             <h3 className="posts-lux__title">{item.title}</h3>
             <p className="posts-lux__body">{item.body}</p>
           </article>
