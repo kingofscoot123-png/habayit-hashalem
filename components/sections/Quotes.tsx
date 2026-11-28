@@ -7,18 +7,19 @@ import { content } from "@/content";
 
 type Quote = { punch: string; quote: string; name: string; group: string };
 
-function QuoteCard({ punch, quote, name }: Quote) {
+function QuoteCard({ punch, quote, name, group }: Quote) {
   return (
-    <figure className="card-glass quote-card quote-card--uniform quote-card--google card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8">
+    <figure className="card-glass quote-card quote-card--uniform quote-card--google quote-card--authored card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8">
       <div className="quote-card__meta">
         <span className="quote-card__google">{content.quotes.googleBadge}</span>
         <QuoteStars />
       </div>
-      <p className="quote-card__punch">"{punch}"</p>
-      <blockquote className="quote-card__text">{quote}</blockquote>
-      <figcaption className="quote-card__who">
+      <p className="quote-card__group">{group}</p>
+      <figcaption className="quote-card__who quote-card__who--top">
         <span className="quote-card__name">מאת {name}</span>
       </figcaption>
+      <p className="quote-card__punch">"{punch}"</p>
+      <blockquote className="quote-card__text">{quote}</blockquote>
     </figure>
   );
 }
@@ -106,21 +107,26 @@ export function Quotes() {
           <div className="quote-modal">
             <h3>{content.quotes.more}</h3>
             <div className="quote-modal__list">
-              {all.map((item) => (
-                <figure
-                  key={`${item.group}-${item.name}-${item.punch}`}
-                  className="card-glass quote-card quote-card--uniform quote-card--google card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
-                >
-                  <div className="quote-card__meta">
-                    <span className="quote-card__google">{content.quotes.googleBadge}</span>
-                    <QuoteStars />
-                  </div>
-                  <p className="quote-card__punch">"{item.punch}"</p>
-                  <blockquote className="quote-card__text">{item.quote}</blockquote>
-                  <figcaption className="quote-card__who">
-                    <span className="quote-card__name">מאת {item.name}</span>
-                  </figcaption>
-                </figure>
+              {content.quotes.groups.map((group) => (
+                <div key={group.title} className="quote-modal__group">
+                  <h4 className="quote-modal__group-title">{group.title}</h4>
+                  {group.items.map((item) => (
+                    <figure
+                      key={`${group.title}-${item.name}-${item.punch}`}
+                      className="card-glass quote-card quote-card--uniform quote-card--google quote-card--authored card-lift rounded-2xl border-t-4 border-[#82152B] bg-white/95 p-6 shadow-2xl shadow-[#82152B]/15 backdrop-blur-md md:p-8"
+                    >
+                      <div className="quote-card__meta">
+                        <span className="quote-card__google">{content.quotes.googleBadge}</span>
+                        <QuoteStars />
+                      </div>
+                      <figcaption className="quote-card__who quote-card__who--top">
+                        <span className="quote-card__name">מאת {item.name}</span>
+                      </figcaption>
+                      <p className="quote-card__punch">"{item.punch}"</p>
+                      <blockquote className="quote-card__text">{item.quote}</blockquote>
+                    </figure>
+                  ))}
+                </div>
               ))}
             </div>
             <a

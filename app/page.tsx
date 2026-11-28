@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import { MeetMichael } from "@/components/sections/MeetMichael";
 import { Pain } from "@/components/sections/Pain";
 import { Treat } from "@/components/sections/Treat";
 import { Methods } from "@/components/sections/Methods";
@@ -18,6 +19,7 @@ export default function Page() {
     <main className="studio-main relative z-10 min-h-screen">
       <Nav />
       <Hero />
+      <MeetMichael />
       <Pain />
       <Treat />
       <Methods />
